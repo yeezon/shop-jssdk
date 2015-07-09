@@ -8,7 +8,9 @@
   从源文件中的注释生成文档
 
 ### 启动方法
-```node index.js```
+```
+node index.js
+```
 
 ### 访问 URL
 [http://localhost:3000/](http://localhost:3000/)
