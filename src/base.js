@@ -63,11 +63,20 @@ module.exports = function(sName, func){
         oPushlish.urlModify = arguments[2] || false;
         oPushlish.customHandle = arguments[3] || false;
       }else{
+        //
         oCallback = arguments[1];
         oPushlish.request = arguments[0] || false;
         oPushlish.data = arguments[2] || false;
         oPushlish.urlModify = arguments[3] || false;
         oPushlish.customHandle = arguments[4] || false;
+        //
+        // 免登录查询单个订单 兼容语法糖 get
+        if(sName == 'order' && url == 'order/view'){
+          var sOrderNo = oPushlish.request.handle;
+          oPushlish.request = {
+            'order_no': sOrderNo
+          }
+        }
       }
       oPushlish._scope = self;
       //

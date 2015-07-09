@@ -66,7 +66,7 @@ var events = {
       }
     });
     if(done){
-      done(o);
+      done();
     }
   },
 };

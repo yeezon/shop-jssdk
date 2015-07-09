@@ -16,7 +16,7 @@ var module = base('order', function(factory){
   //
 });
 
-exports.get = expo(module, 'get', 'order_no');
+exports.get = expo(module, 'get');
 
 util.forEach(aConfig, function(value, key){
   exports[key] = expo(module, key);
