@@ -33,7 +33,11 @@ exports.apiEvents = function(topic, url, method){
         //
         oRes = handle(oResponse, conf.customHandle || false);
         if(oRes){
-          events.publish(topic + '.done', oResponse);
+          events.publish(topic + '.done', oResponse, function(){
+            if(conf._unsubscribe){
+              conf._unsubscribe.unsubscribe();
+            }
+          });
         }
       },
       error: function(){

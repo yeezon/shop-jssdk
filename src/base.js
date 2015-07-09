@@ -71,13 +71,7 @@ module.exports = function(sName, func){
       }
       oPushlish._scope = self;
       //
-      if(!self.subscribeList){
-        self.subscribeList = [];
-      }
-      if(self.subscribeList[sKey]){
-        self.subscribeList[sKey].unsubscribe();
-      }
-      self.subscribeList[sKey] = events.subscribe(sGetTopic + '.done', oCallback);
+      oPushlish._unsubscribe = events.subscribe(sGetTopic + '.done', oCallback);
       //
       events.publish(sGetTopic, oPushlish);
     };

@@ -34,7 +34,7 @@ var events = {
       }
     };
   },
-  publish : function(topic, data){
+  publish : function(topic, data, done){
     var self = this;
     if(typeof topic !== 'string'){
       return;
@@ -65,6 +65,7 @@ var events = {
         return bNext;
       }
     });
+    done && done();
   },
 };
 
