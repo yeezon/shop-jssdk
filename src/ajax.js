@@ -1,3 +1,4 @@
+// https://github.com/ForbesLindesay/ajax
 /* jshint ignore:start */
 var util = require('./util.js');
 var type

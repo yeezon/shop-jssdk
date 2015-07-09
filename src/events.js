@@ -65,7 +65,9 @@ var events = {
         return bNext;
       }
     });
-    done && done();
+    if(done){
+      done(o);
+    }
   },
 };
 

@@ -4,7 +4,7 @@ var events = require('./events.js');
 var util = require('./util.js');
 var type_of = require('./type-of.js');
 
-var version = '0.0.3';
+var version = '0.0.4';
 
 if(window){
 	window.yhsd = {};

@@ -41,7 +41,9 @@ exports.get = function(oCall){
       });
     }
     //
-    oCall && oCall(o);
+    if(oCall){
+      oCall(o);
+    }
   });
 };
 
@@ -120,7 +122,9 @@ util.forEach(oLocalCartMap, function(value, key){
             data: 'fail'
           });
       }
-      oCall && oCall(o);
+      if(oCall){
+        oCall(o);
+      }
     });
   };
 });
@@ -226,7 +230,16 @@ util.forEach(oLocalCartMap, function(value, key){
  * ```
  *
  * ```withinShipments
- * `` info
+ * `` param
+ * &` 类型：Object
+ * &&` ^^^address_id^^^ 类型：Number<br/>收货人地址 id
+ * &&` ^^^payment_method_type^^^ 类型：String<br/>支付类型
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
+ * ```
+ *
+ * ```withinShipmentsPoly1
+ * `` param
  * &` 类型：Object
  * &&` ^^^district_code^^^ 类型：String<br/>收货地区 post
  * &&` ^^^payment_method_type^^^ 类型：String<br/>支付类型
@@ -248,7 +261,8 @@ util.forEach(oLocalCartMap, function(value, key){
  * @param {unCheckAll} `callback` 取消选中所有商品
  * @param {removeOne} `item,callback` 删除购物车中的单个商品
  * @param {removeAll} `callback` 删除购物车中的所有商品
- * @param {withinShipments} `info,callback` 获取带有物流信息的购物车
+ * @param {withinShipments} `param,callback` 获取带有物流信息的购物车（必须登录）
+ * @param {withinShipmentsPoly1} `param,callback` 获取带有物流信息的购物车
  * @param {mustShipping} `callback` 检查购物车是否需要物流
  *
  */
