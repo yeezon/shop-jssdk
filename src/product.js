@@ -20,6 +20,10 @@ exports.get = expo(module, 'get');
  * ```getPoly1
  * `` config
  * &` 类型：Object
+ * &&` ^^^search^^^ 类型：String 选填<br/>指定商品名称包含的文字
+ * &&` ^^^vendor^^^ 类型：String 选填<br/>指定商品品牌包含的文字
+ * &&` ^^^type^^^ 类型：String 选填<br/>指定商品分类包含的文字
+ * &&` ^^^in_stock^^^ 类型：Boolean 选填<br/>指定商品库存是否足够（默认值为 false）
  * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
  * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码
  * `` callback

@@ -43,7 +43,7 @@ if(type_of(window.yhsdModule) !== 'array'){
 	window.yhsdModule = false;
 }
 
-var aInitModule = window.yhsdModule || ['account', 'area', 'address', 'blog', 'cart', 'shop', 'option', 'order', 'page', 'payment_method', 'product', 'type', 'vendor'];
+var aInitModule = window.yhsdModule || ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor'];
 
 function checkModule(moduleName){
 	return (util.inArray(moduleName, aInitModule) > -1);
@@ -56,7 +56,6 @@ YHSD.blog = checkModule('blog') ? require('./blog.js') : {};
 YHSD.cart = checkModule('cart') ? require('./cart.js') : {};
 YHSD.discount = checkModule('discount') ? require('./discount.js') : {};
 YHSD.shop = checkModule('shop') ? require('./shop.js') : {};
-YHSD.option = checkModule('option') ? require('./option.js') : {};
 YHSD.order = checkModule('order') ? require('./order.js') : {};
 YHSD.page = checkModule('page') ? require('./page.js') : {};
 YHSD.payment_method = checkModule('payment_method') ? require('./payment_method.js') : {};

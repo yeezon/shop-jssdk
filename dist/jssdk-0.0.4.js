@@ -108,7 +108,7 @@ util.forEach(aConfig, function(value, key){
  * @param {save} `notify,callback` 更新顾客信息 （必须登录）
  *
  */
-},{"./base.js":5,"./expo.js":11,"./util.js":26}],2:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11,"./util.js":25}],2:[function(require,module,exports){
 var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
@@ -206,7 +206,7 @@ util.forEach(aConfig, function(value, key){
  * @param {remove} `address,callback` 删除收货人地址 （必须登录）
  *
  */
-},{"./base.js":5,"./expo.js":11,"./util.js":26}],3:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11,"./util.js":25}],3:[function(require,module,exports){
 // https://github.com/ForbesLindesay/ajax
 /* jshint ignore:start */
 var util = require('./util.js');
@@ -510,7 +510,7 @@ function extend(target) {
 }
 
 /* jshint ignore:end */
-},{"./type-of.js":23,"./util.js":26}],4:[function(require,module,exports){
+},{"./type-of.js":22,"./util.js":25}],4:[function(require,module,exports){
 var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
@@ -658,7 +658,7 @@ util.forEach(aInternal, function(value, key){
  * @param {district} `param,callback` 传入城市代码，获取行政区域编码
  *
  */
-},{"./base.js":5,"./events.js":10,"./expo.js":11,"./util.js":26}],5:[function(require,module,exports){
+},{"./base.js":5,"./events.js":10,"./expo.js":11,"./util.js":25}],5:[function(require,module,exports){
 var core = require('./core.js');
 var events = require('./events.js');
 var util = require('./util.js');
@@ -724,11 +724,20 @@ module.exports = function(sName, func){
         oPushlish.urlModify = arguments[2] || false;
         oPushlish.customHandle = arguments[3] || false;
       }else{
+        //
         oCallback = arguments[1];
         oPushlish.request = arguments[0] || false;
         oPushlish.data = arguments[2] || false;
         oPushlish.urlModify = arguments[3] || false;
         oPushlish.customHandle = arguments[4] || false;
+        //
+        // 免登录查询单个订单 兼容语法糖 get
+        if(sName == 'order' && url == 'order/view'){
+          var sOrderNo = oPushlish.request.handle;
+          oPushlish.request = {
+            'order_no': sOrderNo
+          };
+        }
       }
       oPushlish._scope = self;
       //
@@ -785,7 +794,7 @@ module.exports = function(sName, func){
   return new base();
 
 };
-},{"./core.js":8,"./events.js":10,"./type-of.js":23,"./util.js":26}],6:[function(require,module,exports){
+},{"./core.js":8,"./events.js":10,"./type-of.js":22,"./util.js":25}],6:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -1097,7 +1106,7 @@ util.forEach(oLocalCartMap, function(value, key){
  * @param {mustShipping} `callback` 检查购物车是否需要物流
  *
  */
-},{"./base.js":5,"./events.js":10,"./expo.js":11,"./localcart.js":13,"./util.js":26}],8:[function(require,module,exports){
+},{"./base.js":5,"./events.js":10,"./expo.js":11,"./localcart.js":13,"./util.js":25}],8:[function(require,module,exports){
 var events = require('./events.js');
 var req = require('./request.js');
 var handle = require('./handle.js');
@@ -1148,7 +1157,7 @@ exports.apiEvents = function(topic, url, method){
     });
   });
 };
-},{"./events.js":10,"./handle.js":12,"./request.js":21,"./util.js":26}],9:[function(require,module,exports){
+},{"./events.js":10,"./handle.js":12,"./request.js":20,"./util.js":25}],9:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 var util = require('./util.js');
@@ -1209,7 +1218,7 @@ util.forEach(aConfig, function(value, key){
  * @param {getFromCart} `callback` 获取当前购物车满足优惠规则
  *
  */
-},{"./base.js":5,"./expo.js":11,"./util.js":26}],10:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11,"./util.js":25}],10:[function(require,module,exports){
 var util = require('./util.js');
 var log = require('./log.js');
 
@@ -1278,7 +1287,7 @@ var events = {
       }
     });
     if(done){
-      done(o);
+      done();
     }
   },
 };
@@ -1325,11 +1334,11 @@ exports.messages = events.messages;
  * @param {publish} `topic,data` 发布事件
  *
  */
-},{"./log.js":14,"./util.js":26}],11:[function(require,module,exports){
+},{"./log.js":14,"./util.js":25}],11:[function(require,module,exports){
 var type_of = require('./type-of.js');
 var util = require('./util.js');
 
-module.exports = function(moduleObj, name, handleFix){
+module.exports = function(moduleObj, name){
   return function(){
   	var args;
   	if(type_of(arguments[0]) === 'function'){
@@ -1344,19 +1353,15 @@ module.exports = function(moduleObj, name, handleFix){
         //
         var sHandle = arguments[0];
         //
-        if(handleFix){
-          args[0][handleFix] = sHandle;
-        }else{
-          args[0] = {
-            handle: sHandle
-          };
-        }
+        args[0] = {
+          handle: sHandle
+        };
       }
   	}
     moduleObj[name].apply(moduleObj, args);
   };
 };
-},{"./type-of.js":23,"./util.js":26}],12:[function(require,module,exports){
+},{"./type-of.js":22,"./util.js":25}],12:[function(require,module,exports){
 var events = require('./events.js');
 
 module.exports = function(oResponse, oHandle){
@@ -1544,7 +1549,7 @@ exports.checkOne = expo(module, 'checkOne');
 exports.checkAll = expo(module, 'checkAll');
 exports.removeOne = expo(module, 'removeOne');
 exports.removeAll = expo(module, 'removeAll');
-},{"./base.js":5,"./expo.js":11,"./util.js":26}],14:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11,"./util.js":25}],14:[function(require,module,exports){
 var util = require('./util.js');
 
 module.exports = function(info){
@@ -1557,7 +1562,7 @@ module.exports = function(info){
     console.log(sLog);
   }
 };
-},{"./util.js":26}],15:[function(require,module,exports){
+},{"./util.js":25}],15:[function(require,module,exports){
 var req = require('./request.js');
 var handle = require('./handle.js');
 var events = require('./events.js');
@@ -1603,7 +1608,7 @@ if(type_of(window.yhsdModule) !== 'array'){
 	window.yhsdModule = false;
 }
 
-var aInitModule = window.yhsdModule || ['account', 'area', 'address', 'blog', 'cart', 'shop', 'option', 'order', 'page', 'payment_method', 'product', 'type', 'vendor'];
+var aInitModule = window.yhsdModule || ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor'];
 
 function checkModule(moduleName){
 	return (util.inArray(moduleName, aInitModule) > -1);
@@ -1616,7 +1621,6 @@ YHSD.blog = checkModule('blog') ? require('./blog.js') : {};
 YHSD.cart = checkModule('cart') ? require('./cart.js') : {};
 YHSD.discount = checkModule('discount') ? require('./discount.js') : {};
 YHSD.shop = checkModule('shop') ? require('./shop.js') : {};
-YHSD.option = checkModule('option') ? require('./option.js') : {};
 YHSD.order = checkModule('order') ? require('./order.js') : {};
 YHSD.page = checkModule('page') ? require('./page.js') : {};
 YHSD.payment_method = checkModule('payment_method') ? require('./payment_method.js') : {};
@@ -1644,17 +1648,7 @@ function jssdkInit(){
 }
 
 checkTokenInit();
-},{"./account.js":1,"./address.js":2,"./area.js":4,"./blog.js":6,"./cart.js":7,"./discount.js":9,"./events.js":10,"./handle.js":12,"./option.js":16,"./order.js":17,"./page.js":18,"./payment_method.js":19,"./product.js":20,"./request.js":21,"./shop.js":22,"./type-of.js":23,"./type.js":24,"./util.js":26,"./vendor.js":27}],16:[function(require,module,exports){
-var base = require('./base.js');
-var util = require('./util.js');
-var expo = require('./expo.js');
-
-var module = base('option', function(factory){
-  factory.create('get', ' ');
-});
-
-exports.get = expo(module, 'get');
-},{"./base.js":5,"./expo.js":11,"./util.js":26}],17:[function(require,module,exports){
+},{"./account.js":1,"./address.js":2,"./area.js":4,"./blog.js":6,"./cart.js":7,"./discount.js":9,"./events.js":10,"./handle.js":12,"./order.js":16,"./page.js":17,"./payment_method.js":18,"./product.js":19,"./request.js":20,"./shop.js":21,"./type-of.js":22,"./type.js":23,"./util.js":25,"./vendor.js":26}],16:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 var util = require('./util.js');
@@ -1673,7 +1667,7 @@ var module = base('order', function(factory){
   //
 });
 
-exports.get = expo(module, 'get', 'order_no');
+exports.get = expo(module, 'get');
 
 util.forEach(aConfig, function(value, key){
   exports[key] = expo(module, key);
@@ -1683,8 +1677,8 @@ util.forEach(aConfig, function(value, key){
  * 订单
  *
  * ```get
- * `` handle
- * &` 类型：String<br/>指定订单的handle
+ * `` order_no
+ * &` 类型：String<br/>指定订单编号<br/>未登录时调用此接口，将返回指定订单的简单详情。
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
  * ```
@@ -1747,7 +1741,7 @@ util.forEach(aConfig, function(value, key){
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
  *
- * @param {get} `handle,callback` 获取指定订单
+ * @param {get} `order_no,callback` 获取指定订单
  * @param {getPoly1} `[config,]callback` 获取订单列表
  * @param {recieve} `order,callback` 指定订单的指定运单确认收货
  * @param {create} `order,callback` 提交订单 （必须登录）
@@ -1755,7 +1749,7 @@ util.forEach(aConfig, function(value, key){
  * @param {cancel} `order,callback` 取消指定订单
  *
  */
-},{"./base.js":5,"./expo.js":11,"./util.js":26}],18:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11,"./util.js":25}],17:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -1796,7 +1790,7 @@ exports.get = expo(module, 'get');
  * @param {getPoly1} `[config,]callback` 获取自定义页面列表
  *
  */
-},{"./base.js":5,"./expo.js":11}],19:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11}],18:[function(require,module,exports){
 var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
@@ -1838,7 +1832,7 @@ util.forEach(aConfig, function(value, key){
  * @param {getPoly1} `param,callback` 获取支付方式（免登录下单），默认使用离线购物车
  *
  */
-},{"./base.js":5,"./expo.js":11,"./util.js":26}],20:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11,"./util.js":25}],19:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -1861,6 +1855,10 @@ exports.get = expo(module, 'get');
  * ```getPoly1
  * `` config
  * &` 类型：Object
+ * &&` ^^^search^^^ 类型：String 选填<br/>指定商品名称包含的文字
+ * &&` ^^^vendor^^^ 类型：String 选填<br/>指定商品品牌包含的文字
+ * &&` ^^^type^^^ 类型：String 选填<br/>指定商品分类包含的文字
+ * &&` ^^^in_stock^^^ 类型：Boolean 选填<br/>指定商品库存是否足够（默认值为 false）
  * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
  * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码
  * `` callback
@@ -1879,7 +1877,7 @@ exports.get = expo(module, 'get');
  * @param {getPoly1} `[config,]callback` 获取商品列表
  *
  */
-},{"./base.js":5,"./expo.js":11}],21:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11}],20:[function(require,module,exports){
 var uri = require('./uri.js');
 var ajax = require('./ajax.js');
 
@@ -1977,7 +1975,7 @@ exports.jsonp = function(){
 	_checkArg(arguments);
 	req._jsonp(arguments[0], arguments[1]);
 };
-},{"./ajax.js":3,"./uri.js":25}],22:[function(require,module,exports){
+},{"./ajax.js":3,"./uri.js":24}],21:[function(require,module,exports){
 var base = require('./base.js');
 var type_of = require('./type-of.js');
 var expo = require('./expo.js');
@@ -2054,7 +2052,7 @@ exports.protecting = expo(module, 'protecting');
  * @param {protecting} `password,callback` 提交店铺保护密码
  *
  */
-},{"./base.js":5,"./expo.js":11,"./type-of.js":23}],23:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11,"./type-of.js":22}],22:[function(require,module,exports){
 /* jshint ignore:start */
 
 var toString = Object.prototype.toString
@@ -2088,7 +2086,7 @@ module.exports = function(val){
 }
 
 /* jshint ignore:end */
-},{}],24:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -2103,25 +2101,53 @@ exports.get = expo(module, 'get');
  *
  * ```get
  * `` handle
- * &` 类型：String<br/>指定分类的handle。
+ * &` 类型：String<br/>指定分类的handle
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数。
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "",
+ * &&&     "type" : {
+ * &&&         "name" : "男装",
+ * &&&         "handle" : "T000099"
+ * &&&     },
+ * &&&     "products" : [{ ... }, { ... }], // 含有这个分类的商品
+ * &&&     "paging" : { ... } // 分页对象
+ * &&& }
+ * &&& ^^^
  * ```
  *
  * ```getPoly1
  * `` config
  * &` 类型：Object
- * &&` size 类型：Number<br/>指定返回每页的数目。
- * &&` page 类型：Number<br/>指定返回分页页码。
+ * &&` ^^^search^^^ 类型：String 选填<br/>指定品牌包含的文字
+ * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
+ * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数。
+ * &` 类型：Function( 返回对象 [查看详情](/development/s/543259c0e2931e235b00000b) )<br/>获取信息后的回调函数<br/>返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "",
+ * &&&     "types" : [{
+ * &&&             "name" : "男装", // 分类名称
+ * &&&             "handle" : "T000099"  // 分类 handle
+ * &&&         }, {
+ * &&&             "name" : "女装",  // 分类名称
+ * &&&             "handle" : "t000126"  // 分类 handle
+ * &&&         }
+ * &&&     ],
+ * &&&     "paging" : { ... }
+ * &&& }
+ * &&& ^^^
  * ```
  *
  * @param {get} `handle,callback` 获取指定分类
  * @param {getPoly1} `[config,]callback` 获取分类列表
  *
  */
-},{"./base.js":5,"./expo.js":11}],25:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":11}],24:[function(require,module,exports){
 module.exports = function(sPath){
   //
   var sBase = '/api';
@@ -2134,7 +2160,7 @@ module.exports = function(sPath){
   }
 
 };
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 // 设置cookie
 exports.setCookie = function(name, value, isForever, domain){
   var sDomain;
@@ -2400,7 +2426,7 @@ exports.forEach = function (collection, callback, scope) {
  * @param {forEach} `collection,callback,scope` 遍历数组或对象中的所有元素
  *
  */
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -2415,18 +2441,46 @@ exports.get = expo(module, 'get');
  *
  * ```get
  * `` handle
- * &` 类型：String<br/>指定品牌的handle。
+ * &` 类型：String<br/>指定品牌的handle
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数。
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "",
+ * &&&     "vendor" : {
+ * &&&         "name" : "乡萘儿",
+ * &&&         "handle" : "V000035"
+ * &&&     },
+ * &&&     "products" : [{ ... }, { ... }], // 含有这个品牌的商品
+ * &&&     "paging" : { ... } // 分页对象
+ * &&& }
+ * &&& ^^^
  * ```
  *
  * ```getPoly1
  * `` config
  * &` 类型：Object
- * &&` size 类型：Number<br/>指定返回每页的数目。
- * &&` page 类型：Number<br/>指定返回分页页码。
+ * &&` ^^^search^^^ 类型：String 选填<br/>指定品牌包含的文字
+ * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
+ * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数。
+ * &` 类型：Function( 返回对象 [查看详情](/development/s/54325a1571ea1e560f00000d) )<br/>获取信息后的回调函数<br/>返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "",
+ * &&&     "vendors" : [{
+ * &&&             "name" : "谷吃", // 品牌名称
+ * &&&             "handle" : "V000036"  // 品牌 handle
+ * &&&         }, {
+ * &&&             "name" : "驴",  // 品牌名称
+ * &&&             "handle" : "V000037"  // 品牌 handle
+ * &&&         }
+ * &&&     ],
+ * &&&     "paging" : { ... }
+ * &&& }
+ * &&& ^^^
  * ```
  *
  * @param {get} `handle,callback` 获取指定品牌

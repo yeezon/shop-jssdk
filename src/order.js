@@ -26,8 +26,8 @@ util.forEach(aConfig, function(value, key){
  * 订单
  *
  * ```get
- * `` handle
- * &` 类型：String<br/>指定订单的handle
+ * `` order_no
+ * &` 类型：String<br/>指定订单编号<br/>未登录时调用此接口，将返回指定订单的简单详情。
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
  * ```
@@ -90,7 +90,7 @@ util.forEach(aConfig, function(value, key){
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
  *
- * @param {get} `handle,callback` 获取指定订单
+ * @param {get} `order_no,callback` 获取指定订单
  * @param {getPoly1} `[config,]callback` 获取订单列表
  * @param {recieve} `order,callback` 指定订单的指定运单确认收货
  * @param {create} `order,callback` 提交订单 （必须登录）

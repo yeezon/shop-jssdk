@@ -75,7 +75,7 @@ module.exports = function(sName, func){
           var sOrderNo = oPushlish.request.handle;
           oPushlish.request = {
             'order_no': sOrderNo
-          }
+          };
         }
       }
       oPushlish._scope = self;
