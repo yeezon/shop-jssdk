@@ -262,7 +262,7 @@ util.forEach(oLocalCartMap, function(value, key){
  * @param {removeOne} `item,callback` 删除购物车中的单个商品
  * @param {removeAll} `callback` 删除购物车中的所有商品
  * @param {withinShipments} `param,callback` 获取带有物流信息的购物车（必须登录）
- * @param {withinShipmentsPoly1} `param,callback` 获取带有物流信息的购物车
+ * @param {withinShipmentsPoly1} `param,callback` 获取带有物流信息的购物车（未登录下单）
  * @param {mustShipping} `callback` 检查购物车是否需要物流
  *
  */
