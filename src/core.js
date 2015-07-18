@@ -15,10 +15,10 @@ exports.apiEvents = function(topic, url, method){
   events.subscribe(topic, function(conf){
     var oPostData = {};
     if(conf && conf.request){
-      _mixin(oPostData, conf.request);  // 使用 conf.request 来配置请求 用户参数权限 > 系统设定权限
+      _mixin(oPostData, conf.request);  // 使用 conf.request 来覆盖原有请求参数
     }
     if(conf && conf.urlModify){
-      url = conf.urlModify; // 使用 conf.urlModify 函数,在 publish的时候动态修改url
+      url = conf.urlModify; // 使用 conf.urlModify 参数,在 publish的时候动态修改url
     }
     req[method.toLowerCase()](url, {
       data: oPostData,
