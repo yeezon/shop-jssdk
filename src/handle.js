@@ -44,6 +44,9 @@ module.exports = function(oResponse, oHandle){
         break;
       case 212: // 未登录
         return oRes;
+      case 214: // 需要验证码
+        fAlertMessage('needCaptcha');
+        return oRes;
       case 308:
         return oRes;
       case 500:
