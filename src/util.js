@@ -110,32 +110,6 @@ exports.setQuery = function( key , value , url ){
   }
   return sUrl + p + sHash;
 };
-// //
-// exports.JSONstringify = function(oJson){
-//   if(typeof window.JSON != 'undefined'){
-//     return JSON.stringify(oJson)
-//   }else{
-//     window.JSON = {};
-//     JSON.stringify =function(obj){
-//       var t = typeof (obj);
-//       if (t != "object" || obj === null) {
-//         if (t == "string") obj = '"'+obj+'"';
-//         return String(obj);
-//       }
-//       else {
-//         var n, v, json = [], arr = (obj && obj.constructor == Array);
-//         for (n in obj) {
-//           v = obj[n]; t = typeof(v);
-//           if (t == "string") v = '"'+v+'"';
-//           else if (t == "object" && v !== null) v = JSON.stringify(v);
-//           json.push((arr ? "" : '"' + n + '":') + String(v));
-//         }
-//         return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
-//       }
-//     };
-//     return JSON.stringify(oJson)
-//   }
-// };
 //
 exports.isEmail = function(sEmail){
   var rEmail = /([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})/i;
@@ -215,13 +189,13 @@ exports.forEach = function (collection, callback, scope) {
  *
  * ```getImageUrl
  * `` image_id
- * &` 类型：String<br/>liquid图片对象的image_id。
+ * &` 类型：String<br/>图片对象的image_id。
  * `` image_name
- * &` 类型：String<br/>liquid图片对象的image_name。
+ * &` 类型：String<br/>图片对象的image_name。
  * `` image_size
  * &` 类型：String<br/>输出图片的尺寸大小，例如'300x300'。
  * `` image_epoch
- * &` 类型：String<br/>liquid图片对象的image_epoch。
+ * &` 类型：String<br/>图片对象的image_epoch。
  * ```
  *
  * ```getQuery
@@ -256,7 +230,7 @@ exports.forEach = function (collection, callback, scope) {
  *
  * @param {setCookie} `name,value[,isForever]` 设置cookie
  * @param {getCookie} `name` 读取cookie
- * @param {getImageUrl} `image_id,image_name,image_size,image_epoch` 将liquid输出的图片对象转换，返回图片url
+ * @param {getImageUrl} `image_id,image_name,image_size,image_epoch` 将图片对象转换为url
  * @param {getQuery} `key` 获取url中search部分的参数
  * @param {setQuery} `key,value,url` 设置url中search部分的参数
  * @param {inArray} `element,array` 检查目标对象是否在数组中
