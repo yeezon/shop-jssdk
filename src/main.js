@@ -3,8 +3,9 @@ var handle = require('./handle.js');
 var events = require('./events.js');
 var util = require('./util.js');
 var type_of = require('./type-of.js');
+var captcha = require('./captcha.js');
 
-var version = '0.0.4';
+var version = '0.0.5';
 
 if(window){
 	window.yhsd = {};
@@ -15,6 +16,7 @@ if(window){
 var YHSD = {};
 YHSD.events = events;
 YHSD.util = util;
+YHSD.captcha = captcha;
 
 window.yhsd.version = function(){
 	return version;
