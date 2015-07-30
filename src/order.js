@@ -3,7 +3,7 @@ var expo = require('./expo.js');
 var util = require('./util.js');
 
 var aConfig = {
-    recieve: {},
+    receive: {},
     create: {method: 'POST'},
     cancel: {method: 'POST'}
 };
@@ -41,7 +41,7 @@ util.forEach(aConfig, function(value, key){
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数<br/>返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
  * ```
  *
- * ```recieve
+ * ```receive
  * `` order
  * &` 类型：Object
  * &&` ^^^order_no^^^ 类型：String<br/>指定订单编号
@@ -92,7 +92,7 @@ util.forEach(aConfig, function(value, key){
  *
  * @param {get} `order_no,callback` 获取指定订单
  * @param {getPoly1} `[config,]callback` 获取订单列表
- * @param {recieve} `order,callback` 指定订单的指定运单确认收货
+ * @param {receive} `order,callback` 指定订单的指定运单确认收货
  * @param {create} `order,callback` 提交订单 （必须登录）
  * @param {createPoly1} `order,callback` 匿名提交订单（免登录下单），默认使用离线购物车
  * @param {cancel} `order,callback` 取消指定订单
