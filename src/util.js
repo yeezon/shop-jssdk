@@ -175,41 +175,41 @@ exports.forEach = function (collection, callback, scope) {
  *
  * ```setCookie
  * `` name
- * &` 类型：String<br/>需要设置的cookie名称。
+ * &` 类型：String<br/>需要设置的 cookie 名称。
  * `` value
- * &` 类型：String<br/>需要设置的cookie值。
+ * &` 类型：String<br/>需要设置的 cookie 值。
  * `` isForever
- * &` 类型：Boolean ( 默认值：false )<br/>设置为true，cookie永不过期。
+ * &` 类型：Boolean ( 默认值：^^^false^^^ )<br/>设置为^^^true^^^，cookie 永不过期。
  * ```
  *
  * ```getCookie
  * `` name
- * &` 类型：String<br/>需要读取的cookie名称。
+ * &` 类型：String<br/>需要读取的 cookie 名称。
  * ```
  *
  * ```getImageUrl
  * `` image_id
- * &` 类型：String<br/>图片对象的image_id。
+ * &` 类型：String<br/>图片对象的 image_id。
  * `` image_name
- * &` 类型：String<br/>图片对象的image_name。
+ * &` 类型：String<br/>图片对象的 image_name。
  * `` image_size
- * &` 类型：String<br/>输出图片的尺寸大小，例如'300x300'。
+ * &` 类型：String<br/>输出图片的尺寸大小，例如^^^300x300^^^。
  * `` image_epoch
- * &` 类型：String<br/>图片对象的image_epoch。
+ * &` 类型：String<br/>图片对象的 image_epoch。
  * ```
  *
  * ```getQuery
  * `` key
- * &` 类型：String<br/>需要获取的url参数名称。
+ * &` 类型：String<br/>需要获取的 url 参数名称。
  * ```
  *
  * ```setQuery
  * `` key
- * &` 类型：String<br/>需要设置的url参数名称。
+ * &` 类型：String<br/>需要设置的 url 参数名称。
  * `` value
- * &` 类型：String<br/>需要设置的url参数的值。
+ * &` 类型：String<br/>需要设置的 url 参数的值。
  * `` url
- * &` 类型：String<br/>需要设置参数的url。
+ * &` 类型：String<br/>需要设置参数的 url。
  * ```
  *
  * ```inArray
@@ -223,16 +223,16 @@ exports.forEach = function (collection, callback, scope) {
  * `` collection
  * &` 类型：Array|Object<br/>需要遍历的数组或对象。
  * `` callback
- * &` 类型：Function( 单个元素 )<br/>回调函数，返回false可停止遍历。
+ * &` 类型：Function( 单个元素 )<br/>回调函数，返回^^^false^^^可停止遍历。
  * `` scope
  * &` 类型：Object<br/>作用域。
  * ```
  *
- * @param {setCookie} `name,value[,isForever]` 设置cookie
- * @param {getCookie} `name` 读取cookie
- * @param {getImageUrl} `image_id,image_name,image_size,image_epoch` 将图片对象转换为url
- * @param {getQuery} `key` 获取url中search部分的参数
- * @param {setQuery} `key,value,url` 设置url中search部分的参数
+ * @param {setCookie} `name,value[,isForever]` 设置 cookie
+ * @param {getCookie} `name` 读取 cookie
+ * @param {getImageUrl} `image_id,image_name,image_size,image_epoch` 将图片对象转换为 url
+ * @param {getQuery} `key` 获取 url 中 search 部分的参数
+ * @param {setQuery} `key,value,url` 设置 url 中 search 部分的参数
  * @param {inArray} `element,array` 检查目标对象是否在数组中
  * @param {forEach} `collection,callback,scope` 遍历数组或对象中的所有元素
  *

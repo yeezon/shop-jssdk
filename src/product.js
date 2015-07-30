@@ -14,7 +14,7 @@ exports.get = expo(module, 'get');
  * `` handle
  * &` 类型：String<br/>指定商品的handle
  * `` callback
- * &` 类型：Function( 返回对象 [查看详情](/development/s/5432593471ea1e4f9f000013) )<br/>获取信息后的回调函数
+ * &` 类型：Function( 返回对象 [查看详情](/development/s/5432593471ea1e4f9f000013) )<br/>获取信息后的回调函数<br/>商品对象中的图片对象，使用 [util.getImageUrl](/development/s/5549f6f50abc3e22ec000011#-getimageurl-image_id-image_name-image_size-image_epoch-) 方法转换为对应 url
  * ```
  *
  * ```getPoly1
@@ -27,7 +27,7 @@ exports.get = expo(module, 'get');
  * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
  * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码
  * `` callback
- * &` 类型：Function( 返回对象 [查看详情](/development/s/5432593471ea1e4f9f000013) )<br/>获取信息后的回调函数<br/>返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
+ * &` 类型：Function( 返回对象 [查看详情](/development/s/5432593471ea1e4f9f000013) )<br/>获取信息后的回调函数<br/>返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)<br/>商品对象中的图片对象，使用 [util.getImageUrl](/development/s/5549f6f50abc3e22ec000011#-getimageurl-image_id-image_name-image_size-image_epoch-) 方法转换为对应 url
  * &&& ^^^
  * &&& {
  * &&&     "code" : 200,

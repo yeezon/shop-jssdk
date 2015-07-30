@@ -125,7 +125,7 @@ exports.register = function(param, callback){
  * &&&&` mobile: 手机号码
  * &&` ^^^password^^^ 类型：String<br/>密码
  * &&` ^^^password_again^^^ 类型：String<br/>重复密码
- * &&` ^^^verify_code^^^ 类型：String 选填<br/>手机验证码，当注册类型为^^^mobile^^^必须提供，使用[sendRegistValidateSms](#sendRegistValidateSms-param-callback)获取
+ * &&` ^^^verify_code^^^ 类型：String 选填<br/>手机验证码，当 type 为^^^mobile^^^必须提供，使用 [sendRegistValidateSms](#-sendregistvalidatesms-param-callback-) 获取
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：注册成功<br/>201：注册失败
@@ -163,7 +163,7 @@ exports.register = function(param, callback){
  * &&` ^^^account^^^ 类型：String<br/>需要重设密码的顾客手机号码账号
  * &&` ^^^password^^^ 类型：String<br/>密码
  * &&` ^^^password_again^^^ 类型：String<br/>重复密码
- * &&` ^^^verify_code^^^ 类型：String<br/>手机验证码，使用[sendResetValidateSms](#sendResetValidateSms-param-callback)获取
+ * &&` ^^^verify_code^^^ 类型：String<br/>手机验证码，使用 [sendResetValidateSms](#-sendresetvalidatesms-param-callback-) 获取
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>更新后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败

@@ -69,9 +69,18 @@ autoFetch();
  *
  * ```autoFetch
  * `` isAuto
- * &` 类型：Boolean<br/>当有需要时，自动获取图片验证码
+ * &` 类型：Boolean<br/>当有需要时，自动获取图片验证码信息，需自行订阅 "captcha.fetch.done" 事件处理
  * &&` ^^^true^^^ 启用自动获取，默认值
  * &&` ^^^false^^^ 停用自动获取
+ * &&& ^^^javascript
+ * &&& yhsd.ready(function(jssdk){
+ * &&&     // 订阅 "captcha.fetch.done" 事件
+ * &&&     jssdk.events.subscribe('captcha.fetch.done', function(o){
+ * &&&         // 获取到了图片验证码内容 {id: "xxxx", src: "//xxx.com/image/xxx.png"}
+ * &&&         console.log(o);
+ * &&&     });
+ * &&& }
+ * &&& ^^^
  * ```
  *
  * @param {fetch} `callback` 获取图片验证码
