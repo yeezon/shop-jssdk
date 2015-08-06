@@ -178,7 +178,8 @@ ajax.JSONP = function(options){
     clearTimeout(abortTimeout)
       //todo: remove script
       //$(script).remove()
-    delete window[callbackName]
+    // delete window[callbackName]
+    if (callbackName in window) window[callbackName] = empty
     ajaxSuccess(data, xhr, options)
   }
 

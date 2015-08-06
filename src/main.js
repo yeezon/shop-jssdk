@@ -5,7 +5,7 @@ var util = require('./util.js');
 var type_of = require('./type-of.js');
 var captcha = require('./captcha.js');
 
-var version = '0.0.5';
+var version = '0.0.6';
 
 if(window){
 	window.yhsd = {};
