@@ -152,8 +152,8 @@ exports.inArray = function(){
   return arguments[1].indexOf(arguments[0]);
 };
 //
-exports.forEach = function (collection, callback, scope) {
-  if (Object.prototype.toString.call(collection) === '[object Object]') {
+exports.forEach = function (collection, callback, isNotObject, scope) {
+  if (Object.prototype.toString.call(collection) === '[object Object]' && !isNotObject) {
     for (var prop in collection) {
       if (Object.prototype.hasOwnProperty.call(collection, prop)) {
         if(callback.call(scope, collection[prop], prop, collection) === false){
