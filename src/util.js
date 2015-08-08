@@ -224,8 +224,6 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * &` 类型：Array|Object<br/>需要遍历的数组或对象。
  * `` callback
  * &` 类型：Function( 单个元素 )<br/>回调函数，返回^^^false^^^可停止遍历。
- * `` scope
- * &` 类型：Object<br/>作用域。
  * ```
  *
  * @param {setCookie} `name,value[,isForever]` 设置 cookie
@@ -234,6 +232,6 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * @param {getQuery} `key` 获取 url 中 search 部分的参数
  * @param {setQuery} `key,value,url` 设置 url 中 search 部分的参数
  * @param {inArray} `element,array` 检查目标对象是否在数组中
- * @param {forEach} `collection,callback,scope` 遍历数组或对象中的所有元素
+ * @param {forEach} `collection,callback` 遍历数组或对象中的所有元素
  *
  */
