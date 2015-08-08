@@ -21,8 +21,10 @@ var events = {
       if(util.inArray(func, aPriorityList) === - 1){ // 只允许绑定一个相同函数
         aPriorityList.push(func);
         nFuncIndex = aPriorityList.length - 1;
+        log({subscribe: topic, priority: nPriority, sort: nFuncIndex});
+      }else{
+        log({subscribe: topic, priority: nPriority, sort: '重复监听，忽略'});
       }
-      log({subscribe: topic, priority: nPriority, sort: nFuncIndex});
     }
     return {
       unsubscribe : function(){
