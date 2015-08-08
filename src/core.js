@@ -31,7 +31,12 @@ exports.apiEvents = function(topic, url, method){
           _mixin(oResponse, conf.data); // 使用 conf.data 来自定义传递事件中的数据
         }
         //
-        oRes = handle(oResponse, conf.customHandle || false);
+        var oCustomHandle;
+        if(conf && conf.customHandle){
+          oCustomHandle = conf.customHandle;
+        }
+        //
+        oRes = handle(oResponse, oCustomHandle);
         if(oRes){
           events.publish(topic + '.done', oResponse, function(){
             if(conf._unsubscribe){
