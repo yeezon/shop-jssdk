@@ -9,7 +9,7 @@ module.exports = function(moduleObj, name){
   		args[0] = {};
   		util.forEach(arguments, function(v){
   			args.push(v);
-  		});
+  		}, true); // 第三个参数兼容ie8，arguments传入forEach参数之后type变为object，导致无法遍历。设置为true，强制声明传入 argument
   	}else{
   		args = arguments;
       if(type_of(arguments[0]) === 'string'){
