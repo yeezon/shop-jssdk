@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
     var jssdkSrc = './src/';
-    var jssdkVer = '0.0.6';
+    var jssdkVer = '0.0.7';
     var jssdkDest = './dist/jssdk-';
     var jssdkOutput = jssdkDest + jssdkVer + '.js';
 
