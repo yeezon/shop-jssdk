@@ -1,7 +1,9 @@
+var version = require('./src/version.js');
+
 module.exports = function(grunt) {
 
     var jssdkSrc = './src/';
-    var jssdkVer = '0.0.7';
+    var jssdkVer = version.get();
     var jssdkDest = './dist/jssdk-';
     var jssdkOutput = jssdkDest + jssdkVer + '.js';
 
