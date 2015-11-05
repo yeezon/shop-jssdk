@@ -52,6 +52,9 @@ var aConfig = {
         }else{
           oEach.quantity = oEach.quantity + oItem.quantity;
         }
+        if(typeof oItem.is_check !== 'undefined'){
+          oEach.is_check = oItem.is_check;
+        }
         return false;
       }
     });
