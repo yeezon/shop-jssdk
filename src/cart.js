@@ -62,35 +62,48 @@ util.forEach(oLocalCartMap, function(value, key){
     //
   exports[key] = function(oParam, oCall){
     //
-    module[key](oParam, function(o){
+    var oLocalCartParam, oCallback;
+    // 兼容不需要传入 oParam 的方法
+    switch(key){
+      case 'checkAll':
+      case 'unCheckAll':
+      case 'removeAll':
+        oLocalCartParam = {};
+        oCallback = oParam;
+        break;
+      default:
+        oLocalCartParam = oParam;
+        oCallback = oCall;
+    }
+    //
+    module[key](function(o){
       var res = o.res;
       var args = [];
       switch(res.code){
         case 212:
           switch(key){
             case 'add':
-              oParam.is_check = true;
               args.push({
-                item: oParam
+                item: oLocalCartParam
               });
               break;
             case 'quantity':
-              delete oParam.is_check;
+              delete oLocalCartParam.is_check;
               args.push({
-                item: oParam,
+                item: oLocalCartParam,
                 is_set: true
               });
               break;
             case 'checkOne':
-              oParam.is_check = true;
+              oLocalCartParam.is_check = true;
               args.push({
-                item: oParam
+                item: oLocalCartParam
               });
               break;
             case 'unCheckOne':
-              oParam.is_check = false;
+              oLocalCartParam.is_check = false;
               args.push({
-                item: oParam
+                item: oLocalCartParam
               });
               break;
             case 'checkAll':
@@ -105,14 +118,14 @@ util.forEach(oLocalCartMap, function(value, key){
               break;
             case 'removeOne':
               args.push({
-                item: oParam
+                item: oLocalCartParam
               });
               break;
             case 'removeAll':
               // 不需参数
               break;
             default:
-              args.push(oParam);
+              args.push(oLocalCartParam);
           }
           localCart[value].apply(localCart, args);
           break;
@@ -122,8 +135,9 @@ util.forEach(oLocalCartMap, function(value, key){
             data: 'fail'
           });
       }
-      if(oCall){
-        oCall(o);
+      if(oCallback){
+        o.result = 'localcart.' + key + '.success';
+        oCallback(o);
       }
     });
   };
@@ -132,7 +146,7 @@ util.forEach(oLocalCartMap, function(value, key){
 
 
 /**
- * 购物车。当顾客尚未登录时，自动使用基于cookie的本地购物车
+ * 购物车。当顾客尚未登录时，自动使用基于 cookie 的本地购物车
  *
  * ```get
  * `` callback
