@@ -4,8 +4,9 @@ var events = require('./events.js');
 var util = require('./util.js');
 var type_of = require('./type-of.js');
 var captcha = require('./captcha.js');
+var version = require('./version.js');
 
-var version = '0.0.7';
+var version = version.get();
 
 if(window){
 	window.yhsd = {};
