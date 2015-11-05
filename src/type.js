@@ -32,6 +32,7 @@ exports.get = expo(module, 'get');
  * ```getPoly1
  * `` config
  * &` 类型：Object
+ * &&` ^^^handles^^^ 类型：String 选填<br/>指定多个handle，以“,”分隔
  * &&` ^^^search^^^ 类型：String 选填<br/>指定品牌包含的文字
  * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
  * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码

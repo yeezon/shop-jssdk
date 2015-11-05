@@ -20,6 +20,7 @@ exports.get = expo(module, 'get');
  * ```getPoly1
  * `` config
  * &` 类型：Object
+ * &&` ^^^handles^^^ 类型：String 选填<br/>指定多个handle，以“,”分隔
  * &&` ^^^author^^^ 类型：String 选填<br/>指定轻博客作者
  * &&` ^^^tag^^^ 类型：String 选填<br/>指定轻博客标签
  * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
