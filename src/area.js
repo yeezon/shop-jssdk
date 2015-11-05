@@ -3,38 +3,6 @@ var util = require('./util.js');
 var expo = require('./expo.js');
 var events = require('./events.js');
 
-var aConfig = {
-  country: {url: 'country'},
-  province: {url: 'province'},
-  city: {url: 'city'},
-  district: {url: 'district'}
-};
-
-var aInternal = {
-	provinceCn : function(){
-		var self = this;
-		//
-		self.province({
-			country_code: 'CN'
-		}, function(data){
-			events.publish('area.provinceCn.done', data);
-		});
-	}
-};
-
-var module = base('area', function(factory, base){
-  factory.createByConfig(aConfig);
-  factory.internalByConfig(aInternal);
-});
-
-util.forEach(aConfig, function(value, key){
-  exports[key] = expo(module, key);
-});
-
-util.forEach(aInternal, function(value, key){
-  exports[key] = expo(module, key);
-});
-
 
 /**
  * 地区信息，用于获取收货人信息地址编码
