@@ -3,8 +3,9 @@ var log = require('./log.js');
 
 var events = {
   messages : {},
-  subscribe: function(topic, func, priority){
+  subscribe: function(topic, func, priority, pid){
     var self = this;
+    var nPid = pid || 0;
     var nPriority = parseInt(priority);
     nPriority = nPriority ? nPriority : 10; // 默认优先级为10
     var sTopicEncode = encodeURIComponent(topic);
@@ -16,28 +17,33 @@ var events = {
       self.messages[sTopicEncode][nPriority] = [];
     }
     var aPriorityList = self.messages[sTopicEncode][nPriority];
+    var oCallBackConfig = {
+      execute: func,
+      pid: nPid
+    };
     var nFuncIndex = -1;
     if(aPriorityList){
-      if(util.inArray(func, aPriorityList) === - 1){ // 只允许绑定一个相同函数
-        aPriorityList.push(func);
+      if(util.inArray(oCallBackConfig, aPriorityList) === - 1){ // 只允许绑定一个相同函数
+        aPriorityList.push(oCallBackConfig);
         nFuncIndex = aPriorityList.length - 1;
-        log({subscribe: topic, priority: nPriority, sort: nFuncIndex});
+        log({subscribe: topic, priority: nPriority, sort: nFuncIndex, pid: nPid});
       }else{
-        log({subscribe: topic, priority: nPriority, sort: '重复监听，忽略'});
+        log({subscribe: topic, priority: nPriority, sort: '重复监听，忽略', pid: nPid});
       }
     }
     return {
       unsubscribe : function(){
         if(nFuncIndex !== -1){
-          log({unsubscribe: topic, priority: nPriority, sort: nFuncIndex});
+          log({unsubscribe: topic, priority: nPriority, sort: nFuncIndex, pid: nPid});
           aPriorityList.splice(nFuncIndex, 1);
           nFuncIndex = -1;
         }
       }
     };
   },
-  publish : function(topic, data, done){
+  publish : function(topic, data, done, pid){
     var self = this;
+    var nPid = pid || 0;
     if(typeof topic !== 'string'){
       return;
     }
@@ -45,7 +51,7 @@ var events = {
     var sTopicEncode = encodeURIComponent(topic);
     var aMainList = self.messages[sTopicEncode];
     //
-    log({published: topic});
+    log({published: topic, pid: nPid});
     //
     if(typeof aMainList === 'undefined'){
       return;
@@ -55,12 +61,18 @@ var events = {
     util.forEach(aMainList, function(aPriorityList, nPriority){
       if(aPriorityList){
         util.forEach(aPriorityList, function(oSub, nFuncIndex){
-          if(oSub){
-            bNext = oSub.call(scope, data);
+          if(oSub && oSub.execute){
+            if(oSub.pid && nPid){ // 监听的事件有pid 并且有传入指定pid
+              if(oSub.pid !== nPid){
+                log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': 'true', pid: oSub.pid, pass: 'true'});
+                return true; // 不执行 
+              }
+            }
+            bNext = oSub.execute.call(scope, data);
             if(bNext !== false){
               bNext = true;
             }
-            log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': bNext});
+            log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': bNext, pid: nPid});
             return bNext;
           }
         });

@@ -42,7 +42,7 @@ exports.apiEvents = function(topic, url, method){
             if(conf._unsubscribe){
               conf._unsubscribe.unsubscribe();
             }
-          });
+          }, conf._pid || 0);
         }
       },
       error: function(){

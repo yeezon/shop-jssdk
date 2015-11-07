@@ -2,7 +2,12 @@ var core = require('./core.js');
 var events = require('./events.js');
 var util = require('./util.js');
 var type_of = require('./type-of.js');
-
+//
+var _guid = (function() {
+  function s4() {return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);}
+  return function() { return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();};
+})();
+//
 module.exports = function(sName, func){
 
   function base(){}
@@ -52,6 +57,8 @@ module.exports = function(sName, func){
     //
     base.prototype[sKey] = function(){  // 方法调用时可以再次覆盖data,url,handle // requestConf, func, dataConf, urlFix, handleFix
       var self = this;
+      // api接口封装，订阅时加入uuid，有uuid的事件，执行匹配对应guid和guid(pid为0)的订阅。保证api封装回调的唯一性，手动订阅能完整收到通知 15-11-06
+      var guid = _guid();
       //
       var oPushlish = {};
       var oCallback;
@@ -80,7 +87,8 @@ module.exports = function(sName, func){
       }
       oPushlish._scope = self;
       //
-      oPushlish._unsubscribe = events.subscribe(sGetTopic + '.done', oCallback);
+      oPushlish._unsubscribe = events.subscribe(sGetTopic + '.done', oCallback, 10, guid);
+      oPushlish._pid = guid;
       //
       events.publish(sGetTopic, oPushlish);
     };
