@@ -49,9 +49,6 @@ module.exports = function(sName, func){
     if(sName !== 'shop'){
       url = sName + '/' + url;
     }
-    if(sName === 'area'){
-      url = sKey;
-    }
     //
     core.apiEvents(sGetTopic, url, method);
     //
