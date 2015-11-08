@@ -13,10 +13,11 @@ var localStorageItemName = 'yhsd_areadata';
 
 
 var getAreaData = function(callback){
-	req.get(sAreaDataUrl, {
+	req.jsonp(sAreaDataUrl, {
 		success: function(data){
 			callback(data);
-		}
+		},
+		jsonp: 'yhsd_areadata_callback'
 	});
 };
 
@@ -28,8 +29,9 @@ var initAreaData = function(callback){
 		}
 	}else{
 		getAreaData(function(data){
-			setLocalAreaData(data);
-			oAreaData = data;
+			var oTmpData = JSON.parse(data);
+			setLocalAreaData(oTmpData);
+			oAreaData = oTmpData;
 			if(type_of(callback) === 'function'){
 				callback();
 			}

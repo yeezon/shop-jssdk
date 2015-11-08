@@ -157,8 +157,12 @@ function empty() {}
 ajax.JSONP = function(options){
   if (!('type' in options)) return ajax(options)
 
-  var callbackName = 'jsonp' + (++jsonpID),
-    script = document.createElement('script'),
+  var callbackName = 'jsonp' + (++jsonpID);
+  if(options.jsonp){
+    callbackName = options.jsonp;
+  }
+  //
+  var script = document.createElement('script'),
     abort = function(){
       //todo: remove script
       //$(script).remove()
@@ -167,13 +171,12 @@ ajax.JSONP = function(options){
     },
     xhr = { abort: abort }, abortTimeout,
     head = document.getElementsByTagName("head")[0]
-      || document.documentElement
+      || document.documentElement;
 
   if (options.error) script.onerror = function() {
     xhr.abort()
     options.error()
   }
-
   window[callbackName] = function(data){
     clearTimeout(abortTimeout)
       //todo: remove script

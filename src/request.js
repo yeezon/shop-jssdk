@@ -60,9 +60,6 @@ oReq.prototype._jsonp = function(sUri, oParam){
 	oParam.data.rnd = new Date().getTime();
 	//
 	oParam.dataType = 'jsonp';
-	if(!oParam.jsonp){
-		oParam.jsonp = 'callback';
-	}
 	oParam.url = uri(sUri);
 	self._send(oParam);
 };
