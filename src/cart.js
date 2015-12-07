@@ -80,6 +80,8 @@ util.forEach(oLocalCartMap, function(value, key){
       var res = o.res;
       var args = [];
       switch(res.code){
+        case 200:
+          break;
         case 212:
           switch(key){
             case 'add':
