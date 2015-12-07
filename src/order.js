@@ -37,7 +37,7 @@ util.forEach(aConfig, function(value, key){
  * &` 类型：Object
  * &&` ^^^order_nos^^^ 类型：String 选填<br/>指定多个订单编号，以“,”分隔
  * &&` ^^^shipment_status^^^ 类型：Number 选填<br/>指定物流状态，<br/>0 - 未发货<br/>1 - 已发货<br/>2 - 已签收<br/>3 - 部分发货
- * &&` ^^^payment_status^^^ 类型：Number 选填<br/>指定物流状态，<br/>0 - 未付款<br/>1 - 货到付款<br/>2 - 付款成功<br/>3 - 付款超时
+ * &&` ^^^payment_status^^^ 类型：Number 选填<br/>指定物流状态，<br/>0 - 未付款<br/>1 - 货到付款（已弃用，统一为 2）<br/>2 - 付款成功<br/>3 - 付款超时
  * &&` ^^^size^^^ 类型：Number<br/>指定返回每页的数目
  * &&` ^^^page^^^ 类型：Number<br/>指定返回分页页码
  * `` callback
