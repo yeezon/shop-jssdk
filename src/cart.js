@@ -76,7 +76,7 @@ util.forEach(oLocalCartMap, function(value, key){
         oCallback = oCall;
     }
     //
-    module[key](function(o){
+    module[key](oLocalCartParam, function(o){
       var res = o.res;
       var args = [];
       switch(res.code){
@@ -136,7 +136,7 @@ util.forEach(oLocalCartMap, function(value, key){
           });
       }
       if(oCallback){
-        o.result = 'localcart.' + key + '.success';
+        // o.result = 'localcart.' + key + '.success';
         oCallback(o);
       }
     });
