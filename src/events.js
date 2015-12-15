@@ -26,15 +26,23 @@ var events = {
       if(util.inArray(oCallBackConfig, aPriorityList) === - 1){ // 只允许绑定一个相同函数
         aPriorityList.push(oCallBackConfig);
         nFuncIndex = aPriorityList.length - 1;
-        log({subscribe: topic, priority: nPriority, sort: nFuncIndex, pid: nPid});
+        log({subscribe: topic, priority: nPriority, sort: nFuncIndex, pid: nPid},"background:#ccc");
       }else{
-        log({subscribe: topic, priority: nPriority, sort: '重复监听，忽略', pid: nPid});
+        log({subscribe: topic, priority: nPriority, sort: '重复监听，忽略', pid: nPid}, "color:red");
       }
     }
     return {
       unsubscribe : function(){
+        // 如果有 pid 可能非顺序订阅执行，需要将数组对应项目致空
+        if(nPid){
+          log({unsubscribe: topic, priority: nPriority, sort: nFuncIndex, pid: nPid},"color:#fff;background:#333");
+          if(aPriorityList[nFuncIndex]){
+            aPriorityList[nFuncIndex] = null;
+          }
+          return;
+        }
         if(nFuncIndex !== -1){
-          log({unsubscribe: topic, priority: nPriority, sort: nFuncIndex, pid: nPid});
+          log({unsubscribe: topic, priority: nPriority, sort: nFuncIndex, pid: nPid},"color:#fff;background:#333");
           aPriorityList.splice(nFuncIndex, 1);
           nFuncIndex = -1;
         }
@@ -51,7 +59,7 @@ var events = {
     var sTopicEncode = encodeURIComponent(topic);
     var aMainList = self.messages[sTopicEncode];
     //
-    log({published: topic, pid: nPid});
+    log({published: topic, pid: nPid}, "color:yellow;background:#000");
     //
     if(typeof aMainList === 'undefined'){
       return;
@@ -64,15 +72,19 @@ var events = {
           if(oSub && oSub.execute){
             if(oSub.pid && nPid){ // 监听的事件有pid 并且有传入指定pid
               if(oSub.pid !== nPid){
-                log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': 'true', pid: oSub.pid, pass: 'true'});
+                log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': 'true', pid: oSub.pid, pass: 'true'}, "color:gray");
                 return true; // 不执行 
               }
             }
-            bNext = oSub.execute.call(scope, data);
+            try{
+              bNext = oSub.execute.call(scope, data);
+            }catch(e){
+              log({'exec-error': topic, priority: nPriority, sort: nFuncIndex, 'continue': 'true', pid: oSub.pid, pass: 'true', error: e}, "color:red");
+            }
             if(bNext !== false){
               bNext = true;
             }
-            log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': bNext, pid: nPid});
+            log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': bNext, pid: nPid}, "color:blue");
             return bNext;
           }
         });
