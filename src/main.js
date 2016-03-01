@@ -42,11 +42,7 @@ if(typeof window.yhsdDebug === 'undefined'){
 	window.yhsdDebug = false;
 }
 
-if(type_of(window.yhsdModule) !== 'array'){
-	window.yhsdModule = false;
-}
-
-var aInitModule = window.yhsdModule || ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor'];
+var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon'];
 
 function checkModule(moduleName){
 	return (util.inArray(moduleName, aInitModule) > -1);
@@ -65,6 +61,7 @@ YHSD.payment_method = checkModule('payment_method') ? require('./payment_method.
 YHSD.product = checkModule('product') ? require('./product.js') : {};
 YHSD.type = checkModule('type') ? require('./type.js') : {};
 YHSD.vendor = checkModule('vendor') ? require('./vendor.js') : {};
+YHSD.coupon = checkModule('coupon') ? require('./coupon.js') : {};
 
 function checkTokenInit(){
 	if(window.ajaxToken){

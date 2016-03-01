@@ -33,9 +33,9 @@ module.exports = function(oResponse, oHandle){
       case 203:
         fAlertMessage();
         break;
-      case 204:
-        fAlertMessage('needLogin');
-        break;
+      //case 204:
+      //  fAlertMessage('needLogin');
+      //  break;
       case 205:
         fAlertMessage();
         break;
@@ -43,7 +43,8 @@ module.exports = function(oResponse, oHandle){
         fAlertMessage('liquidError');
         break;
       case 212: // 未登录
-        return oRes;
+        fAlertMessage('needLogin');
+        break;
       case 214: // 需要验证码
         fAlertMessage('needCaptcha');
         return oRes;

@@ -143,6 +143,10 @@ util.forEach(oLocalCartMap, function(value, key){
       }
     });
   };
+  //
+  exports.withinShipments = expo(module, 'withinShipments');
+  exports.mustShipping = expo(module, 'mustShipping');
+  //
 });
 
 
@@ -192,7 +196,7 @@ util.forEach(oLocalCartMap, function(value, key){
  * `` item
  * &` 类型：Object
  * &&` ^^^variant_id^^^ 类型：Number<br/>商品价格的id
- * &&` ^^^quantity^^^ 类型：Number<br/>商品数量。
+ * &&` ^^^quantity^^^ 类型：Number<br/>商品数量
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
