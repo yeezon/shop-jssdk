@@ -141,6 +141,10 @@ util.forEach(oLocalCartMap, function(value, key){
         // o.result = 'localcart.' + key + '.success';
         oCallback(o);
       }
+    }, false, false, {
+      'code212': function(o){
+        return o;
+      }
     });
   };
   //
@@ -197,6 +201,7 @@ util.forEach(oLocalCartMap, function(value, key){
  * &` 类型：Object
  * &&` ^^^variant_id^^^ 类型：Number<br/>商品价格的id
  * &&` ^^^quantity^^^ 类型：Number<br/>商品数量
+ * &&` ^^^is_check^^^ 类型：Boolean<br/>选中该商品，一般都使用^^^true^^^
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```

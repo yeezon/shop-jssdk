@@ -9,11 +9,13 @@ module.exports = function(oResponse, oHandle){
   if(typeof oRes.code === 'number'){
     nCode = oRes.code;
   }
+  //
+  var customRes;
   var fCustomHandle = function(){
     var bHandleByCustom = false;
     if(oHandle && oHandle['code' + nCode]){
       bHandleByCustom = true;
-      oHandle['code' + nCode](oRes);
+      customRes = oHandle['code' + nCode](oRes);
     }
     return bHandleByCustom;
   };
@@ -56,5 +58,7 @@ module.exports = function(oResponse, oHandle){
       default:
         fAlertMessage();
     }
+  }else{
+    return customRes;
   }
 };
