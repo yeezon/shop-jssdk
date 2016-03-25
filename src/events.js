@@ -33,7 +33,7 @@ var events = {
     }
     return {
       unsubscribe : function(){
-        // 如果有 pid 可能非顺序订阅执行，需要将数组对应项目致空
+        // 如果有 pid 可能非顺序订阅执行，需要将数组对应项目置空
         if(nPid){
           log({unsubscribe: topic, priority: nPriority, sort: nFuncIndex, pid: nPid},"color:#fff;background:#333");
           if(aPriorityList[nFuncIndex]){
@@ -69,7 +69,7 @@ var events = {
     util.forEach(aMainList, function(aPriorityList, nPriority){
       if(aPriorityList){
         util.forEach(aPriorityList, function(oSub, nFuncIndex){
-          if(oSub && oSub.execute){
+          if(oSub && oSub.execute){// 有传pid，就执行对应pid。pid为0 就执行全部 包括有pid
             if(oSub.pid && nPid){ // 监听的事件有pid 并且有传入指定pid
               if(oSub.pid !== nPid){
                 log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': 'true', pid: oSub.pid, pass: 'true'}, "color:gray");
