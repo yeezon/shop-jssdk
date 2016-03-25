@@ -11,19 +11,27 @@ var fetchFunc = exports.fetch = function(callback){
   var sTopic = sModuleName + '.fetch';
   var sTopicDone = sTopic + '.done';
   //
-  var s_done = events.subscribe(sTopicDone, function(o){
-    if(type_of(callback) === 'function'){
+  var s_done;
+  var s_done_pid = new Date().getTime();
+  var bHasCallback = type_of(callback) === 'function';
+  // 当有回调函数时，才自行监听后回调然后销毁
+  if(bHasCallback){
+    s_done = events.subscribe(sTopicDone, function(o){
       callback(o);
-    }
-  });
+    }, 10, s_done_pid);
+  }
   //
   var s = events.subscribe(sTopic, function(o){
     var oPublish = {
       id: o.id,
       src: sFetchUrl + o.path
     };
+    if(bHasCallback){
+      events.publish(sTopicDone, oPublish, function(){
+        s_done.unsubscribe();
+      }, s_done_pid);
+    }
     events.publish(sTopicDone, oPublish);
-    s_done.unsubscribe();
   });
   //
   req.jsonp(sFetchUrl, {
