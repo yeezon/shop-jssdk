@@ -123,6 +123,7 @@ exports.register = function(param, callback){
  * &&&&` uname: 用户名
  * &&&&` email: 邮箱
  * &&&&` mobile: 手机号码
+ * &&` ^^^account^^^ 类型：String<br/>用户名/邮箱/手机号码
  * &&` ^^^password^^^ 类型：String<br/>密码
  * &&` ^^^password_again^^^ 类型：String<br/>重复密码
  * &&` ^^^verify_code^^^ 类型：String 选填<br/>手机验证码，当 type 为^^^mobile^^^必须提供，使用 [sendRegistValidateSms](#-sendregistvalidatesms-param-callback-) 获取
