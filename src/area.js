@@ -2,7 +2,7 @@ var req = require('./request.js');
 var type_of = require('./type-of.js');
 var util = require('./util.js');
 
-var sAreaDataVersion = '151107';
+var sAreaDataVersion = '160315';
 var sAreaDataHost = window.assetHost || '//asset.ibanquan.com/';  // 格式 //asset.ibanquan.com/
 var sAreaDataUrl = sAreaDataHost + 'common/js/areadata-' + sAreaDataVersion + '.js';
 
