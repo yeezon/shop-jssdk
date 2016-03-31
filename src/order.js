@@ -5,7 +5,8 @@ var util = require('./util.js');
 var aConfig = {
     receive: {},
     create: {method: 'POST'},
-    cancel: {method: 'POST'}
+    cancel: {method: 'POST'},
+    count: {}
 };
 
 var module = base('order', function(factory){
@@ -68,7 +69,7 @@ util.forEach(aConfig, function(value, key){
  * ```createPoly1
  * `` order
  * &` 类型：Object
- * &&` ^^^items^^^（选填） 类型：Json<br/>该订单包含的商品。如果使用此参数，则不使用离线购物车的数据。例如：<br/>^^^[{"variant_id":17,"quantity":1},{"variant_id":992,"quantity":2}]^^^ 
+ * &&` ^^^items^^^（选填） 类型：Json<br/>该订单包含的商品。如果使用此参数，则不使用离线购物车的数据。例如：<br/>^^^[{"variant_id":17,"quantity":1},{"variant_id":992,"quantity":2}]^^^
  * &&` ^^^name^^^ 类型：String 长度：255<br/>收货人姓名
  * &&` ^^^district_code^^^ 类型：String 长度：255<br/>收货区域编码（最后一级）
  * &&` ^^^detail^^^ 类型：String 长度：255<br/>详细收货地址
@@ -93,11 +94,21 @@ util.forEach(aConfig, function(value, key){
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
  *
+ * ```count
+ * `` config
+ * &` 类型：Object
+ * &&` ^^^shipment_status^^^ 类型：Number 选填<br/>指定物流状态，取值参考 [order.get([config,] callback)](#-get-config-callback-)
+ * &&` ^^^payment_status^^^ 类型：Number 选填<br/>指定物流状态，取值参考 [order.get([config,] callback)](#-get-config-callback-)<br/>例如：<br/>^^^payment_status=0^^^ - 待付款 <br/>^^^payment_status=2&shipment_status=0,3^^^ - 待发货<br/>^^^shipment_status=1^^^ - 待收货
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
+ * ```
+ *
  * @param {get} `order_no,callback` 获取指定订单
  * @param {getPoly1} `[config,]callback` 获取订单列表
  * @param {receive} `order,callback` 指定订单的指定运单确认收货
  * @param {create} `order,callback` 提交订单 （必须登录）
  * @param {createPoly1} `order,callback` 匿名提交订单（免登录下单），默认使用离线购物车
  * @param {cancel} `order,callback` 取消指定订单
+ * @param {count} `[config,]callback` 获取指定状态订单的数量
  *
  */
