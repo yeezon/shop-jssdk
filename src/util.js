@@ -122,8 +122,13 @@ exports.isMobile = function(sPhone){
 };
 //
 exports.isUsername = function(sUsername){
-  var rUsername = /^([a-z\u4e00-\u9fa5])[a-z0-9\u4e00-\u9fa5_-]{3,16}$/;
+  var rUsername = /^([A-Za-z\u4e00-\u9fa5])[A-Za-z0-9\u4e00-\u9fa5_-]{3,15}$/;
   return rUsername.test(sUsername);
+};
+//
+exports.isRealname = function(sRealname){
+  var rRealname = /^.{1,255}$/;
+  return rRealname.test(sRealname);
 };
 //
 exports.yuan = function(nFen){
@@ -226,6 +231,26 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * &` 类型：Function( 单个元素 )<br/>回调函数，返回^^^false^^^可停止遍历。
  * ```
  *
+ * ```isEmail
+ * `` email
+ * &` 类型：String<br/>需要检测是否合法的 email，合法则返回^^^true^^^，不合法则返回^^^false^^^。
+ * ```
+ *
+ * ```isMobile
+ * `` mobile
+ * &` 类型：String<br/>需要检测是否合法的中国大陆手机，合法则返回^^^true^^^，不合法则返回^^^false^^^。
+ * ```
+ *
+ * ```isUsername
+ * `` username
+ * &` 类型：String<br/>需要检测是否合法的用户名，合法则返回^^^true^^^，不合法则返回^^^false^^^。
+ * ```
+ *
+ * ```isRealname
+ * `` realname
+ * &` 类型：String<br/>需要检测是否合法的真实姓名，合法则返回^^^true^^^，不合法则返回^^^false^^^。
+ * ```
+ *
  * @param {setCookie} `name,value[,isForever]` 设置 cookie
  * @param {getCookie} `name` 读取 cookie
  * @param {getImageUrl} `image_id,image_name,image_size,image_epoch` 将图片对象转换为 url
@@ -233,5 +258,9 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * @param {setQuery} `key,value,url` 设置 url 中 search 部分的参数
  * @param {inArray} `element,array` 检查目标对象是否在数组中
  * @param {forEach} `collection,callback` 遍历数组或对象中的所有元素
+ * @param {isEmail} `email` 验证email是否合法
+ * @param {isMobile} `mobile` 验证手机号码是否合法（中国大陆）
+ * @param {isUsername} `username` 验证用户名是否合法
+ * @param {isRealname} `realname` 验证真实姓名是否合法
  *
  */
