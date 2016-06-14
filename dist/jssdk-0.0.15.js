@@ -1881,7 +1881,7 @@ module.exports = function(oResponse, oHandle){
       //  break;
       case 205:
         fAlertMessage();
-        break;
+        return oRes;
       case 207:
         fAlertMessage('liquidError');
         break;
