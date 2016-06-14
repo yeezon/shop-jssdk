@@ -116,6 +116,28 @@ var aConfig = {
       cart: false,
       is_clear: true
     });
+  },
+  multiRemove : function(){
+    var self = this;
+    self.get(); // 获取cartData
+    var aCart = self.cart || [];
+    //
+    var oParam  = getParam(oPublish, 'items');
+    var aRemovedCart = [];
+    util.forEach(aCart, function(oEach, index){
+      var is_match = false;
+      util.forEach(oParam.variant_ids, function(variant_id) {
+        if(oEach.variant_id === variant_id){
+          is_match = true;
+        }
+      })
+      if(!is_match){
+        aRemovedCart.push(oEach);
+      }
+    });
+    self.set({
+      cart: aRemovedCart
+    });
   }
 };
 
@@ -131,3 +153,4 @@ exports.checkOne = expo(module, 'checkOne');
 exports.checkAll = expo(module, 'checkAll');
 exports.removeOne = expo(module, 'removeOne');
 exports.removeAll = expo(module, 'removeAll');
+exports.multiRemove = expo(module, 'multiRemove');

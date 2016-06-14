@@ -14,6 +14,7 @@ var aConfig = {
   unCheckAll: {method: 'POST', url: 'all_uncheck'},
   removeOne: {method: 'POST', url: 'remove'},
   removeAll: {method: 'POST', url: 'all_remove'},
+  multiRemove: {method: 'POST', url: 'multi_remove'},
   withinShipments: {url: 'within_shipments'},
   mustShipping: {url: 'must_shipping'}
 };
@@ -54,6 +55,7 @@ var oLocalCartMap = {
   unCheckOne: 'checkOne',
   checkAll: 'checkAll',
   unCheckAll: 'checkAll',
+  multiRemove: 'multiRemove',
   removeOne: 'removeOne',
   removeAll: 'removeAll'
 };
@@ -125,6 +127,11 @@ util.forEach(oLocalCartMap, function(value, key){
               break;
             case 'removeAll':
               // 不需参数
+              break;
+            case 'multiRemove':
+              args.push({
+                items: oLocalCartParam
+              });
               break;
             default:
               args.push(oLocalCartParam);
@@ -254,6 +261,14 @@ util.forEach(oLocalCartMap, function(value, key){
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
  *
+ * ```multiRemove
+ * `` items
+ * &` 类型：Object
+ * &&` ^^^variant_ids^^^ 类型：Array[Number]<br/>商品价格的id组成的数组
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
+ * ```
+ *
  * ```withinShipments
  * `` param
  * &` 类型：Object
@@ -286,6 +301,7 @@ util.forEach(oLocalCartMap, function(value, key){
  * @param {unCheckAll} `callback` 取消选中所有商品
  * @param {removeOne} `item,callback` 删除购物车中的单个商品
  * @param {removeAll} `callback` 删除购物车中的所有商品
+ * @param {multiRemove} `items,callback` 删除购物车中的多个商品
  * @param {withinShipments} `param,callback` 获取带有物流信息的购物车（必须登录）
  * @param {withinShipmentsPoly1} `param,callback` 获取带有物流信息的购物车（未登录下单）
  * @param {mustShipping} `callback` 检查购物车是否需要物流

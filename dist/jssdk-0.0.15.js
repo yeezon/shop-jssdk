@@ -1109,6 +1109,7 @@ var aConfig = {
   unCheckAll: {method: 'POST', url: 'all_uncheck'},
   removeOne: {method: 'POST', url: 'remove'},
   removeAll: {method: 'POST', url: 'all_remove'},
+  multiRemove: {method: 'POST', url: 'multi_remove'},
   withinShipments: {url: 'within_shipments'},
   mustShipping: {url: 'must_shipping'}
 };
@@ -1149,6 +1150,7 @@ var oLocalCartMap = {
   unCheckOne: 'checkOne',
   checkAll: 'checkAll',
   unCheckAll: 'checkAll',
+  multiRemove: 'multiRemove',
   removeOne: 'removeOne',
   removeAll: 'removeAll'
 };
@@ -1220,6 +1222,11 @@ util.forEach(oLocalCartMap, function(value, key){
               break;
             case 'removeAll':
               // 不需参数
+              break;
+            case 'multiRemove':
+              args.push({
+                items: oLocalCartParam
+              });
               break;
             default:
               args.push(oLocalCartParam);
@@ -1349,6 +1356,14 @@ util.forEach(oLocalCartMap, function(value, key){
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
  *
+ * ```multiRemove
+ * `` items
+ * &` 类型：Object
+ * &&` ^^^variant_ids^^^ 类型：Array[Number]<br/>商品价格的id组成的数组
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
+ * ```
+ *
  * ```withinShipments
  * `` param
  * &` 类型：Object
@@ -1381,6 +1396,7 @@ util.forEach(oLocalCartMap, function(value, key){
  * @param {unCheckAll} `callback` 取消选中所有商品
  * @param {removeOne} `item,callback` 删除购物车中的单个商品
  * @param {removeAll} `callback` 删除购物车中的所有商品
+ * @param {multiRemove} `items,callback` 删除购物车中的多个商品
  * @param {withinShipments} `param,callback` 获取带有物流信息的购物车（必须登录）
  * @param {withinShipmentsPoly1} `param,callback` 获取带有物流信息的购物车（未登录下单）
  * @param {mustShipping} `callback` 检查购物车是否需要物流
@@ -2006,6 +2022,28 @@ var aConfig = {
       cart: false,
       is_clear: true
     });
+  },
+  multiRemove : function(){
+    var self = this;
+    self.get(); // 获取cartData
+    var aCart = self.cart || [];
+    //
+    var oParam  = getParam(oPublish, 'items');
+    var aRemovedCart = [];
+    util.forEach(aCart, function(oEach, index){
+      var is_match = false;
+      util.forEach(oParam.variant_ids, function(variant_id) {
+        if(oEach.variant_id === variant_id){
+          is_match = true;
+        }
+      })
+      if(!is_match){
+        aRemovedCart.push(oEach);
+      }
+    });
+    self.set({
+      cart: aRemovedCart
+    });
   }
 };
 
@@ -2021,6 +2059,7 @@ exports.checkOne = expo(module, 'checkOne');
 exports.checkAll = expo(module, 'checkAll');
 exports.removeOne = expo(module, 'removeOne');
 exports.removeAll = expo(module, 'removeAll');
+exports.multiRemove = expo(module, 'multiRemove');
 },{"./base.js":5,"./expo.js":13,"./util.js":27}],16:[function(require,module,exports){
 var util = require('./util.js');
 
@@ -2226,12 +2265,8 @@ util.forEach(aConfig, function(value, key){
  * ```count
  * `` config
  * &` 类型：Object
- * &&` ^^^shipment_status^^^ 类型：Number 选填<br/>指定物流状态，参数参考 `order.get([config,] callback)`
- * &&` ^^^payment_status^^^ 类型：Number 选填<br/>指定物流状态，参数参考 `order.get([config,] callback)`
- * &` 例如
- * &&` ^^^payment_status=0^^^： 待付款
- * &&` ^^^payment_status=2&shipment_status=0,3^^^： 待发货
- * &&` ^^^shipment_status=1^^^： 待收货
+ * &&` ^^^shipment_status^^^ 类型：Number 选填<br/>指定物流状态，取值参考 [order.get([config,] callback)](#-get-config-callback-)
+ * &&` ^^^payment_status^^^ 类型：Number 选填<br/>指定物流状态，取值参考 [order.get([config,] callback)](#-get-config-callback-)<br/>例如：<br/>^^^payment_status=0^^^ - 待付款 <br/>^^^payment_status=2&shipment_status=0,3^^^ - 待发货<br/>^^^shipment_status=1^^^ - 待收货
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
@@ -2782,8 +2817,13 @@ exports.isMobile = function(sPhone){
 };
 //
 exports.isUsername = function(sUsername){
-  var rUsername = /^([a-z\u4e00-\u9fa5])[a-z0-9\u4e00-\u9fa5_-]{3,16}$/;
+  var rUsername = /^([A-Za-z\u4e00-\u9fa5])[A-Za-z0-9\u4e00-\u9fa5_-]{3,15}$/;
   return rUsername.test(sUsername);
+};
+//
+exports.isRealname = function(sRealname){
+  var rRealname = /^.{1,255}$/;
+  return rRealname.test(sRealname);
 };
 //
 exports.yuan = function(nFen){
@@ -2886,6 +2926,26 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * &` 类型：Function( 单个元素 )<br/>回调函数，返回^^^false^^^可停止遍历。
  * ```
  *
+ * ```isEmail
+ * `` email
+ * &` 类型：String<br/>需要检测是否合法的 email，合法则返回^^^true^^^，不合法则返回^^^false^^^。
+ * ```
+ *
+ * ```isMobile
+ * `` mobile
+ * &` 类型：String<br/>需要检测是否合法的中国大陆手机，合法则返回^^^true^^^，不合法则返回^^^false^^^。
+ * ```
+ *
+ * ```isUsername
+ * `` username
+ * &` 类型：String<br/>需要检测是否合法的用户名，合法则返回^^^true^^^，不合法则返回^^^false^^^。
+ * ```
+ *
+ * ```isRealname
+ * `` realname
+ * &` 类型：String<br/>需要检测是否合法的真实姓名，合法则返回^^^true^^^，不合法则返回^^^false^^^。
+ * ```
+ *
  * @param {setCookie} `name,value[,isForever]` 设置 cookie
  * @param {getCookie} `name` 读取 cookie
  * @param {getImageUrl} `image_id,image_name,image_size,image_epoch` 将图片对象转换为 url
@@ -2893,6 +2953,10 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * @param {setQuery} `key,value,url` 设置 url 中 search 部分的参数
  * @param {inArray} `element,array` 检查目标对象是否在数组中
  * @param {forEach} `collection,callback` 遍历数组或对象中的所有元素
+ * @param {isEmail} `email` 验证email是否合法
+ * @param {isMobile} `mobile` 验证手机号码是否合法（中国大陆）
+ * @param {isUsername} `username` 验证用户名是否合法
+ * @param {isRealname} `realname` 验证真实姓名是否合法
  *
  */
 },{}],28:[function(require,module,exports){
