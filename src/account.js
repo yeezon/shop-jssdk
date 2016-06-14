@@ -14,6 +14,7 @@ var aConfig = {
   sendRegistValidateSms: {method: 'POST', url: 'send_regist_validate_sms'},
   sendResetValidateSms: {method: 'POST', url: 'send_reset_validate_sms'},
   resetPasswordWithMobile: {method: 'POST', url: 'reset_password_with_mobile'},
+  resetPasswordWithEmail: {method: 'POST', url: 'reset_password_with_email'},
   checkRegistMobile: {method: 'POST', url: 'check_regist_mobile'},
   checkResetMobile: {method: 'POST', url: 'check_reset_mobile'}
 };
@@ -171,6 +172,16 @@ exports.register = function(param, callback){
  * &&` ^^^message^^^ 类型：String<br/>发送信息失败原因（当 code 为 201 时）
  * ```
  *
+ * ```resetPasswordWithEmail
+ * `` param
+ * &` 类型：Object
+ * &&` ^^^email^^^ 类型：String<br/>需要重置密码的邮箱地址
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>发送重置邮件后的回调函数
+ * &&` ^^^code^^^ 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败
+ * &&` ^^^message^^^ 类型：String<br/>发送信息失败原因（当 code 为 201 时）
+ * ```
+ *
  * ```checkRegistMobile
  * `` param
  * &` 类型：Object
@@ -200,6 +211,7 @@ exports.register = function(param, callback){
  * @param {sendRegistValidateSms} `param,callback` 顾客注册手机号码账号时，获取手机验证码
  * @param {sendResetValidateSms} `param,callback` 顾客找回手机号码账号密码时，获取手机验证码
  * @param {resetPasswordWithMobile} `param,callback` 重设手机号码账号密码
+ * @param {resetPasswordWithEmail} `param,callback` 发送邮箱账号重置密码邮件
  * @param {checkRegistMobile} `param,callback` 检测手机是否未注册（多用于顾客注册手机号码账号时检测用）
  * @param {checkResetMobile} `param,callback` 检测手机是否已注册（用于顾客重设手机号码账号密码时检测用）
  *
