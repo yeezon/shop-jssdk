@@ -16,7 +16,8 @@ var aConfig = {
   resetPasswordWithMobile: {method: 'POST', url: 'reset_password_with_mobile'},
   resetPasswordWithEmail: {method: 'POST', url: 'reset_password_with_email'},
   checkRegistMobile: {method: 'POST', url: 'check_regist_mobile'},
-  checkResetMobile: {method: 'POST', url: 'check_reset_mobile'}
+  checkResetMobile: {method: 'POST', url: 'check_reset_mobile'},
+  rewardPointDetails: {method: 'GET', url: 'reward_point_details'}
 };
 
 var module = base('account', function(factory){
@@ -202,6 +203,14 @@ exports.register = function(param, callback){
  * &&` ^^^message^^^ 类型：String<br/>201：手机号码尚未注册或其他失败信息（当 code 为 201 时）
  * ```
  *
+ * ```rewardPointDetails
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>请求后的回调函数
+ * &&` ^^^reward_point_total^^^ 类型：Number<br/>账户积分总数
+ * &&` ^^^last_year_point^^^ 类型：Number<br/>账户上一年积分总数
+ * &&` ^^^reward_point_details^^^ Array<br/>账户积分详细信息
+ * ```
+ *
  * @param {current} `callback` 获取当前顾客信息
  * @param {login} `user,callback` 顾客登录
  * @param {logout} `callback` 顾客登出 （必须登录）
@@ -214,5 +223,6 @@ exports.register = function(param, callback){
  * @param {resetPasswordWithEmail} `param,callback` 发送邮箱账号重置密码邮件
  * @param {checkRegistMobile} `param,callback` 检测手机是否未注册（多用于顾客注册手机号码账号时检测用）
  * @param {checkResetMobile} `param,callback` 检测手机是否已注册（用于顾客重设手机号码账号密码时检测用）
+ * @param {rewardPointDetails} `param,callback` 获取当前账户积分详细信息
  *
  */
