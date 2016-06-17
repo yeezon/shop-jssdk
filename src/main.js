@@ -42,7 +42,7 @@ if(typeof window.yhsdDebug === 'undefined'){
 	window.yhsdDebug = false;
 }
 
-var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon'];
+var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point'];
 
 function checkModule(moduleName){
 	return (util.inArray(moduleName, aInitModule) > -1);
@@ -62,6 +62,7 @@ YHSD.product = checkModule('product') ? require('./product.js') : {};
 YHSD.type = checkModule('type') ? require('./type.js') : {};
 YHSD.vendor = checkModule('vendor') ? require('./vendor.js') : {};
 YHSD.coupon = checkModule('coupon') ? require('./coupon.js') : {};
+YHSD.reward_point = checkModule('reward_point') ? require('./reward_point.js') : {};
 
 function checkTokenInit(){
 	if(window.ajaxToken){

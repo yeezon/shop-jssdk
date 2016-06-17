@@ -217,7 +217,7 @@ exports.register = function(param, callback){
  * @param {checkResetMobile} `param,callback` 检测手机是否已注册（用于顾客重设手机号码账号密码时检测用）
  *
  */
-},{"./base.js":5,"./expo.js":13,"./util.js":27}],2:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13,"./util.js":28}],2:[function(require,module,exports){
 var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
@@ -315,7 +315,7 @@ util.forEach(aConfig, function(value, key){
  * @param {remove} `address,callback` 删除收货人地址 （必须登录）
  *
  */
-},{"./base.js":5,"./expo.js":13,"./util.js":27}],3:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13,"./util.js":28}],3:[function(require,module,exports){
 // https://github.com/ForbesLindesay/ajax
 /* jshint ignore:start */
 var util = require('./util.js');
@@ -623,7 +623,7 @@ function extend(target) {
 }
 
 /* jshint ignore:end */
-},{"./type-of.js":24,"./util.js":27}],4:[function(require,module,exports){
+},{"./type-of.js":25,"./util.js":28}],4:[function(require,module,exports){
 var req = require('./request.js');
 var type_of = require('./type-of.js');
 var util = require('./util.js');
@@ -821,7 +821,7 @@ exports.getData = function(type, callback){
  * @param {getData} `type,callback` 获取完整地区数据
  *
  */
-},{"./request.js":22,"./type-of.js":24,"./util.js":27}],5:[function(require,module,exports){
+},{"./request.js":22,"./type-of.js":25,"./util.js":28}],5:[function(require,module,exports){
 var core = require('./core.js');
 var events = require('./events.js');
 var util = require('./util.js');
@@ -962,7 +962,7 @@ module.exports = function(sName, func){
   return new base();
 
 };
-},{"./core.js":9,"./events.js":12,"./type-of.js":24,"./util.js":27}],6:[function(require,module,exports){
+},{"./core.js":9,"./events.js":12,"./type-of.js":25,"./util.js":28}],6:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -1104,7 +1104,7 @@ autoFetch();
  * @param {autoFetch} `isAuto` 启用/停用自动获取图片验证码
  *
  */
-},{"./events.js":12,"./request.js":22,"./type-of.js":24}],8:[function(require,module,exports){
+},{"./events.js":12,"./request.js":22,"./type-of.js":25}],8:[function(require,module,exports){
 var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
@@ -1414,7 +1414,7 @@ util.forEach(oLocalCartMap, function(value, key){
  * @param {mustShipping} `callback` 检查购物车是否需要物流
  *
  */
-},{"./base.js":5,"./events.js":12,"./expo.js":13,"./localcart.js":15,"./util.js":27}],9:[function(require,module,exports){
+},{"./base.js":5,"./events.js":12,"./expo.js":13,"./localcart.js":15,"./util.js":28}],9:[function(require,module,exports){
 var events = require('./events.js');
 var req = require('./request.js');
 var handle = require('./handle.js');
@@ -1470,7 +1470,7 @@ exports.apiEvents = function(topic, url, method){
     });
   });
 };
-},{"./events.js":12,"./handle.js":14,"./request.js":22,"./util.js":27}],10:[function(require,module,exports){
+},{"./events.js":12,"./handle.js":14,"./request.js":22,"./util.js":28}],10:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 var util = require('./util.js');
@@ -1553,7 +1553,7 @@ util.forEach(aConfig, function(value, key){
  * @param {verify} `code,callback` 验证优惠码对于当前购物车是否可用
  *
  */
-},{"./base.js":5,"./expo.js":13,"./util.js":27}],11:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13,"./util.js":28}],11:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 var util = require('./util.js');
@@ -1681,7 +1681,7 @@ util.forEach(aConfig, function(value, key){
  * @param {matchProduct} `handle,callback` 获取指定商品相关的营销活动
  *
  */
-},{"./base.js":5,"./expo.js":13,"./util.js":27}],12:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13,"./util.js":28}],12:[function(require,module,exports){
 var util = require('./util.js');
 var log = require('./log.js');
 
@@ -1823,7 +1823,7 @@ exports.messages = events.messages;
  * @param {publish} `topic,data` 发布事件
  *
  */
-},{"./log.js":16,"./util.js":27}],13:[function(require,module,exports){
+},{"./log.js":16,"./util.js":28}],13:[function(require,module,exports){
 var type_of = require('./type-of.js');
 var util = require('./util.js');
 
@@ -1850,7 +1850,7 @@ module.exports = function(moduleObj, name){
     moduleObj[name].apply(moduleObj, args);
   };
 };
-},{"./type-of.js":24,"./util.js":27}],14:[function(require,module,exports){
+},{"./type-of.js":25,"./util.js":28}],14:[function(require,module,exports){
 var events = require('./events.js');
 
 module.exports = function(oResponse, oHandle){
@@ -2072,7 +2072,7 @@ exports.checkAll = expo(module, 'checkAll');
 exports.removeOne = expo(module, 'removeOne');
 exports.removeAll = expo(module, 'removeAll');
 exports.multiRemove = expo(module, 'multiRemove');
-},{"./base.js":5,"./expo.js":13,"./util.js":27}],16:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13,"./util.js":28}],16:[function(require,module,exports){
 var util = require('./util.js');
 
 module.exports = function(info, option){
@@ -2091,7 +2091,7 @@ module.exports = function(info, option){
     }
   }
 };
-},{"./util.js":27}],17:[function(require,module,exports){
+},{"./util.js":28}],17:[function(require,module,exports){
 var req = require('./request.js');
 var handle = require('./handle.js');
 var events = require('./events.js');
@@ -2136,7 +2136,7 @@ if(typeof window.yhsdDebug === 'undefined'){
 	window.yhsdDebug = false;
 }
 
-var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon'];
+var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point'];
 
 function checkModule(moduleName){
 	return (util.inArray(moduleName, aInitModule) > -1);
@@ -2156,6 +2156,7 @@ YHSD.product = checkModule('product') ? require('./product.js') : {};
 YHSD.type = checkModule('type') ? require('./type.js') : {};
 YHSD.vendor = checkModule('vendor') ? require('./vendor.js') : {};
 YHSD.coupon = checkModule('coupon') ? require('./coupon.js') : {};
+YHSD.reward_point = checkModule('reward_point') ? require('./reward_point.js') : {};
 
 function checkTokenInit(){
 	if(window.ajaxToken){
@@ -2177,7 +2178,7 @@ function jssdkInit(){
 }
 
 checkTokenInit();
-},{"./account.js":1,"./address.js":2,"./area.js":4,"./blog.js":6,"./captcha.js":7,"./cart.js":8,"./coupon.js":10,"./discount.js":11,"./events.js":12,"./handle.js":14,"./order.js":18,"./page.js":19,"./payment_method.js":20,"./product.js":21,"./request.js":22,"./shop.js":23,"./type-of.js":24,"./type.js":25,"./util.js":27,"./vendor.js":28,"./version.js":29}],18:[function(require,module,exports){
+},{"./account.js":1,"./address.js":2,"./area.js":4,"./blog.js":6,"./captcha.js":7,"./cart.js":8,"./coupon.js":10,"./discount.js":11,"./events.js":12,"./handle.js":14,"./order.js":18,"./page.js":19,"./payment_method.js":20,"./product.js":21,"./request.js":22,"./reward_point.js":23,"./shop.js":24,"./type-of.js":25,"./type.js":26,"./util.js":28,"./vendor.js":29,"./version.js":30}],18:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 var util = require('./util.js');
@@ -2293,7 +2294,7 @@ util.forEach(aConfig, function(value, key){
  *
  */
 
-},{"./base.js":5,"./expo.js":13,"./util.js":27}],19:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13,"./util.js":28}],19:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -2377,7 +2378,7 @@ util.forEach(aConfig, function(value, key){
  * @param {getPoly1} `param,callback` 获取支付方式（免登录下单），默认使用离线购物车
  *
  */
-},{"./base.js":5,"./expo.js":13,"./util.js":27}],21:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13,"./util.js":28}],21:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -2518,7 +2519,38 @@ exports.jsonp = function(){
 	_checkArg(arguments);
 	req._jsonp(arguments[0], arguments[1]);
 };
-},{"./ajax.js":3,"./uri.js":26}],23:[function(require,module,exports){
+},{"./ajax.js":3,"./uri.js":27}],23:[function(require,module,exports){
+var base = require('./base.js');
+var expo = require('./expo.js');
+var util = require('./util.js');
+
+var aConfig = {
+    get: {url: ''}
+};
+
+var module = base('reward_point', function(factory){
+  //
+  //
+  factory.createByConfig(aConfig);
+  //
+});
+
+util.forEach(aConfig, function(value, key){
+  exports[key] = expo(module, key);
+});
+
+/**
+ * 订单
+ *
+ * ```get
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * ```
+ *
+ * @param {get} `callback` 获取当前店铺积分信息
+ *
+ */
+},{"./base.js":5,"./expo.js":13,"./util.js":28}],24:[function(require,module,exports){
 var base = require('./base.js');
 var type_of = require('./type-of.js');
 var expo = require('./expo.js');
@@ -2595,7 +2627,7 @@ exports.protecting = expo(module, 'protecting');
  * @param {protecting} `password,callback` 提交店铺保护密码
  *
  */
-},{"./base.js":5,"./expo.js":13,"./type-of.js":24}],24:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13,"./type-of.js":25}],25:[function(require,module,exports){
 /* jshint ignore:start */
 
 var toString = Object.prototype.toString
@@ -2629,7 +2661,7 @@ module.exports = function(val){
 }
 
 /* jshint ignore:end */
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -2691,7 +2723,7 @@ exports.get = expo(module, 'get');
  * @param {getPoly1} `[config,]callback` 获取分类列表
  *
  */
-},{"./base.js":5,"./expo.js":13}],26:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13}],27:[function(require,module,exports){
 module.exports = function(sPath){
   //
   var sBase = '/api';
@@ -2704,7 +2736,7 @@ module.exports = function(sPath){
   }
 
 };
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 // 设置cookie
 exports.setCookie = function(name, value, isForever, domain){
   var sDomain;
@@ -2971,7 +3003,7 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * @param {isRealname} `realname` 验证真实姓名是否合法
  *
  */
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -3033,7 +3065,7 @@ exports.get = expo(module, 'get');
  * @param {getPoly1} `[config,]callback` 获取品牌列表
  *
  */
-},{"./base.js":5,"./expo.js":13}],29:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":13}],30:[function(require,module,exports){
 exports.get = function(){
 	return '0.0.15';
 };

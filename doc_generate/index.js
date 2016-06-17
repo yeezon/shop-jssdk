@@ -8,7 +8,7 @@ var app = express();
 app.use(logger('dev'));
 
 var baseUrl = '../src/';
-var docArray = [ 'util', 'shop', 'account', 'address', 'area', 'blog', 'cart', 'discount', 'coupon', 'option', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'events', 'captcha'];
+var docArray = [ 'util', 'shop', 'account', 'address', 'area', 'blog', 'cart', 'discount', 'coupon', 'option', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'events', 'captcha', 'reward_point'];
 var docExt = '.js';
 var sNav = '<button style="margin:8px 4px" onclick="window.location.href=\'/?q=#{q}\';">#{q}</button> ';
 
