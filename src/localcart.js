@@ -117,7 +117,7 @@ var aConfig = {
       is_clear: true
     });
   },
-  multiRemove : function(){
+  multiRemove : function(oPublish){
     var self = this;
     self.get(); // 获取cartData
     var aCart = self.cart || [];
