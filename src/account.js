@@ -204,11 +204,20 @@ exports.register = function(param, callback){
  * ```
  *
  * ```rewardPointDetails
+ * `` param
+ * &` 类型：Object
+ * &&` ^^^three_month_ago^^^ 类型：Boolean 选填<br/>三个月前的积分
+ * &&` ^^^last_three_month^^^ 类型：Boolean 选填<br/>三个月内的积分
+ * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
+ * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码
+ * &&` ^^^nopage^^^ 类型：String 选填<br/>指定是否分页
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>请求后的回调函数
  * &&` ^^^reward_point_total^^^ 类型：Number<br/>账户积分总数
  * &&` ^^^last_year_point^^^ 类型：Number<br/>账户上一年积分总数
- * &&` ^^^reward_point_details^^^ Array<br/>账户积分详细信息
+ * &&` ^^^reward_point_details^^^ 类型：Array<br/>账户积分详细信息
+ * &&` ^^^is_empty^^^ 类型：Boolean<br/>是否为空
+ * &&` 返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
  * ```
  *
  * @param {current} `callback` 获取当前顾客信息

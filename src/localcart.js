@@ -130,7 +130,7 @@ var aConfig = {
         if(oEach.variant_id === variant_id){
           is_match = true;
         }
-      })
+      });
       if(!is_match){
         aRemovedCart.push(oEach);
       }

@@ -62,6 +62,7 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^bank_code_id^^^（选填） 类型：Number<br/>支付银行id，当 payment_method_id 为银行卡支付方式时必填
  * &&` ^^^remark^^^（选填） 类型：String<br/>订单备注
  * &&` ^^^shipments^^^ 类型：Json<br/>配送方式Json对象。例如：<br/>^^^[{"id":59,"shipment_method_id":90},{"id":61,"shipment_method_id":81}]^^^
+ * &&` ^^^reward_point^^^（选填） 类型：Number<br/>使用的积分数量。
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
@@ -81,6 +82,7 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^bank_code_id^^^（选填） 类型：Number<br/>支付银行id，当 payment_method_id 为银行卡支付方式时必填
  * &&` ^^^remark^^^（选填） 类型：String<br/>订单备注。
  * &&` ^^^shipments^^^ 类型：Json<br/>配送方式Json对象。例如：<br/>^^^[{"id":59,"shipment_method_id":90},{"id":61,"shipment_method_id":81}]^^^
+ * &&` ^^^reward_point^^^（选填） 类型：Number<br/>使用的积分数量。
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
