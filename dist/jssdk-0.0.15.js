@@ -1087,10 +1087,7 @@ var Calculator = function() {
     };
     //
     OrderCalculator.get = function(callback) {
-        if(cache) {
-            callback && callback(cache); // jshint ignore:line
-            return cache;
-        } else {
+        if(!cache) {
             this.calculate();
             cache = {
                 item_amount:                 this.item_amount,
@@ -1108,12 +1105,16 @@ var Calculator = function() {
                 reward_point_max:            this.reward_point_max,
                 reward_point_use:            this.reward_point_use
             };
-            callback && callback(cache); // jshint ignore:line
+        }
+        if(callback) {
+            callback(cache);
+        } else {
             return cache;
         }
     };
     //
     OrderCalculator.help = function() {
+        console.log('item_amount: 商品总金额');
         console.log('shipment_amount: 运费总金额');
         console.log('discount_amount: 不含免邮的优惠活动折扣金额');
         console.log('coupon_discount_amount: 优惠券折扣金额');
@@ -3130,6 +3131,27 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * &` 类型：String<br/>需要检测是否合法的真实姓名，合法则返回^^^true^^^，不合法则返回^^^false^^^。
  * ```
  *
+ * ```orderCalculator
+ * `` return
+ * &` 调用此方法将返回一个计算器实例，具有以下方法：
+ * &&` ^^^update(object)^^^：更新数据，参数形如^^^{item_amount: 90}^^^，可接收的^^^key^^^及其具体意义可以调用^^^help^^^方法查看
+ * &&` ^^^get([callback])^^^：返回订单计算结果，可接受一个回调函数，参数为订单计算结果
+ * &&` ^^^help()^^^：在控制台打印帮助信息
+ * &&&
+ * &&& ^^^
+ * &&& var Calc = Jssdk.util.orderCalculator();
+ * &&& Calc.update({
+ * &&&     item_amount: 90, // 商品总金额
+ * &&&     shipment_amount: 10 // 运费总金额
+ * &&& });
+ * &&& var final_amount;
+ * &&& Calc.get(function(result) {
+ * &&&     final_amount = result.final_amount; //实付金额
+ * &&& });
+ * &&& console.log(final_amount); // 100
+ * &&& ^^^
+ * ```
+ *
  * @param {setCookie} `name,value[,isForever]` 设置 cookie
  * @param {getCookie} `name` 读取 cookie
  * @param {getImageUrl} `image_id,image_name,image_size,image_epoch` 将图片对象转换为 url
@@ -3141,6 +3163,7 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * @param {isMobile} `mobile` 验证手机号码是否合法（中国大陆）
  * @param {isUsername} `username` 验证用户名是否合法
  * @param {isRealname} `realname` 验证真实姓名是否合法
+ * @param {orderCalculator} 创建一个订单金额计算器
  *
  */
 },{"./calculator.js":7}],30:[function(require,module,exports){

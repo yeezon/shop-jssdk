@@ -59,10 +59,7 @@ var Calculator = function() {
     };
     //
     OrderCalculator.get = function(callback) {
-        if(cache) {
-            callback && callback(cache); // jshint ignore:line
-            return cache;
-        } else {
+        if(!cache) {
             this.calculate();
             cache = {
                 item_amount:                 this.item_amount,
@@ -80,12 +77,16 @@ var Calculator = function() {
                 reward_point_max:            this.reward_point_max,
                 reward_point_use:            this.reward_point_use
             };
-            callback && callback(cache); // jshint ignore:line
+        }
+        if(callback) {
+            callback(cache);
+        } else {
             return cache;
         }
     };
     //
     OrderCalculator.help = function() {
+        console.log('item_amount: 商品总金额');
         console.log('shipment_amount: 运费总金额');
         console.log('discount_amount: 不含免邮的优惠活动折扣金额');
         console.log('coupon_discount_amount: 优惠券折扣金额');
