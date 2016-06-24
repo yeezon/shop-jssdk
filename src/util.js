@@ -1,3 +1,6 @@
+// 订单金额计算器
+exports.orderCalculator = require('./calculator.js');
+
 // 设置cookie
 exports.setCookie = function(name, value, isForever, domain){
   var sDomain;
