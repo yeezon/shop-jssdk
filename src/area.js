@@ -67,6 +67,33 @@ var getLocalAreaData = function(){
 	return result;
 };
 
+var filterAreaData = function(data, whiteList){
+	if(whiteList && type_of(whiteList) === 'array') {
+		var _whiteList = whiteList.concat(),
+			filteredData = [],
+			i, j;
+		for(i = 0; i < data.length; i++) {
+			if(_whiteList.length === 0) {
+				break;
+			}
+			for(j = 0; j < _whiteList.length; j++) {
+				if(data[i][0] === _whiteList[j]) {
+					filteredData.push(data[i]);
+					_whiteList.splice(j, 1);
+					break;
+				}
+			}
+		}
+		if(filteredData.length === 0) {
+			return data;
+		} else {
+			return filteredData;
+		}
+	} else {
+		return data;
+	}
+};
+
 var areaFindNext = function(code, callback){
     var aFind = [];
     util.forEach(oAreaData.sub, function(oSub, idx){
@@ -128,12 +155,12 @@ var areaFindPrev = function(code, callback){
 	}
 };
 
-exports.findNext = function(code, callback){
+exports.findNext = function(code, callback, whiteList){
 	var args = arguments;
 	initAreaData(function(){
-		if(args.length == 2){
+		if(args.length > 1){
 			areaFindNext(code, function(o){
-				callback(o);
+				callback(filterAreaData(o, whiteList));
 			});
 		}
 	});
@@ -150,10 +177,10 @@ exports.findPrev = function(code, callback){
 	});
 };
 
-exports.getData = function(type, callback){
+exports.getData = function(type, callback, whiteList){
 	initAreaData(function(){
 		if(type_of(callback) === 'function'){
-			callback(oAreaData[type]);
+			callback(filterAreaData(oAreaData[type], whiteList));
 		}
 	});
 };
@@ -167,6 +194,8 @@ exports.getData = function(type, callback){
  * &` 类型：String<br/>六位的地区编码。
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数。如果返回空数组，则当前传入地区编码已是最后一级。<br/>*传入无对应地区的六位编码，也会返回空数组。请保证传入编码的正确性。*
+ * `` whiteList
+ * &` 类型：Array<String><br/>地址白名单。<br/>*只需关注被允许区域的code，比如广东只允许深圳，只要填入深圳的code:440300。*<br/>*如果省份也只允许广东则要填入广东的code:440000，与填入code同级的区域会被自动过滤，要展示其他同级区域需手动填入。*<br/>*如果某一级没有填入code则会展示所有。*
  * ```
  *
  * ```findPrev
@@ -188,10 +217,12 @@ exports.getData = function(type, callback){
  * &` 类型：String<br/>需要获取的地区信息类型。<br/>^^^main^^^ - 省级单位，包括直辖市等。对应地区信息中的省（province）<br/>^^^sub^^^ - 城市、地区等。对应地区信息中的市（city）、地区（district）
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>返回对应的地区信息列表
+ * `` whiteList
+ * &` 类型：Array<String><br/>地址白名单。<br/>*只需关注被允许区域的code，比如广东只允许深圳，只要填入深圳的code:440300。*<br/>*如果省份也只允许广东则要填入广东的code:440000，与填入code同级的区域会被自动过滤，要展示其他同级区域需手动填入。*<br/>*如果某一级没有填入code则会展示所有。*
  * ```
  *
- * @param {findNext} `code,callback` 获取当前 code 对应的下级地区信息
+ * @param {findNext} `code,callback,whiteList` 获取当前 code 对应的下级地区信息
  * @param {findPrev} `code,callback` 获取当前 code 对应的地区信息与所有上级地区信息
- * @param {getData} `type,callback` 获取完整地区数据
+ * @param {getData} `type,callback,whiteList` 获取完整地区数据
  *
  */
