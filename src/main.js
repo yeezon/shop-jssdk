@@ -64,16 +64,6 @@ YHSD.vendor = checkModule('vendor') ? require('./vendor.js') : {};
 YHSD.coupon = checkModule('coupon') ? require('./coupon.js') : {};
 YHSD.reward_point = checkModule('reward_point') ? require('./reward_point.js') : {};
 
-function checkTokenInit(){
-	if(window.ajaxToken){
-		jssdkInit();
-	}else{
-		setTimeout(function(){
-			checkTokenInit();
-		}, 100);
-	}
-}
-
 function jssdkInit(){
 	if(aFunctionReady.length === 0){
 		bHasInit = true;
@@ -83,4 +73,23 @@ function jssdkInit(){
 	}
 }
 
-checkTokenInit();
+(function(){
+	var ajaxToken = null;
+	if('ajaxToken' in window) {
+		jssdkInit();
+	} else {
+		Object.defineProperty(window, 'ajaxToken', {
+			set: function(token){
+				if(!ajaxToken) {
+					ajaxToken = token;
+					jssdkInit();
+				} else {
+					ajaxToken = token;
+				}
+			},
+			get: function(){
+				return ajaxToken;
+			}
+		});
+	}
+})();
