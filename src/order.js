@@ -63,6 +63,10 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^remark^^^（选填） 类型：String<br/>订单备注
  * &&` ^^^shipments^^^ 类型：Json<br/>配送方式Json对象。例如：<br/>^^^[{"id":59,"shipment_method_id":90},{"id":61,"shipment_method_id":81}]^^^
  * &&` ^^^reward_point^^^（选填） 类型：Number<br/>使用的积分数量。
+ * &&` ^^^meta_fields^^^（选填） 类型：Json<br/>拓展订单对象数据Json对象，参考 [Metafields API](/app/s/553e347e0abc3e6f3e000038)
+ * &&&&` `name`（必填） 类型：String<br/>Metafield 的唯一字符串标识<br/>特殊值`order_attributes`，此时`fields`内的键值对将会展示在“管理后台-订单详情-附加信息”里
+ * &&&&` `description`（必填） 类型：String<br/>Metafield 的说明，最多 2000 个字符
+ * &&&&` `fields`（必填） 类型：Object<br/>Metafield 的字段，Key-Value 结构对象
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
@@ -83,6 +87,10 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^remark^^^（选填） 类型：String<br/>订单备注。
  * &&` ^^^shipments^^^ 类型：Json<br/>配送方式Json对象。例如：<br/>^^^[{"id":59,"shipment_method_id":90},{"id":61,"shipment_method_id":81}]^^^
  * &&` ^^^reward_point^^^（选填） 类型：Number<br/>使用的积分数量。
+ * &&` ^^^meta_fields^^^（选填） 类型：Json<br/>拓展订单对象数据Json对象，参考 [Metafields API](/app/s/553e347e0abc3e6f3e000038)
+ * &&&&` `name`（必填） 类型：String<br/>Metafield 的唯一字符串标识<br/>特殊值`order_attributes`，此时`fields`内的键值对将会展示在“管理后台-订单详情-附加信息”里
+ * &&&&` `description`（必填） 类型：String<br/>Metafield 的说明，最多 2000 个字符
+ * &&&&` `fields`（必填） 类型：Object<br/>Metafield 的字段，Key-Value 结构对象
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
