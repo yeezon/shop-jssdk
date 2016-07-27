@@ -111,6 +111,13 @@ exports.register = function(param, callback){
  * &` 类型：Object
  * &&` ^^^notify_email^^^ 类型：String<br/>顾客用于接收通知的邮箱
  * &&` ^^^notify_phone^^^ 类型：String<br/>顾客用于接收通知的手机
+ * &&` ^^^real_name^^^ 类型：String<br/>真实姓名
+ * &&` ^^^sex^^^ 类型：String<br/>性别，可选的值包括：
+ * &&&&` nale: 男
+ * &&&&` female: 女
+ * &&&&` undefined: 保密
+ * &&` ^^^birthday^^^ 类型：String<br/>生日，如"1926-08-17"
+ * &&` ^^^indentity_card^^^ 类型：String<br/>身份证号码
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>更新后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：更新信息成功<br/>201：更新信息失败
