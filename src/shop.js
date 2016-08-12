@@ -38,6 +38,7 @@ exports.protecting = expo(module, 'protecting');
  * &&` ^^^page_desc^^^ 当前页面description
  * &&` ^^^is_mobile_agent^^^ 是否移动设备（根据当前User-Agent判断）
  * &&` ^^^current_datetime^^^ 当前时间
+ * &&` ^^^customer_level^^^ 店铺顾客等级数据。
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
  * &&& ^^^
@@ -49,7 +50,8 @@ exports.protecting = expo(module, 'protecting');
  * &&&   "page_title" : "买买买 - 不用选，直接买",
  * &&&   "page_desc" : "我们致力于解决选择困难症用户选购商品时的烦恼。我们帮你挑好了，你只需要买买买。",
  * &&&   "is_mobile_agent" : "",
- * &&&   "current_datetime" : "2015-05-28T10:51:43.060+08:00"
+ * &&&   "current_datetime" : "2015-05-28T10:51:43.060+08:00",
+ * &&&   "customer_level" : [ ... ]
  * &&& }
  * &&& ^^^
  * ```
