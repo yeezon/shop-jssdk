@@ -109,7 +109,7 @@ var Calculator = function() {
         },
         help: function() {
             OrderCalculator.help();
-        },
+        }
     };
 };
 

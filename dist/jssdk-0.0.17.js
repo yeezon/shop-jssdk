@@ -112,6 +112,13 @@ exports.register = function(param, callback){
  * &` 类型：Object
  * &&` ^^^notify_email^^^ 类型：String<br/>顾客用于接收通知的邮箱
  * &&` ^^^notify_phone^^^ 类型：String<br/>顾客用于接收通知的手机
+ * &&` ^^^real_name^^^ 类型：String<br/>真实姓名
+ * &&` ^^^sex^^^ 类型：String<br/>性别，可选的值包括：
+ * &&&&` nale: 男
+ * &&&&` female: 女
+ * &&&&` undefined: 保密
+ * &&` ^^^birthday^^^ 类型：String<br/>生日，如"1926-08-17"
+ * &&` ^^^indentity_card^^^ 类型：String<br/>身份证号码
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>更新后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：更新信息成功<br/>201：更新信息失败
@@ -1168,7 +1175,7 @@ var Calculator = function() {
         },
         help: function() {
             OrderCalculator.help();
-        },
+        }
     };
 };
 
@@ -2419,7 +2426,12 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^bank_code_id^^^（选填） 类型：Number<br/>支付银行id，当 payment_method_id 为银行卡支付方式时必填
  * &&` ^^^remark^^^（选填） 类型：String<br/>订单备注
  * &&` ^^^shipments^^^ 类型：Json<br/>配送方式Json对象。例如：<br/>^^^[{"id":59,"shipment_method_id":90},{"id":61,"shipment_method_id":81}]^^^
- * &&` ^^^reward_point^^^（选填） 类型：Number<br/>使用的积分数量。
+ * &&` ^^^coupon_code^^^（选填） 类型：String<br/>优惠券编码
+ * &&` ^^^reward_point^^^（选填） 类型：Number<br/>使用的积分数量
+ * &&` ^^^meta_fields^^^（选填） 类型：Json<br/>拓展订单对象数据Json对象，参考 [Metafields API](/app/s/553e347e0abc3e6f3e000038)
+ * &&&&` `name`（必填） 类型：String<br/>Metafield 的唯一字符串标识<br/>特殊值`order_attributes`，此时`fields`内的键值对将会展示在“管理后台-订单详情-附加信息”里
+ * &&&&` `description`（必填） 类型：String<br/>Metafield 的说明，最多 2000 个字符
+ * &&&&` `fields`（必填） 类型：Object<br/>Metafield 的字段，Key-Value 结构对象
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
@@ -2439,7 +2451,12 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^bank_code_id^^^（选填） 类型：Number<br/>支付银行id，当 payment_method_id 为银行卡支付方式时必填
  * &&` ^^^remark^^^（选填） 类型：String<br/>订单备注。
  * &&` ^^^shipments^^^ 类型：Json<br/>配送方式Json对象。例如：<br/>^^^[{"id":59,"shipment_method_id":90},{"id":61,"shipment_method_id":81}]^^^
- * &&` ^^^reward_point^^^（选填） 类型：Number<br/>使用的积分数量。
+ * &&` ^^^coupon_code^^^（选填） 类型：String<br/>优惠券编码
+ * &&` ^^^reward_point^^^（选填） 类型：Number<br/>使用的积分数量
+ * &&` ^^^meta_fields^^^（选填） 类型：Json<br/>拓展订单对象数据Json对象，参考 [Metafields API](/app/s/553e347e0abc3e6f3e000038)
+ * &&&&` `name`（必填） 类型：String<br/>Metafield 的唯一字符串标识<br/>特殊值`order_attributes`，此时`fields`内的键值对将会展示在“管理后台-订单详情-附加信息”里
+ * &&&&` `description`（必填） 类型：String<br/>Metafield 的说明，最多 2000 个字符
+ * &&&&` `fields`（必填） 类型：Object<br/>Metafield 的字段，Key-Value 结构对象
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
@@ -2770,6 +2787,7 @@ exports.protecting = expo(module, 'protecting');
  * &&` ^^^page_desc^^^ 当前页面description
  * &&` ^^^is_mobile_agent^^^ 是否移动设备（根据当前User-Agent判断）
  * &&` ^^^current_datetime^^^ 当前时间
+ * &&` ^^^customer_level^^^ 店铺顾客等级数据。
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
  * &&& ^^^
@@ -2781,7 +2799,8 @@ exports.protecting = expo(module, 'protecting');
  * &&&   "page_title" : "买买买 - 不用选，直接买",
  * &&&   "page_desc" : "我们致力于解决选择困难症用户选购商品时的烦恼。我们帮你挑好了，你只需要买买买。",
  * &&&   "is_mobile_agent" : "",
- * &&&   "current_datetime" : "2015-05-28T10:51:43.060+08:00"
+ * &&&   "current_datetime" : "2015-05-28T10:51:43.060+08:00",
+ * &&&   "customer_level" : [ ... ]
  * &&& }
  * &&& ^^^
  * ```
@@ -3246,6 +3265,7 @@ exports.get = expo(module, 'get');
  * &&` ^^^search^^^ 类型：String 选填<br/>指定品牌包含的文字
  * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
  * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码
+ * &&` ^^^available^^^ 值：`true` 选填<br/>筛选包含商品的品牌
  * `` callback
  * &` 类型：Function( 返回对象 [查看详情](/development/s/54325a1571ea1e560f00000d) )<br/>获取信息后的回调函数<br/>返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
  * &&& ^^^
