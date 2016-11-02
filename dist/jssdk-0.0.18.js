@@ -243,7 +243,7 @@ exports.register = function(param, callback){
  * @param {rewardPointDetails} `param,callback` 获取当前账户积分详细信息
  *
  */
-},{"./base.js":5,"./expo.js":14,"./util.js":29}],2:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14,"./util.js":31}],2:[function(require,module,exports){
 var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
@@ -341,7 +341,7 @@ util.forEach(aConfig, function(value, key){
  * @param {remove} `address,callback` 删除收货人地址 （必须登录）
  *
  */
-},{"./base.js":5,"./expo.js":14,"./util.js":29}],3:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14,"./util.js":31}],3:[function(require,module,exports){
 // https://github.com/ForbesLindesay/ajax
 /* jshint ignore:start */
 var util = require('./util.js');
@@ -649,7 +649,7 @@ function extend(target) {
 }
 
 /* jshint ignore:end */
-},{"./type-of.js":26,"./util.js":29}],4:[function(require,module,exports){
+},{"./type-of.js":28,"./util.js":31}],4:[function(require,module,exports){
 var req = require('./request.js');
 var type_of = require('./type-of.js');
 var util = require('./util.js');
@@ -878,7 +878,7 @@ exports.getData = function(type, callback, whiteList){
  * @param {getData} `type,callback,whiteList` 获取完整地区数据
  *
  */
-},{"./request.js":23,"./type-of.js":26,"./util.js":29}],5:[function(require,module,exports){
+},{"./request.js":25,"./type-of.js":28,"./util.js":31}],5:[function(require,module,exports){
 var core = require('./core.js');
 var events = require('./events.js');
 var util = require('./util.js');
@@ -962,6 +962,13 @@ module.exports = function(sName, func){
             'order_no': sOrderNo
           };
         }
+        //
+        if(sName == 'page_block' && url == 'page_block/view') {
+          if(oPushlish.request && oPushlish.request.id) {
+             oPushlish.urlModify = 'page_block/view/' + oPushlish.request.id;
+             oPushlish.request = false;
+          }
+        }
       }
       oPushlish._scope = self;
       //
@@ -995,10 +1002,16 @@ module.exports = function(sName, func){
     });
   };
 
-  factory.get = function(){ // 语法糖 给有 / 和 /view 两个路径 并且查询 handle的接口使用
+  factory.get = function(bCreateId){
+    // 语法糖 给有 / 和 /view 两个路径 并且查询 handle的接口使用
+    // bCreateId 创建 /view/:id 通过id查询的接口
     var self = this;
     self.create('one', 'view');
     self.create('list', '');
+    //
+    if(bCreateId) {
+      self.create('id', 'view');
+    }
     //
     base.prototype.get = function(requestConf, func, dataConf){
 
@@ -1006,6 +1019,8 @@ module.exports = function(sName, func){
       //
       if(requestConf && requestConf.handle){
         selfbase.one.apply(selfbase, arguments);
+      }else if(requestConf && requestConf.id) {
+        selfbase.id.apply(selfbase, arguments);
       }else{
         selfbase.list.apply(selfbase, arguments);
       }
@@ -1019,7 +1034,7 @@ module.exports = function(sName, func){
   return new base();
 
 };
-},{"./core.js":10,"./events.js":13,"./type-of.js":26,"./util.js":29}],6:[function(require,module,exports){
+},{"./core.js":10,"./events.js":13,"./type-of.js":28,"./util.js":31}],6:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -1278,7 +1293,7 @@ autoFetch();
  * @param {autoFetch} `isAuto` 启用/停用自动获取图片验证码
  *
  */
-},{"./events.js":13,"./request.js":23,"./type-of.js":26}],9:[function(require,module,exports){
+},{"./events.js":13,"./request.js":25,"./type-of.js":28}],9:[function(require,module,exports){
 var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
@@ -1588,7 +1603,7 @@ util.forEach(oLocalCartMap, function(value, key){
  * @param {mustShipping} `callback` 检查购物车是否需要物流
  *
  */
-},{"./base.js":5,"./events.js":13,"./expo.js":14,"./localcart.js":16,"./util.js":29}],10:[function(require,module,exports){
+},{"./base.js":5,"./events.js":13,"./expo.js":14,"./localcart.js":16,"./util.js":31}],10:[function(require,module,exports){
 var events = require('./events.js');
 var req = require('./request.js');
 var handle = require('./handle.js');
@@ -1644,7 +1659,7 @@ exports.apiEvents = function(topic, url, method){
     });
   });
 };
-},{"./events.js":13,"./handle.js":15,"./request.js":23,"./util.js":29}],11:[function(require,module,exports){
+},{"./events.js":13,"./handle.js":15,"./request.js":25,"./util.js":31}],11:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 var util = require('./util.js');
@@ -1727,7 +1742,7 @@ util.forEach(aConfig, function(value, key){
  * @param {verify} `code,callback` 验证优惠码对于当前购物车是否可用
  *
  */
-},{"./base.js":5,"./expo.js":14,"./util.js":29}],12:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14,"./util.js":31}],12:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 var util = require('./util.js');
@@ -1855,7 +1870,7 @@ util.forEach(aConfig, function(value, key){
  * @param {matchProduct} `handle,callback` 获取指定商品相关的营销活动
  *
  */
-},{"./base.js":5,"./expo.js":14,"./util.js":29}],13:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14,"./util.js":31}],13:[function(require,module,exports){
 var util = require('./util.js');
 var log = require('./log.js');
 
@@ -1931,7 +1946,7 @@ var events = {
             if(oSub.pid && nPid){ // 监听的事件有pid 并且有传入指定pid
               if(oSub.pid !== nPid){
                 log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': 'true', pid: oSub.pid, pass: 'true'}, "color:gray");
-                return true; // 不执行 
+                return true; // 不执行
               }
             }
             try{
@@ -1952,7 +1967,7 @@ var events = {
     if(done){
       done();
     }
-  },
+  }
 };
 
 exports.subscribe = events.subscribe;
@@ -1997,7 +2012,7 @@ exports.messages = events.messages;
  * @param {publish} `topic,data` 发布事件
  *
  */
-},{"./log.js":17,"./util.js":29}],14:[function(require,module,exports){
+},{"./log.js":17,"./util.js":31}],14:[function(require,module,exports){
 var type_of = require('./type-of.js');
 var util = require('./util.js');
 
@@ -2024,7 +2039,7 @@ module.exports = function(moduleObj, name){
     moduleObj[name].apply(moduleObj, args);
   };
 };
-},{"./type-of.js":26,"./util.js":29}],15:[function(require,module,exports){
+},{"./type-of.js":28,"./util.js":31}],15:[function(require,module,exports){
 var events = require('./events.js');
 
 module.exports = function(oResponse, oHandle){
@@ -2246,7 +2261,7 @@ exports.checkAll = expo(module, 'checkAll');
 exports.removeOne = expo(module, 'removeOne');
 exports.removeAll = expo(module, 'removeAll');
 exports.multiRemove = expo(module, 'multiRemove');
-},{"./base.js":5,"./expo.js":14,"./util.js":29}],17:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14,"./util.js":31}],17:[function(require,module,exports){
 var util = require('./util.js');
 
 module.exports = function(info, option){
@@ -2265,7 +2280,7 @@ module.exports = function(info, option){
     }
   }
 };
-},{"./util.js":29}],18:[function(require,module,exports){
+},{"./util.js":31}],18:[function(require,module,exports){
 var req = require('./request.js');
 var handle = require('./handle.js');
 var events = require('./events.js');
@@ -2310,7 +2325,7 @@ if(typeof window.yhsdDebug === 'undefined'){
 	window.yhsdDebug = false;
 }
 
-var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point'];
+var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point', 'page_block', 'post'];
 
 function checkModule(moduleName){
 	return (util.inArray(moduleName, aInitModule) > -1);
@@ -2331,6 +2346,8 @@ YHSD.type = checkModule('type') ? require('./type.js') : {};
 YHSD.vendor = checkModule('vendor') ? require('./vendor.js') : {};
 YHSD.coupon = checkModule('coupon') ? require('./coupon.js') : {};
 YHSD.reward_point = checkModule('reward_point') ? require('./reward_point.js') : {};
+YHSD.page_block = checkModule('page_block') ? require('./page_block.js') : {};
+YHSD.post = checkModule('post') ? require('./post.js') : {};
 
 function jssdkInit(){
 	if(aFunctionReady.length === 0){
@@ -2361,7 +2378,7 @@ function jssdkInit(){
 		});
 	}
 })();
-},{"./account.js":1,"./address.js":2,"./area.js":4,"./blog.js":6,"./captcha.js":8,"./cart.js":9,"./coupon.js":11,"./discount.js":12,"./events.js":13,"./handle.js":15,"./order.js":19,"./page.js":20,"./payment_method.js":21,"./product.js":22,"./request.js":23,"./reward_point.js":24,"./shop.js":25,"./type-of.js":26,"./type.js":27,"./util.js":29,"./vendor.js":30,"./version.js":31}],19:[function(require,module,exports){
+},{"./account.js":1,"./address.js":2,"./area.js":4,"./blog.js":6,"./captcha.js":8,"./cart.js":9,"./coupon.js":11,"./discount.js":12,"./events.js":13,"./handle.js":15,"./order.js":19,"./page.js":20,"./page_block.js":21,"./payment_method.js":22,"./post.js":23,"./product.js":24,"./request.js":25,"./reward_point.js":26,"./shop.js":27,"./type-of.js":28,"./type.js":29,"./util.js":31,"./vendor.js":32,"./version.js":33}],19:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 var util = require('./util.js');
@@ -2489,7 +2506,7 @@ util.forEach(aConfig, function(value, key){
  *
  */
 
-},{"./base.js":5,"./expo.js":14,"./util.js":29}],20:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14,"./util.js":31}],20:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -2533,6 +2550,52 @@ exports.get = expo(module, 'get');
  */
 },{"./base.js":5,"./expo.js":14}],21:[function(require,module,exports){
 var base = require('./base.js');
+var expo = require('./expo.js');
+
+var module = base('page_block', function(factory){
+  //
+  factory.get(true);
+  //
+});
+
+exports.get = expo(module, 'get');
+
+/**
+ * 页面块
+ *
+ * ```get
+ * `` handle
+ * &` 类型：String<br/>指定页面块hanlde。
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * ```
+ *
+ * ```getPoly1
+ * `` config
+ * &` 类型：Object
+ * &&` ^^^id^^^ 类型：Number 选填<br/>指定id
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * ```
+ *
+ * ```getPoly2
+ * `` config
+ * &` 类型：Object
+ * &&` ^^^ids^^^ 类型：Array 选填<br/>指定多个id
+ * &&` ^^^handles^^^ 类型：Array 选填<br/>指定多个handle
+ * &&` ^^^version^^^ 类型：Number 选填<br/>指定页面块的version，<br/>1 - 旧版自定义页面<br/>2 - 新版页面块
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * ```
+ *
+ * @param {get} `handle,callback` 获取指定 `handle` 的页面块
+ * @param {getPoly1} `config,callback` 获取指定 `id` 的页面块
+ * @param {getPoly2} `[config,]callback` 获取页面块列表
+ *
+ */
+
+},{"./base.js":5,"./expo.js":14}],22:[function(require,module,exports){
+var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
 
@@ -2573,7 +2636,65 @@ util.forEach(aConfig, function(value, key){
  * @param {getPoly1} `param,callback` 获取支付方式（免登录下单），默认使用离线购物车
  *
  */
-},{"./base.js":5,"./expo.js":14,"./util.js":29}],22:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14,"./util.js":31}],23:[function(require,module,exports){
+var base = require('./base.js');
+var expo = require('./expo.js');
+var util = require('./util.js');
+
+var aConfig = {
+  dir: {url: 'dir'}
+};
+
+var module = base('post', function(factory){
+  factory.get();
+  factory.createByConfig(aConfig);
+});
+
+exports.get = expo(module, 'get');
+
+util.forEach(aConfig, function(value, key){
+  exports[key] = expo(module, key);
+});
+
+/**
+ * 文章
+ *
+ * ```get
+ * `` handle
+ * &` 类型：String<br/>指定文章的handle
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * ```
+ *
+ * ```getPoly1
+ * `` config
+ * &` 类型：Object
+ * &&` ^^^handles^^^ 类型：String 选填<br/>指定多个handle，以“,”分隔
+ * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
+ * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数<br/>返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "",
+ * &&&     "posts" : [ ... ],
+ * &&&     "paging" : { ... }
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
+ * ```dir
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * ```
+ *
+ * @param {get} `handle,callback` 获取指定文章
+ * @param {getPoly1} `[config,]callback` 获取文章列表
+ * @param {dir} `callback` 获取文章目录列表
+ *
+ */
+},{"./base.js":5,"./expo.js":14,"./util.js":31}],24:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -2620,7 +2741,7 @@ exports.get = expo(module, 'get');
  * @param {getPoly1} `[config,]callback` 获取商品列表
  *
  */
-},{"./base.js":5,"./expo.js":14}],23:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14}],25:[function(require,module,exports){
 var uri = require('./uri.js');
 var ajax = require('./ajax.js');
 
@@ -2715,7 +2836,7 @@ exports.jsonp = function(){
 	_checkArg(arguments);
 	req._jsonp(arguments[0], arguments[1]);
 };
-},{"./ajax.js":3,"./uri.js":28}],24:[function(require,module,exports){
+},{"./ajax.js":3,"./uri.js":30}],26:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 var util = require('./util.js');
@@ -2746,7 +2867,7 @@ util.forEach(aConfig, function(value, key){
  * @param {get} `callback` 获取当前店铺积分信息
  *
  */
-},{"./base.js":5,"./expo.js":14,"./util.js":29}],25:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14,"./util.js":31}],27:[function(require,module,exports){
 var base = require('./base.js');
 var type_of = require('./type-of.js');
 var expo = require('./expo.js');
@@ -2825,7 +2946,7 @@ exports.protecting = expo(module, 'protecting');
  * @param {protecting} `password,callback` 提交店铺保护密码
  *
  */
-},{"./base.js":5,"./expo.js":14,"./type-of.js":26}],26:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14,"./type-of.js":28}],28:[function(require,module,exports){
 /* jshint ignore:start */
 
 var toString = Object.prototype.toString
@@ -2859,7 +2980,7 @@ module.exports = function(val){
 }
 
 /* jshint ignore:end */
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -2921,7 +3042,7 @@ exports.get = expo(module, 'get');
  * @param {getPoly1} `[config,]callback` 获取分类列表
  *
  */
-},{"./base.js":5,"./expo.js":14}],28:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14}],30:[function(require,module,exports){
 module.exports = function(sPath){
   //
   var sBase = '/api';
@@ -2934,7 +3055,7 @@ module.exports = function(sPath){
   }
 
 };
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 // 订单金额计算器
 exports.orderCalculator = require('./calculator.js');
 
@@ -3226,7 +3347,7 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * @param {orderCalculator} 创建一个订单金额计算器
  *
  */
-},{"./calculator.js":7}],30:[function(require,module,exports){
+},{"./calculator.js":7}],32:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');
 
@@ -3289,7 +3410,7 @@ exports.get = expo(module, 'get');
  * @param {getPoly1} `[config,]callback` 获取品牌列表
  *
  */
-},{"./base.js":5,"./expo.js":14}],31:[function(require,module,exports){
+},{"./base.js":5,"./expo.js":14}],33:[function(require,module,exports){
 exports.get = function(){
 	return '0.0.18';
 };

@@ -81,6 +81,13 @@ module.exports = function(sName, func){
             'order_no': sOrderNo
           };
         }
+        //
+        if(sName == 'page_block' && url == 'page_block/view') {
+          if(oPushlish.request && oPushlish.request.id) {
+             oPushlish.urlModify = 'page_block/view/' + oPushlish.request.id;
+             oPushlish.request = false;
+          }
+        }
       }
       oPushlish._scope = self;
       //
@@ -114,10 +121,16 @@ module.exports = function(sName, func){
     });
   };
 
-  factory.get = function(){ // 语法糖 给有 / 和 /view 两个路径 并且查询 handle的接口使用
+  factory.get = function(bCreateId){
+    // 语法糖 给有 / 和 /view 两个路径 并且查询 handle的接口使用
+    // bCreateId 创建 /view/:id 通过id查询的接口
     var self = this;
     self.create('one', 'view');
     self.create('list', '');
+    //
+    if(bCreateId) {
+      self.create('id', 'view');
+    }
     //
     base.prototype.get = function(requestConf, func, dataConf){
 
@@ -125,6 +138,8 @@ module.exports = function(sName, func){
       //
       if(requestConf && requestConf.handle){
         selfbase.one.apply(selfbase, arguments);
+      }else if(requestConf && requestConf.id) {
+        selfbase.id.apply(selfbase, arguments);
       }else{
         selfbase.list.apply(selfbase, arguments);
       }

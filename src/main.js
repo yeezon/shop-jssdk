@@ -42,7 +42,7 @@ if(typeof window.yhsdDebug === 'undefined'){
 	window.yhsdDebug = false;
 }
 
-var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point'];
+var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point', 'page_block', 'post'];
 
 function checkModule(moduleName){
 	return (util.inArray(moduleName, aInitModule) > -1);
@@ -63,6 +63,8 @@ YHSD.type = checkModule('type') ? require('./type.js') : {};
 YHSD.vendor = checkModule('vendor') ? require('./vendor.js') : {};
 YHSD.coupon = checkModule('coupon') ? require('./coupon.js') : {};
 YHSD.reward_point = checkModule('reward_point') ? require('./reward_point.js') : {};
+YHSD.page_block = checkModule('page_block') ? require('./page_block.js') : {};
+YHSD.post = checkModule('post') ? require('./post.js') : {};
 
 function jssdkInit(){
 	if(aFunctionReady.length === 0){

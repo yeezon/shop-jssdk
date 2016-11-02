@@ -73,7 +73,7 @@ var events = {
             if(oSub.pid && nPid){ // 监听的事件有pid 并且有传入指定pid
               if(oSub.pid !== nPid){
                 log({exec: topic, priority: nPriority, sort: nFuncIndex, 'continue': 'true', pid: oSub.pid, pass: 'true'}, "color:gray");
-                return true; // 不执行 
+                return true; // 不执行
               }
             }
             try{
@@ -94,7 +94,7 @@ var events = {
     if(done){
       done();
     }
-  },
+  }
 };
 
 exports.subscribe = events.subscribe;
