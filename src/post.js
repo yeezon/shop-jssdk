@@ -24,7 +24,7 @@ util.forEach(aConfig, function(value, key){
  * `` handle
  * &` 类型：String<br/>指定文章的handle
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * &` 类型：Function( 返回对象 [查看详情^](/development/s/582f0f6502282e5b22000039) )<br/>获取信息后的回调函数
  * ```
  *
  * ```getPoly1
@@ -47,7 +47,7 @@ util.forEach(aConfig, function(value, key){
  *
  * ```dir
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * &` 类型：Function( 返回对象 [查看详情^](/development/s/582f138102282e5b22000041) )<br/>获取信息后的回调函数
  * ```
  *
  * @param {get} `handle,callback` 获取指定文章
