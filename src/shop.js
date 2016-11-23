@@ -7,6 +7,8 @@ var module = base('shop', function(factory){
   factory.create('all', '');
   //
   factory.create('protecting', false, 'POST');
+  //
+  factory.create('admin_session_status', false, 'GET');
 });
 
 exports.get = function(){
@@ -25,7 +27,7 @@ exports.get = function(){
 };
 
 exports.protecting = expo(module, 'protecting');
-
+exports.adminSessionStatus = expo(module, 'admin_session_status');
 /**
  * 店铺信息
  *
@@ -72,7 +74,22 @@ exports.protecting = expo(module, 'protecting');
  * &&& ^^^
  * ```
  *
+ * ```adminSessionStatus
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * &&` ^^^admin_singed_in^^^ 类型：Boolean<br/>true: 管理员已经登录网站后台<br/>false: 管理员未登录网站后台
+ * &&& &nbsp;
+ * &&& ^^^
+ * &&& {
+ * &&&   "code" : 200,
+ * &&&   "message" : "",
+ * &&&   "admin_singed_in" : true
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
  * @param {get} `[handles,]callback` 获取全部或指定店铺信息
  * @param {protecting} `password,callback` 提交店铺保护密码
+ * @param {adminSessionStatus} `callback` 查询管理员是否在当前浏览器登录了网站后台
  *
  */
