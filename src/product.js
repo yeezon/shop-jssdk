@@ -21,6 +21,7 @@ exports.get = expo(module, 'get');
  * `` config
  * &` 类型：Object
  * &&` ^^^handles^^^ 类型：String 选填<br/>指定多个 handle，以“,”分隔
+ * &&` ^^^ids^^^ 类型：String 选填<br/>指定多个 id，以“,”分隔
  * &&` ^^^search^^^ 类型：String 选填<br/>指定商品名称包含的文字
  * &&` ^^^vendor^^^ 类型：String 选填<br/>指定商品品牌包含的文字
  * &&` ^^^type^^^ 类型：String 选填<br/>指定商品分类包含的文字
