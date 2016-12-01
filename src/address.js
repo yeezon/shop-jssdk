@@ -61,6 +61,16 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^telephone^^^（选填） 类型：String 长度：255 <br/>联系电话
  * &&` ^^^email^^^（选填） 类型：String 长度：255 <br/>邮箱
  * &&` ^^^is_default^^^（选填） 类型：Boolean<br/>是否为设置默认收货地址
+ * &&` ^^^meta_fields^^^（选填） 类型：String<br/>序列化的地址拓展字段（JSON字符串），包含下列属性<br/><ul><li>`name`：String 类型，Metafield 的唯一字符串标识。仅支持小写字母、数字、中横和下划线，最多 200 个字符。</li><li>`description`：String 类型，Metafield 的说明，最多 2000 个字符。</li><li>`fields`：Object 类型，Metafield 的字段，Key-Value 结构对象。</li></ul>
+ * &&& ^^^
+ * &&& meta_fields = JSON.stringify({
+ * &&&    name: 'information',
+ * &&&    description: '清关信息',
+ * &&&    fields: {
+ * &&&        id_card: 123456
+ * &&&    }
+ * &&&})
+ * &&& ^^^
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
@@ -77,6 +87,16 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^telephone^^^（选填） 类型：String 长度：255 <br/>联系电话
  * &&` ^^^email^^^（选填） 类型：String 长度：255 <br/>邮箱
  * &&` ^^^is_default^^^（选填） 类型：Boolean<br/>是否为设置默认收货地址
+ * &&` ^^^meta_fields^^^（选填） 类型：String<br/>序列化的地址拓展字段（JSON字符串），包含下列属性<br/><ul><li>`name`：String 类型，Metafield 的唯一字符串标识。仅支持小写字母、数字、中横和下划线，最多 200 个字符。</li><li>`description`：String 类型，Metafield 的说明，最多 2000 个字符。</li><li>`fields`：Object 类型，Metafield 的字段，Key-Value 结构对象。</li></ul>
+ * &&& ^^^
+ * &&& meta_fields = JSON.stringify({
+ * &&&    name: 'information',
+ * &&&    description: '清关信息',
+ * &&&    fields: {
+ * &&&        id_card: 123456
+ * &&&    }
+ * &&&})
+ * &&& ^^^
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
