@@ -13,17 +13,22 @@ exports.setCookie = function(name, value, isForever, domain){
 };
 // 获取cookie
 exports.getCookie = function(sName){
-  var sSearch = sName + "=";
-  if(document.cookie.length > 0){
-    offset = document.cookie.indexOf(sSearch);
-    if(offset != -1){
-      offset += sSearch.length;
-      end = document.cookie.indexOf(";", offset);
-      if(end == -1) end = document.cookie.length;
-      return unescape(document.cookie.substring(offset, end));
+    var cookie_str = document.cookie,
+        cookies = {},
+        reg,
+        result;
+    if(!/;\s*$/.test(cookie_str)){
+      cookie_str += ';';
     }
-    else return "";
-  }
+    reg = /(\S+?)=([\w\W]*?);/g;
+    while(result = reg.exec(cookie_str)){
+      cookies[result[1]] = decodeURIComponent(result[2]);
+    }
+    if(sName){
+      return cookies[sName];
+    }else{
+      return cookies;
+    }
 };
 // 获取图片url
 exports.getImageUrl = function(image_id, image_name, image_size, image_epoch){
