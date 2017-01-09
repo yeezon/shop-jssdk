@@ -637,7 +637,7 @@ function extend(target) {
     for (key in source)
       if (source[key] !== undefined)
         target[key] = source[key]
-    
+
   })
   return target
   // slice.call(arguments, 1).forEach(function(source) {
@@ -1705,7 +1705,7 @@ util.forEach(aConfig, function(value, key){
  * &&&             "coupon_group_name": "5毛抵用券！",
  * &&&             "active_amount": 0, // 满0元
  * &&&             "discount_amount": 50, // 减免5毛
- * &&&             "cart_match": true, 
+ * &&&             "cart_match": true,
  * &&&             "status": "used"
  * &&&         },
  * &&&         {
@@ -2626,7 +2626,7 @@ util.forEach(aConfig, function(value, key){
  * ```getPoly1
  * `` param
  * &` 类型：Object
- * &&` ^^^items^^^（选填） 类型：Json<br/>该订单包含的商品。如果使用此参数，则不使用离线购物车的数据。例如：<br/>^^^[{"variant_id":17,"quantity":1},{"variant_id":992,"quantity":2}]^^^ 
+ * &&` ^^^items^^^（选填） 类型：Json<br/>该订单包含的商品。如果使用此参数，则不使用离线购物车的数据。例如：<br/>^^^[{"variant_id":17,"quantity":1},{"variant_id":992,"quantity":2}]^^^
  * &&` ^^^district_code^^^（选填） 类型：Number<br/>收货区域编码（最后一级），不传入则不做配送区域判断
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
@@ -3088,17 +3088,22 @@ exports.setCookie = function(name, value, isForever, domain){
 };
 // 获取cookie
 exports.getCookie = function(sName){
-  var sSearch = sName + "=";
-  if(document.cookie.length > 0){
-    offset = document.cookie.indexOf(sSearch);
-    if(offset != -1){
-      offset += sSearch.length;
-      end = document.cookie.indexOf(";", offset);
-      if(end == -1) end = document.cookie.length;
-      return unescape(document.cookie.substring(offset, end));
+    var cookie_str = document.cookie,
+        cookies = {},
+        reg,
+        result;
+    if(!/;\s*$/.test(cookie_str)){
+      cookie_str += ';';
     }
-    else return "";
-  }
+    reg = /(\S+?)=([\w\W]*?);/g;
+    while(result = reg.exec(cookie_str)){
+      cookies[result[1]] = decodeURIComponent(result[2]);
+    }
+    if(sName){
+      return cookies[sName];
+    }else{
+      return cookies;
+    }
 };
 // 获取图片url
 exports.getImageUrl = function(image_id, image_name, image_size, image_epoch){
