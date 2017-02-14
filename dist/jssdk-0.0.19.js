@@ -307,6 +307,16 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^telephone^^^（选填） 类型：String 长度：255 <br/>联系电话
  * &&` ^^^email^^^（选填） 类型：String 长度：255 <br/>邮箱
  * &&` ^^^is_default^^^（选填） 类型：Boolean<br/>是否为设置默认收货地址
+ * &&` ^^^meta_fields^^^（选填） 类型：String<br/>序列化的地址拓展字段（JSON字符串），包含下列属性<br/><ul><li>`name`：String 类型，Metafield 的唯一字符串标识。仅支持小写字母、数字、中横和下划线，最多 200 个字符。</li><li>`description`：String 类型，Metafield 的说明，最多 2000 个字符。</li><li>`fields`：Object 类型，Metafield 的字段，Key-Value 结构对象。</li></ul>
+ * &&& ^^^
+ * &&& meta_fields = JSON.stringify({
+ * &&&    name: 'information',
+ * &&&    description: '清关信息',
+ * &&&    fields: {
+ * &&&        id_card: 123456
+ * &&&    }
+ * &&&})
+ * &&& ^^^
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
@@ -323,6 +333,16 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^telephone^^^（选填） 类型：String 长度：255 <br/>联系电话
  * &&` ^^^email^^^（选填） 类型：String 长度：255 <br/>邮箱
  * &&` ^^^is_default^^^（选填） 类型：Boolean<br/>是否为设置默认收货地址
+ * &&` ^^^meta_fields^^^（选填） 类型：String<br/>序列化的地址拓展字段（JSON字符串），包含下列属性<br/><ul><li>`name`：String 类型，Metafield 的唯一字符串标识。仅支持小写字母、数字、中横和下划线，最多 200 个字符。</li><li>`description`：String 类型，Metafield 的说明，最多 2000 个字符。</li><li>`fields`：Object 类型，Metafield 的字段，Key-Value 结构对象。</li></ul>
+ * &&& ^^^
+ * &&& meta_fields = JSON.stringify({
+ * &&&    name: 'information',
+ * &&&    description: '清关信息',
+ * &&&    fields: {
+ * &&&        id_card: 123456
+ * &&&    }
+ * &&&})
+ * &&& ^^^
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * ```
@@ -637,7 +657,7 @@ function extend(target) {
     for (key in source)
       if (source[key] !== undefined)
         target[key] = source[key]
-
+    
   })
   return target
   // slice.call(arguments, 1).forEach(function(source) {
@@ -659,6 +679,7 @@ var sAreaDataHost = window.assetHost || '//asset.ibanquan.com/';  // 格式 //as
 var sAreaDataUrl = sAreaDataHost + 'common/js/areadata-' + sAreaDataVersion + '.js';
 
 var oAreaData = {};
+var oLocalAreaData = null;
 
 var localStorage =  window.localStorage;
 var localStorageItemName = 'yhsd_areadata';
@@ -697,26 +718,27 @@ var setLocalAreaData = function(data){
 			localStorage.setItem(localStorageItemName, JSON.stringify(data));
 		}
 	}catch(e){}
+	oLocalAreaData = data; // safari 隐私模式不允许存localstorage，直接存内存里
 };
 
 var getLocalAreaData = function(){
 	//
-	var result;
-	//
-	if(localStorage){
-		var localItem = localStorage.getItem(localStorageItemName);
-		//
-		try{
-			if(localItem){
-				var areaJson = JSON.parse(localItem);
-				if(areaJson.version === sAreaDataVersion){
-					result = areaJson;
+	if(!oLocalAreaData) {
+		if(localStorage){
+			var localItem = localStorage.getItem(localStorageItemName);
+			//
+			try{
+				if(localItem){
+					var areaJson = JSON.parse(localItem);
+					if(areaJson.version === sAreaDataVersion){
+						oLocalAreaData = areaJson;
+					}
 				}
-			}
-		}catch(e){}
+			}catch(e){}
+		}
 	}
-
-	return result;
+	//
+	return oLocalAreaData;
 };
 
 var filterAreaData = function(data, whiteList){
@@ -835,6 +857,10 @@ exports.getData = function(type, callback, whiteList){
 			callback(filterAreaData(oAreaData[type], whiteList));
 		}
 	});
+};
+
+exports._setData = function(data) {
+	setLocalAreaData(data);
 };
 
 
@@ -1705,7 +1731,7 @@ util.forEach(aConfig, function(value, key){
  * &&&             "coupon_group_name": "5毛抵用券！",
  * &&&             "active_amount": 0, // 满0元
  * &&&             "discount_amount": 50, // 减免5毛
- * &&&             "cart_match": true,
+ * &&&             "cart_match": true, 
  * &&&             "status": "used"
  * &&&         },
  * &&&         {
@@ -2626,7 +2652,7 @@ util.forEach(aConfig, function(value, key){
  * ```getPoly1
  * `` param
  * &` 类型：Object
- * &&` ^^^items^^^（选填） 类型：Json<br/>该订单包含的商品。如果使用此参数，则不使用离线购物车的数据。例如：<br/>^^^[{"variant_id":17,"quantity":1},{"variant_id":992,"quantity":2}]^^^
+ * &&` ^^^items^^^（选填） 类型：Json<br/>该订单包含的商品。如果使用此参数，则不使用离线购物车的数据。例如：<br/>^^^[{"variant_id":17,"quantity":1},{"variant_id":992,"quantity":2}]^^^ 
  * &&` ^^^district_code^^^（选填） 类型：Number<br/>收货区域编码（最后一级），不传入则不做配送区域判断
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
@@ -2718,6 +2744,7 @@ exports.get = expo(module, 'get');
  * `` config
  * &` 类型：Object
  * &&` ^^^handles^^^ 类型：String 选填<br/>指定多个 handle，以“,”分隔
+ * &&` ^^^ids^^^ 类型：String 选填<br/>指定多个 id，以“,”分隔
  * &&` ^^^search^^^ 类型：String 选填<br/>指定商品名称包含的文字
  * &&` ^^^vendor^^^ 类型：String 选填<br/>指定商品品牌包含的文字
  * &&` ^^^type^^^ 类型：String 选填<br/>指定商品分类包含的文字
@@ -2947,20 +2974,20 @@ exports.adminSessionStatus = expo(module, 'admin_session_status');
  * ```adminSessionStatus
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
- * &&` ^^^correct^^^ 类型：Boolean<br/>true: 密码正确，将设置名为 protection_password 的Cookie。此时刷新页面即可访问<br/>false: 密码错误
+ * &&` ^^^admin_singed_in^^^ 类型：Boolean<br/>true: 管理员已经登录网站后台<br/>false: 管理员未登录网站后台
  * &&& &nbsp;
  * &&& ^^^
  * &&& {
  * &&&   "code" : 200,
  * &&&   "message" : "",
- * &&&   "correct" : true
+ * &&&   "admin_singed_in" : true
  * &&& }
  * &&& ^^^
  * ```
  *
  * @param {get} `[handles,]callback` 获取全部或指定店铺信息
  * @param {protecting} `password,callback` 提交店铺保护密码
- * @param {adminSessionStatus} `callback` 提交店铺保护密码
+ * @param {adminSessionStatus} `callback` 查询管理员是否在当前浏览器登录了网站后台
  *
  */
 },{"./base.js":5,"./expo.js":14,"./type-of.js":28}],28:[function(require,module,exports){
@@ -3369,6 +3396,7 @@ exports.forEach = function (collection, callback, isNotObject, scope) {
  * @param {orderCalculator} 创建一个订单金额计算器
  *
  */
+
 },{"./calculator.js":7}],32:[function(require,module,exports){
 var base = require('./base.js');
 var expo = require('./expo.js');

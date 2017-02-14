@@ -7,6 +7,7 @@ var sAreaDataHost = window.assetHost || '//asset.ibanquan.com/';  // 格式 //as
 var sAreaDataUrl = sAreaDataHost + 'common/js/areadata-' + sAreaDataVersion + '.js';
 
 var oAreaData = {};
+var oLocalAreaData = null;
 
 var localStorage =  window.localStorage;
 var localStorageItemName = 'yhsd_areadata';
@@ -45,26 +46,27 @@ var setLocalAreaData = function(data){
 			localStorage.setItem(localStorageItemName, JSON.stringify(data));
 		}
 	}catch(e){}
+	oLocalAreaData = data; // safari 隐私模式不允许存localstorage，直接存内存里
 };
 
 var getLocalAreaData = function(){
 	//
-	var result;
-	//
-	if(localStorage){
-		var localItem = localStorage.getItem(localStorageItemName);
-		//
-		try{
-			if(localItem){
-				var areaJson = JSON.parse(localItem);
-				if(areaJson.version === sAreaDataVersion){
-					result = areaJson;
+	if(!oLocalAreaData) {
+		if(localStorage){
+			var localItem = localStorage.getItem(localStorageItemName);
+			//
+			try{
+				if(localItem){
+					var areaJson = JSON.parse(localItem);
+					if(areaJson.version === sAreaDataVersion){
+						oLocalAreaData = areaJson;
+					}
 				}
-			}
-		}catch(e){}
+			}catch(e){}
+		}
 	}
-
-	return result;
+	//
+	return oLocalAreaData;
 };
 
 var filterAreaData = function(data, whiteList){
@@ -183,6 +185,10 @@ exports.getData = function(type, callback, whiteList){
 			callback(filterAreaData(oAreaData[type], whiteList));
 		}
 	});
+};
+
+exports._setData = function(data) {
+	setLocalAreaData(data);
 };
 
 
