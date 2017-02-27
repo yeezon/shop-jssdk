@@ -1153,10 +1153,11 @@ var Calculator = function() {
         final_amount += this.shipment_amount;
         // 积分
         if(final_amount > 0 && this.reward_point_exchange_ratio > 0) {
-            this.reward_point_max = Math.floor(final_amount * this.reward_point_limit / 100 / this.reward_point_exchange_ratio);
+            var point_disocunt_amount_limit = final_amount * this.reward_point_limit / 100;
+            this.reward_point_max = Math.ceil(point_disocunt_amount_limit / this.reward_point_exchange_ratio);
             this.reward_point_max = Math.min(this.reward_point_max, this.reward_point_total);
             this.reward_point_use = Math.min(this.reward_point_max, Math.max(this.reward_point_use, 0));
-            this.point_disocunt_amount = this.reward_point_use * this.reward_point_exchange_ratio;
+            this.point_disocunt_amount = Math.min(this.reward_point_use * this.reward_point_exchange_ratio , point_disocunt_amount_limit);
             final_amount -= this.point_disocunt_amount;
         } else {
             this.reward_point_max = 0;
