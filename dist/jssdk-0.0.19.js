@@ -3124,8 +3124,10 @@ exports.getCookie = function(sName){
       cookie_str += ';';
     }
     reg = /(\S+?)=([\w\W]*?);/g;
-    while(result = reg.exec(cookie_str)){
+    result = reg.exec(cookie_str);
+    while(result){
       cookies[result[1]] = decodeURIComponent(result[2]);
+      result = reg.exec(cookie_str);
     }
     if(sName){
       return cookies[sName];
