@@ -33,6 +33,7 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^handles^^^ 类型：String 选填<br/>指定多个handle，以“,”分隔
  * &&` ^^^size^^^ 类型：Number 选填<br/>指定返回每页的数目
  * &&` ^^^page^^^ 类型：Number 选填<br/>指定返回分页页码
+ * &&` ^^^dir_id^^^ 类型：Number 选填<br/>指定目录id
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数<br/>返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
  * &&& ^^^
