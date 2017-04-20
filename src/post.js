@@ -3,7 +3,8 @@ var expo = require('./expo.js');
 var util = require('./util.js');
 
 var aConfig = {
-  dir: {url: 'dir'}
+  dir: {url: 'dir'},
+  tags : {url: 'tags'}
 };
 
 var module = base('post', function(factory){
@@ -51,8 +52,21 @@ util.forEach(aConfig, function(value, key){
  * &` 类型：Function( 返回对象 [查看详情^](/development/s/582f138102282e5b22000041) )<br/>获取信息后的回调函数
  * ```
  *
+ * ```tags
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "",
+ * &&&     "tags" : [{id: 3, name: "test"}]
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
  * @param {get} `handle,callback` 获取指定文章
  * @param {getPoly1} `[config,]callback` 获取文章列表
  * @param {dir} `callback` 获取文章目录列表
+ * @param {tags} `callback` 获取文章标签列表
  *
  */

@@ -1,11 +1,21 @@
 var base = require('./base.js');
 var expo = require('./expo.js');
+var util = require('./util.js');
+
+var aConfig = {
+  tags : {url: 'tags'}
+};
 
 var module = base('blog', function(factory){
   factory.get();
+  factory.createByConfig(aConfig);
 });
 
 exports.get = expo(module, 'get');
+
+util.forEach(aConfig, function(value, key){
+  exports[key] = expo(module, key);
+});
 
 /**
  * 轻博客相关接口
@@ -37,7 +47,20 @@ exports.get = expo(module, 'get');
  * &&& ^^^
  * ```
  *
+ * ```tags
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "",
+ * &&&     "tags" : [{id: 3, name: "test"}]
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
  * @param {get} `[handle,]callback` 获取单个轻博客
  * @param {getPoly1} `config,callback` 获取轻博客列表
+ * @param {tags} `callback` 获取轻博客标签列表
  *
  */
