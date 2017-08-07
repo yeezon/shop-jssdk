@@ -191,6 +191,18 @@ exports._setData = function(data) {
 	setLocalAreaData(data);
 };
 
+exports.config = function (options) {
+	if (options.areaDataUrl) {
+		if (!options.areaDataVersion) {
+			throw new Error('必须提供资源版本');
+		}
+		//
+		sAreaDataUrl = options.areaDataUrl;
+		sAreaDataVersion = options.areaDataVersion;
+		oAreaData = {};
+		oLocalAreaData = null;
+	}
+};
 
 /**
  * 多级地区信息编码。<br/><br/>*主要使用在收货人地址地区选择，大部分web端实现形式为省、市、地区三级联动的下拉选择。*<br/>*SDK 中需要提交区域编码的接口（如：order.create 免登录下单中的 district_code），需使用本接口获取对应参数。*<br/>*部分地区(如：新疆石河子)可能存在没有二级（市）或者三级（地区）的选项，故最终选出的结果不一定拥有完整的三级结构。提交时，请使用最后一级的编码。*<br/><br/>接口中返回数据的层级关系：省（province） > 市（city） > 地区（district）
@@ -227,8 +239,23 @@ exports._setData = function(data) {
  * &` 类型：Array<String><br/>地址白名单。<br/>*只需关注被允许区域的code，比如广东只允许深圳，只要填入深圳的code:440300。*<br/>*如果省份也只允许广东则要填入广东的code:440000，与填入code同级的区域会被自动过滤，要展示其他同级区域需手动填入。*<br/>*如果某一级没有填入code则会展示所有。*
  * ```
  *
+ * ```config
+ * `` options
+ * &` 类型：Object<br/>配置选项（`0.0.21`版本添加，<b>默认无需配置</b>）：<br/>^^^areaDataUrl^^^ - 地址数据。文件格式为 `.js`，`jsonp` 方式加载，内容格式参照 //asset.ibanquan.com/common/js/areadata-160315.js<br/>^^^areaDataVersion^^^ - 地址版本号。如果指定了 areaDataUrl 则此项必填，用于缓存数据。
+ * &&& ^^^
+ * &&& // 示例：配置繁体地址库
+ * &&& yhsd.ready(jssdk => {
+ * &&&     jssdk.area.config({
+ * &&&         areaDataUrl: '//asset.localtestasset.com/common/js/areadata-170807tc.js',
+ * &&&         areaDataVersion: '170807tc'
+ * &&&     })
+ * &&& })
+ * &&& ^^^
+ * ```
+ *
  * @param {findNext} `code,callback,whiteList` 获取当前 code 对应的下级地区信息
  * @param {findPrev} `code,callback` 获取当前 code 对应的地区信息与所有上级地区信息
  * @param {getData} `type,callback,whiteList` 获取完整地区数据
+ * @param {config} `options` 配置地址数据
  *
  */
