@@ -4,7 +4,9 @@ var util = require('./util.js');
 
 var aConfig = {
     get: {url: ''},
-    verify: {url: 'verify'}
+    verify: {url: 'verify'},
+    shopCoupon: {url: 'draw/:export_uuid', config: {RESTful: true}},
+    getShopCoupon: {url: 'draw/:export_uuid/get', config: {RESTful: true}}
 };
 
 var module = base('coupon', function(factory){
@@ -43,7 +45,7 @@ util.forEach(aConfig, function(value, key){
  * &&&             "coupon_group_name": "5毛抵用券！",
  * &&&             "active_amount": 0, // 满0元
  * &&&             "discount_amount": 50, // 减免5毛
- * &&&             "cart_match": true, 
+ * &&&             "cart_match": true,
  * &&&             "status": "used"
  * &&&         },
  * &&&         {
@@ -76,7 +78,39 @@ util.forEach(aConfig, function(value, key){
  * &&& ^^^
  * ```
  *
+ * ```shopCoupon
+ * `` code
+ * &` 类型：Object
+ * &&` ^^^id^^^ 类型：String<br/>优惠券领取id，优惠券领取链接的最后一节:<br /> http:&nbsp;//example.youhaovip.com/coupon/ **013aef9cd68f42038b78e5502cc75088**
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数。
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "",
+ * &&&     "coupon_group": {}, // 优惠券信息
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
+ * ```getShopCoupon
+ * `` code
+ * &` 类型：Object
+ * &&` ^^^id^^^ 类型：String<br/>优惠券领取id，优惠券领取链接的最后一节:<br /> http:&nbsp;//example.youhaovip.com/coupon/ **013aef9cd68f42038b78e5502cc75088**
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数。
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "领取成功",
+ * &&&     "coupon": {}, // 优惠券信息
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
  * @param {get} `callback` 获取当前账号绑定的优惠券
  * @param {verify} `code,callback` 验证优惠码对于当前购物车是否可用
+ * @param {shopCoupon} `code,callback` 获取指定可领取优惠券的信息
+ * @param {getShopCoupon} `code,callback` 领取指定优惠券
  *
  */

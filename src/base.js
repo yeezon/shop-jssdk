@@ -41,7 +41,7 @@ module.exports = function(sName, func){
     };
   };
 
-  factory.create = function(sKey, url, method){
+  factory.create = function(sKey, url, method, config){
     //
     var sGetTopic = sName + '.' + sKey;
     //
@@ -73,6 +73,13 @@ module.exports = function(sName, func){
         oPushlish.data = arguments[2] || false;
         oPushlish.urlModify = arguments[3] || false;
         oPushlish.customHandle = arguments[4] || false;
+        //
+        if (config && config.RESTful) {
+          if (oPushlish.request && oPushlish.request.id) {
+            oPushlish.urlModify = url.replace(/:[a-zA-Z_]+/, oPushlish.request.id);
+            oPushlish.request = false;
+          }
+        }
         //
         // 免登录查询单个订单 兼容语法糖 get
         if(sName == 'order' && url == 'order/view'){
