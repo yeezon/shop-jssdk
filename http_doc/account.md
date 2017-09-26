@@ -1,4 +1,4 @@
-# api/v1/address 接口说明
+# api/v1/account 接口说明
 
 顾客账号。
 
