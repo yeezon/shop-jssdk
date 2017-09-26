@@ -11,6 +11,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 返回数据
     ```
     {
@@ -57,6 +58,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```variant_id``` 类型：Number<br/>商品价格的id
     * ```quantity``` 类型：Number<br/>商品数量
@@ -73,6 +75,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```variant_id``` 类型：Number<br/>商品价格的id
     * ```quantity``` 类型：Number<br/>商品数量
@@ -88,6 +91,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```variant_id``` 类型：Number<br/>商品价格的id
 
@@ -102,6 +106,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```variant_id``` 类型：Number<br/>商品价格的id
 
@@ -114,6 +119,7 @@
 
 选中所有商品
 
+* auth: `true`
 <!-- .api-param -->
 
 
@@ -126,6 +132,7 @@
 
 取消选中所有商品
 
+* auth: `true`
 <!-- .api-param -->
 
 
@@ -140,6 +147,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```variant_id``` 类型：Number<br/>商品价格的id
 
@@ -154,6 +162,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 
 <!-- endapi -->
 
@@ -166,6 +175,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```address_id``` 类型：Number<br/>收货人地址 id
     * ```payment_method_type``` 类型：String<br/>支付类型
@@ -181,6 +191,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```district_code``` 类型：String<br/>收货地区 post
     * ```payment_method_type``` 类型：String<br/>支付类型
@@ -196,5 +207,6 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 
 <!-- endapi -->

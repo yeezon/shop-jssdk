@@ -9,6 +9,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 返回数据
     ```
     {
@@ -101,12 +102,13 @@
     ```
 
 
-### **GET /match/product'**
+### **GET /match/product**
 
 获取指定商品相关的营销活动
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
   * handle 类型：String<br/>指定商品的handle。
 

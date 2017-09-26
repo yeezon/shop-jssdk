@@ -10,7 +10,7 @@
 获取当前顾客信息
 
 <!-- .api-param -->
-
+* auth: `true`
 * 返回数据
     * ```customer``` 类型：Object<br/>null: 当前未登录<br/>用户对象：当前登录的用户 [查看详情](/development/s/5432566de2931e235b000003)
 
@@ -65,9 +65,13 @@
 
 顾客登出 （必须登录）
 
+* auth: `true`
+
 ### **POST /change_password**
 
 顾客修改密码 （必须登录）
+
+* auth: `true`
 
 <!-- .api-param -->
 
@@ -90,6 +94,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```notify_email``` 类型：String<br/>顾客用于接收通知的邮箱
     * ```notify_phone``` 类型：String<br/>顾客用于接收通知的手机
@@ -121,8 +126,8 @@
     * **post /register_with_user_name**
     * **post /register_with_mobile**
 * 参数
-    * ```account``` 类型：String<br/>用户名/邮箱/手机号码
-    * ```password``` 类型：String<br/>密码
+    * ```account``` 类型：String<br/>用户名: 4-16位中文、英文字母、数字、_和-组成，只能用中文或英文字母开头<br/>邮箱：长度255<br/>手机号码：中国大陆手机号
+    * ```password``` 类型：String 长度：6-255<br/>密码
     * ```password_again``` 类型：String<br/>重复密码
     * ```verify_code``` 类型：String 选填<br/>手机验证码，注册类型为手机时必须提供，使用 [sendRegistValidateSms](#-sendregistvalidatesms-param-callback-) 获取
 * 返回数据
@@ -200,7 +205,7 @@
 <!-- .api-param -->
 
 * 参数
-    * ```email``` 类型：String<br/>需要重置密码的邮箱地址
+    * ```email``` 类型：String 长度：255<br/>需要重置密码的邮箱地址
 * 返回数据
     * ```code``` 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败
     * ```message``` 类型：String<br/>发送信息失败原因（当 code 为 201 时）

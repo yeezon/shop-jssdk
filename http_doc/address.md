@@ -2,12 +2,10 @@
 
 收货人地址。
 
-<!-- api -->
-<!-- .api-sdk -->
-
-### **'GET /'**
+### **GET /**
 获取所有收货人地址 （必须登录）
 
+* auth: `true`
 * 返回数据
 ```
 {
@@ -40,12 +38,13 @@
 <!-- api -->
 <!-- .api-sdk -->
 
-### **'POST /create'**
+### **POST /create**
 
 新建收货人地址 （必须登录）
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```name``` 类型：String 长度：255<br/>收货人姓名
     * ```district_code``` 类型：String 长度：255<br/>收货区域编码（最后一级）
@@ -72,12 +71,13 @@
 <!-- api -->
 <!-- .api-sdk -->
 
-### **'POST /save'**
+### **POST /save**
 
 更新收货人地址 （必须登录）
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```id``` 类型：Number<br/>需要更新的收货人信息id
     * ```name``` 类型：String 长度：255<br/>收货人姓名
@@ -104,12 +104,13 @@
 <!-- api -->
 <!-- .api-sdk -->
 
-### **'POST /remove'**(address, callback)
+### **POST /remove**
 
 删除收货人地址 （必须登录）
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```id``` 类型：Number<br/>需要删除的收货人信息id
 

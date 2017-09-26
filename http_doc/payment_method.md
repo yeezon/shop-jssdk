@@ -8,6 +8,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```address_id```（选填） 类型：Number<br/>收货人地址 id，不传入则不做配送区域判断
 

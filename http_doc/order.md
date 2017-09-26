@@ -8,6 +8,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```order_no``` 类型：String 选填<br/>指定订单编号<br/>未登录时调用此接口，将返回指定订单的简单详情<br>如果传了这个参数，不要传其他参数
     * ```order_nos``` 类型：String 选填<br/>指定多个订单编号，以“,”分隔
@@ -28,6 +29,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```order_no``` 类型：String<br/>指定订单编号
     * ```shipment_id``` 类型：String<br/>指定运单编号
@@ -43,6 +45,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```address_id``` 类型：Number<br/>收货人信息id
     * ```payment_method_id``` 类型：Number<br/>支付方式id
@@ -100,6 +103,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```order_no``` 类型：String<br/>指定订单编号
     * ```reason``` 类型：String<br/>退单理由
@@ -115,6 +119,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 参数
     * ```status``` 类型：Number 选填<br/>指定订单状态，取值参考 [order.get([config,] callback)](#-get-config-callback-)
     * ```shipment_status``` 类型：Number 选填<br/>指定物流状态，取值参考 [order.get([config,] callback)](#-get-config-callback-)

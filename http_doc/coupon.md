@@ -9,6 +9,7 @@
 
 <!-- .api-param -->
 
+* auth: `true`
 * 返回数据
     ```
     {
