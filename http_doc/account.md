@@ -12,7 +12,7 @@
 <!-- .api-param -->
 * auth: `true`
 * 返回数据
-    * ```customer``` 类型：Object<br/>null: 当前未登录<br/>用户对象：当前登录的用户 [查看详情](/development/s/5432566de2931e235b000003)
+    * ```customer``` 类型：Object<br/>null: 当前未登录<br/>用户对象：当前登录的用户 [查看详情](https://docs.youhaosuda.com/development/s/5432566de2931e235b000003)
 
 <!-- endapi -->
 
@@ -31,7 +31,7 @@
 * 返回数据
     * ```code``` 类型：Number<br/>200：登录成功<br/>201：登录失败
     * ```message``` 类型：String<br/>登录失败原因（当 code 为 201 时）
-    * ```customer``` 类型：Object<br/>当前登录的用户信息 [查看详情](/development/s/5432566de2931e235b000003)
+    * ```customer``` 类型：Object<br/>当前登录的用户信息 [查看详情](https://docs.youhaosuda.com/development/s/5432566de2931e235b000003)
     * ```account``` 类型：String<br/>当前登录的用户名
 
     ```
@@ -108,7 +108,7 @@
 * 返回数据
     * ```code``` 类型：Number<br/>200：更新信息成功<br/>201：更新信息失败
     * ```message``` 类型：String<br/>更新信息失败原因（当 code 为 201 时）
-    * ```customer``` 类型：Object<br/>更新后的用户信息 [查看详情](/development/s/5432566de2931e235b000003)
+    * ```customer``` 类型：Object<br/>更新后的用户信息 [查看详情](https://docs.youhaosuda.com/development/s/5432566de2931e235b000003)
 
 <!-- endapi -->
 
@@ -148,8 +148,8 @@
 
 * 参数
     * ```mobile``` 类型：String<br/>中国大陆手机号码
-    * ```captcha_id``` 类型：String 选填<br/>验证码图片 id [获取验证码](/development/s/55b66f1d0abc3e746a000002)
-    * ```captcha_value``` 类型：String 选填<br/>验证码图片中显示的值 [获取验证码](/development/s/55b66f1d0abc3e746a000002)
+    * ```captcha_id``` 类型：String 选填<br/>验证码图片 id [获取验证码](https://github.com/yeezon/shop-jssdk/blob/master/http_doc/captcha.md)
+    * ```captcha_value``` 类型：String 选填<br/>验证码图片中显示的值 [获取验证码](https://github.com/yeezon/shop-jssdk/blob/master/http_doc/captcha.md)
 * 返回数据
     * ```code``` 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败
     * ```message``` 类型：String<br/>发送信息失败原因（当 code 为 201 时）
@@ -167,8 +167,8 @@
 
 * 参数
     * ```mobile``` 类型：String<br/>中国大陆手机号码
-    * ```captcha_id``` 类型：String 选填<br/>验证码图片 id [获取验证码](/development/s/55b66f1d0abc3e746a000002)
-    * ```captcha_value``` 类型：String 选填<br/>验证码图片中显示的值 [获取验证码](/development/s/55b66f1d0abc3e746a000002)
+    * ```captcha_id``` 类型：String 选填<br/>验证码图片 id [获取验证码](https://github.com/yeezon/shop-jssdk/blob/master/http_doc/captcha.md)
+    * ```captcha_value``` 类型：String 选填<br/>验证码图片中显示的值 [获取验证码](https://github.com/yeezon/shop-jssdk/blob/master/http_doc/captcha.md)
 * 返回数据
     * ```code``` 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败
     * ```message``` 类型：String<br/>发送信息失败原因（当 code 为 201 时）
@@ -266,6 +266,6 @@
     * ```last_year_point``` 类型：Number<br/>账户上一年积分总数
     * ```reward_point_details``` 类型：Array<br/>账户积分详细信息
     * ```is_empty``` 类型：Boolean<br/>是否为空
-    * 返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
+    * 返回对象中包含分页对象 paging [查看详情](https://docs.youhaosuda.com/development/s/5587c0b00abc3e41b300002d#-paging-)
 
 <!-- endapi -->
