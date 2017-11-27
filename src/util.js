@@ -127,7 +127,7 @@ exports.isEmail = function(sEmail){
 };
 //
 exports.isMobile = function(sPhone){
-  var rPhone = /^(13|14|15|17|18)\d{9}$/;
+  var rPhone = /^(13|14|15|16|17|18|19)\d{9}$/;
   return rPhone.test(sPhone);
 };
 //
