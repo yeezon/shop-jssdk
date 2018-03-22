@@ -99,7 +99,7 @@ exports.getQuery = function(name, bNotEscape){
   if(bNotEscape){
     return (r === null ? null : r[2]);
   }else{
-    return (r === null ? null : unescape(r[2]));
+    return (r === null ? null : decodeURIComponent(r[2]));
   }
 };
 //
