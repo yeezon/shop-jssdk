@@ -6,7 +6,8 @@ var aConfig = {
     get: {url: ''},
     verify: {url: 'verify'},
     shopCoupon: {url: 'draw/:export_uuid', config: {RESTful: true}},
-    getShopCoupon: {url: 'draw/:export_uuid/get', config: {RESTful: true}}
+    getShopCoupon: {url: 'draw/:export_uuid/get', config: {RESTful: true}},
+    count: {}
 };
 
 var module = base('coupon', function(factory){
@@ -108,9 +109,18 @@ util.forEach(aConfig, function(value, key){
  * &&& ^^^
  * ```
  *
+ * ```count
+ * `` config
+ * &` 类型：Object
+ * &&` ^^^status^^^ 类型：Number 必填<br/>指定优惠券状态，`1`为可使用
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
+ * ```
+ *
  * @param {get} `callback` 获取当前账号绑定的优惠券
  * @param {verify} `code,callback` 验证优惠码对于当前购物车是否可用
  * @param {shopCoupon} `code,callback` 获取指定可领取优惠券的信息
  * @param {getShopCoupon} `code,callback` 领取指定优惠券
+ * @param {count} `[config,]callback` 获取指定状态优惠券的数量
  *
  */

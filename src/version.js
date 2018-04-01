@@ -1,3 +1,3 @@
 exports.get = function(){
-	return '0.0.23';
+	return '1.0.0';
 };
