@@ -2183,6 +2183,9 @@ var aConfig = {
     delete: {
       url: '../account/favorite/delete',
       method: 'POST'
+    },
+    check: {
+      url: '../account/favorite/check'
     }
 };
 
