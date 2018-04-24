@@ -9,7 +9,7 @@ exports.setCookie = function(name, value, isForever, domain){
   }else{
     sDomain = "";
   }
-  document.cookie = name + "=" + escape(value) + sDomain + (isForever?";expires="+  (new Date(2099,12,31)).toGMTString():"") + ";path=/";
+  document.cookie = name + "=" + encodeURIComponent(value) + sDomain + (isForever?";expires="+  (new Date(2099,12,31)).toGMTString():"") + ";path=/";
 };
 // 获取cookie
 exports.getCookie = function(sName){

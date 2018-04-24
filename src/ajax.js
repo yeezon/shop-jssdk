@@ -263,8 +263,6 @@ ajax.getJSON = function(url, success){
   return ajax({ url: url, success: success, dataType: 'json' })
 }
 
-var escape = encodeURIComponent
-
 function serialize(params, obj, traditional, scope){
   var array = type(obj) === 'array';
   for (var key in obj) {
@@ -282,7 +280,7 @@ function serialize(params, obj, traditional, scope){
 
 function param(obj, traditional){
   var params = []
-  params.add = function(k, v){ this.push(escape(k) + '=' + escape(v)) }
+  params.add = function(k, v){ this.push(encodeURIComponent(k) + '=' + encodeURIComponent(v)) }
   serialize(params, obj, traditional)
   return params.join('&').replace('%20', '+')
 }
