@@ -82,7 +82,7 @@ util.forEach(aConfig, function(value, key){
  * ```shopCoupon
  * `` code
  * &` 类型：Object
- * &&` ^^^id^^^ 类型：String<br/>优惠券领取id，优惠券领取链接的最后一节:<br /> http:&nbsp;//example.youhaovip.com/coupon/ **013aef9cd68f42038b78e5502cc75088**
+ * &&` ^^^id^^^ 类型：String<br/>优惠券领取 ID，优惠券领取链接的最后一节:<br />example.youhaovip.com/coupon/ **013aef9cd68f42038b78e5502cc75088**
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数。
  * &&& ^^^
@@ -97,7 +97,7 @@ util.forEach(aConfig, function(value, key){
  * ```getShopCoupon
  * `` code
  * &` 类型：Object
- * &&` ^^^id^^^ 类型：String<br/>优惠券领取id，优惠券领取链接的最后一节:<br /> http:&nbsp;//example.youhaovip.com/coupon/ **013aef9cd68f42038b78e5502cc75088**
+ * &&` ^^^id^^^ 类型：String<br/>优惠券领取 ID，优惠券领取链接的最后一节:<br />example.youhaovip.com/coupon/ **013aef9cd68f42038b78e5502cc75088**
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>获取信息后的回调函数。
  * &&& ^^^
@@ -115,6 +115,13 @@ util.forEach(aConfig, function(value, key){
  * &&` ^^^status^^^ 类型：Number 必填<br/>指定优惠券状态，`1`为可使用
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
+ * &&& ^^^
+ * &&& {
+ * &&&     "code": 200,
+ * &&&     "message": "",
+ * &&&     "count": 1  // 优惠券的数量
+ * &&& }
+ * &&& ^^^
  * ```
  *
  * @param {get} `callback` 获取当前账号绑定的优惠券
