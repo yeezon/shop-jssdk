@@ -48,9 +48,9 @@ var aConfig = {
       if(oEach.variant_id == oItem.variant_id){
         bItemInCart = true;
         if(bIsSet){
-          oEach.quantity = oItem.quantity;
+          oEach.quantity = window.Math.floor(window.parseInt(oItem.quantity) || 0);
         }else{
-          oEach.quantity = oEach.quantity + oItem.quantity;
+          oEach.quantity = window.Math.floor((window.parseInt(oEach.quantity) || 0) + (window.parseInt(oItem.quantity) || 0));
         }
         if(typeof oItem.is_check !== 'undefined'){
           oEach.is_check = oItem.is_check;
