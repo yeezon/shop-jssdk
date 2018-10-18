@@ -23,7 +23,15 @@ exports.getCookie = function(sName){
     reg = /(\S+?)=([\w\W]*?);/g;
     result = reg.exec(cookie_str);
     while(result){
-      cookies[result[1]] = decodeURIComponent(result[2]);
+      // 避免 decode 报错影响后面代码执行
+      try {
+        cookies[result[1]] = decodeURIComponent(result[2]);
+      } catch (oError) {
+        cookies[result[1]] = result[2];
+
+        console.log('JSSDK util.getCookie error: ', oError.message);
+      }
+
       result = reg.exec(cookie_str);
     }
     if(sName){
