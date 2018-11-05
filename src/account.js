@@ -17,7 +17,8 @@ var aConfig = {
   resetPasswordWithEmail: {method: 'POST', url: 'reset_password_with_email'},
   checkRegistMobile: {method: 'POST', url: 'check_regist_mobile'},
   checkResetMobile: {method: 'POST', url: 'check_reset_mobile'},
-  rewardPointDetails: {method: 'GET', url: 'reward_point_details'}
+  rewardPointDetails: {method: 'GET', url: 'reward_point_details'},
+  remove: {method: 'POST', url: 'remove'}
 };
 
 var module = base('account', function(factory){
@@ -227,6 +228,17 @@ exports.register = function(param, callback){
  * &&` 返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
  * ```
  *
+ * ```remove
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>删除账号后的回调函数
+ * &&& ^^^
+ * &&& {
+ * &&&     "code": 200,
+ * &&&     "message": ""
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
  * @param {current} `callback` 获取当前顾客信息
  * @param {login} `user,callback` 顾客登录
  * @param {logout} `callback` 顾客登出 （必须登录）
@@ -240,5 +252,6 @@ exports.register = function(param, callback){
  * @param {checkRegistMobile} `param,callback` 检测手机是否未注册（多用于顾客注册手机号码账号时检测用）
  * @param {checkResetMobile} `param,callback` 检测手机是否已注册（用于顾客重设手机号码账号密码时检测用）
  * @param {rewardPointDetails} `param,callback` 获取当前账户积分详细信息
+ * @param {remove} `param,callback` 注销账号
  *
  */
