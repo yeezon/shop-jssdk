@@ -114,7 +114,7 @@ exports.register = function(param, callback){
  * &&` ^^^notify_phone^^^ 类型：String<br/>顾客用于接收通知的手机
  * &&` ^^^real_name^^^ 类型：String<br/>真实姓名
  * &&` ^^^sex^^^ 类型：String<br/>性别，可选的值包括：
- * &&&&` nale: 男
+ * &&&&` male: 男
  * &&&&` female: 女
  * &&&&` undefined: 保密
  * &&` ^^^birthday^^^ 类型：String<br/>生日，如"1926-08-17"
@@ -252,6 +252,6 @@ exports.register = function(param, callback){
  * @param {checkRegistMobile} `param,callback` 检测手机是否未注册（多用于顾客注册手机号码账号时检测用）
  * @param {checkResetMobile} `param,callback` 检测手机是否已注册（用于顾客重设手机号码账号密码时检测用）
  * @param {rewardPointDetails} `param,callback` 获取当前账户积分详细信息
- * @param {remove} `param,callback` 注销账号
+ * @param {remove} `callback` 注销账号
  *
  */
