@@ -1,3 +1,3 @@
 exports.get = function(){
-	return '1.0.4';
+	return '1.1.0';
 };
