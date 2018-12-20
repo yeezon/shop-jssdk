@@ -119,6 +119,16 @@ exports.register = function(param, callback){
  * &&&&` undefined: 保密
  * &&` ^^^birthday^^^ 类型：String<br/>生日，如"1926-08-17"
  * &&` ^^^indentity_card^^^ 类型：String<br/>身份证号码
+ * &&` ^^^meta_fields^^^（选填） 类型：String<br/>序列化的地址拓展字段（JSON字符串），包含下列属性<br/><ul><li>`name`：String 类型，MetaField 的唯一字符串标识。仅支持小写字母、数字、中横和下划线，最多 200 个字符。</li><li>`description`：String 类型，MetaField 的说明，最多 2000 个字符。</li><li>`fields`：Object 类型，MetaField 的字段，Key-Value 结构对象。</li></ul>
+ * &&& ^^^
+ * &&& meta_fields = JSON.stringify({
+ * &&&    name: 'info',
+ * &&&    description: '信息',
+ * &&&    fields: {
+ * &&&        city: '深圳'
+ * &&&    }
+ * &&&})
+ * &&& ^^^
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>更新后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：更新信息成功<br/>201：更新信息失败
@@ -137,6 +147,16 @@ exports.register = function(param, callback){
  * &&` ^^^password^^^ 类型：String<br/>密码
  * &&` ^^^password_again^^^ 类型：String<br/>重复密码
  * &&` ^^^verify_code^^^ 类型：String 选填<br/>手机验证码，当 type 为^^^mobile^^^必须提供，使用 [sendRegistValidateSms](#-sendregistvalidatesms-param-callback-) 获取
+ * &&` ^^^meta_fields^^^（选填） 类型：String<br/>序列化的地址拓展字段（JSON字符串），包含下列属性<br/><ul><li>`name`：String 类型，MetaField 的唯一字符串标识。仅支持小写字母、数字、中横和下划线，最多 200 个字符。</li><li>`description`：String 类型，MetaField 的说明，最多 2000 个字符。</li><li>`fields`：Object 类型，MetaField 的字段，Key-Value 结构对象。</li></ul>
+ * &&& ^^^
+ * &&& meta_fields = JSON.stringify({
+ * &&&    name: 'info',
+ * &&&    description: '信息',
+ * &&&    fields: {
+ * &&&        city: '深圳'
+ * &&&    }
+ * &&&})
+ * &&& ^^^
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>提交后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：注册成功<br/>201：注册失败
