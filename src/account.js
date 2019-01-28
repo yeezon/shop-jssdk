@@ -5,6 +5,7 @@ var expo = require('./expo.js');
 var aConfig = {
   current: {},
   login: {method: 'POST'},
+  vcodeLogin: {method: 'POST', url: 'vcode_login'},
   logout: {method: 'POST'},
   changePassword: {method: 'POST', url: 'change_password'},
   save: {method: 'POST'},
@@ -13,9 +14,10 @@ var aConfig = {
   registerWithMobile: {method: 'POST', url: 'register_with_mobile'},
   sendRegistValidateSms: {method: 'POST', url: 'send_regist_validate_sms'},
   sendResetValidateSms: {method: 'POST', url: 'send_reset_validate_sms'},
+  sendMobileValidateSms: {method: 'POST', url: 'send_mobile_validate_sms'},
   resetPasswordWithMobile: {method: 'POST', url: 'reset_password_with_mobile'},
   resetPasswordWithEmail: {method: 'POST', url: 'reset_password_with_email'},
-  resendRegistValidateEmail: {method: 'POST', url: 'resend_regist_email_validate'},
+  resendRegistEmailValidate: {method: 'POST', url: 'resend_regist_email_validate'},
   checkRegistMobile: {method: 'POST', url: 'check_regist_mobile'},
   checkResetMobile: {method: 'POST', url: 'check_reset_mobile'},
   rewardPointDetails: {method: 'GET', url: 'reward_point_details'},
@@ -65,8 +67,43 @@ exports.register = function(param, callback){
  * &` 类型：Function( 返回对象 )<br/>登录后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：登录成功<br/>201：登录失败
  * &&` ^^^message^^^ 类型：String<br/>登录失败原因（当 code 为 201 时）
- * &&` ^^^customer^^^ 类型：Object<br/>当前登录的用户信息 [查看详情](/development/s/5432566de2931e235b000003)
  * &&` ^^^account^^^ 类型：String<br/>当前登录的用户名
+ * &&` ^^^customer^^^ 类型：Object<br/>当前登录的用户信息 [查看详情](/development/s/5432566de2931e235b000003)
+ * &&& &nbsp;
+ * &&& ^^^
+ * &&& {
+ * &&&     "code" : 200,
+ * &&&     "message" : "",
+ * &&&     "account" : "yhsduser",
+ * &&&     "customer" : {
+ * &&&         "id" : 15,
+ * &&&         "social_type" : false,
+ * &&&         "name" : "yhsduser",
+ * &&&         "metas" : {},
+ * &&&         "notify_email" : "user@youhaosuda.com",
+ * &&&         "notify_phone" : "13824402932",
+ * &&&         "accept_marketing" : false,
+ * &&&         "regist_at" : "2014-08-27T13:52:34.964+08:00",
+ * &&&         "orders_count" : 15,
+ * &&&         "total_spent" : 144291,
+ * &&&         "last_order_no" : "201505263782651",
+ * &&&         "last_order_at" : "2015-05-26T19:25:53.667+08:00"
+ * &&&     }
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
+ * ```vcodeLogin
+ * `` user
+ * &` 类型：Object
+ * &&` ^^^account^^^ 类型：String<br/>手机号码
+ * &&` ^^^verify_code^^^ 类型：String<br/>手机短信验证码
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>登录或注册后的回调函数
+ * &&` ^^^code^^^ 类型：Number<br/>200：登录或注册成功<br/>201：登录或注册失败
+ * &&` ^^^message^^^ 类型：String<br/>登录或注册失败原因（当 code 为 201 时）
+ * &&` ^^^account^^^ 类型：String<br/>当前登录或注册的用户名
+ * &&` ^^^customer^^^ 类型：Object<br/>当前登录或注册的用户信息 [查看详情](/development/s/5432566de2931e235b000003)
  * &&& &nbsp;
  * &&& ^^^
  * &&& {
@@ -189,6 +226,18 @@ exports.register = function(param, callback){
  * &&` ^^^message^^^ 类型：String<br/>发送信息失败原因（当 code 为 201 时）
  * ```
  *
+ * ```sendMobileValidateSms
+ * `` param
+ * &` 类型：Object
+ * &&` ^^^mobile^^^ 类型：String<br/>中国大陆手机号码
+ * &&` ^^^captcha_id^^^ 类型：String 选填<br/>验证码图片 id [获取验证码](/development/s/55b66f1d0abc3e746a000002)
+ * &&` ^^^captcha_value^^^ 类型：String 选填<br/>验证码图片中显示的值 [获取验证码](/development/s/55b66f1d0abc3e746a000002)
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>更新后的回调函数
+ * &&` ^^^code^^^ 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败
+ * &&` ^^^message^^^ 类型：String<br/>发送信息失败原因（当 code 为 201 时）
+ * ```
+ *
  * ```resetPasswordWithMobile
  * `` param
  * &` 类型：Object
@@ -212,7 +261,7 @@ exports.register = function(param, callback){
  * &&` ^^^message^^^ 类型：String<br/>发送信息失败原因（当 code 为 201 时）
  * ```
  *
- * ```resendRegistValidateEmail
+ * ```resendRegistEmailValidate
  * `` param
  * &` 类型：Object
  * &&` ^^^email^^^ 类型：String<br/>需要重发激活邮件的邮箱地址
@@ -272,15 +321,17 @@ exports.register = function(param, callback){
  *
  * @param {current} `callback` 获取当前顾客信息
  * @param {login} `user,callback` 顾客登录
+ * @param {vcodeLogin} `user,callback` 顾客手机账号短信验证码登录或注册
  * @param {logout} `callback` 顾客登出 （必须登录）
  * @param {changePassword} `password,callback` 顾客修改密码 （必须登录）
  * @param {save} `notify,callback` 更新顾客信息 （必须登录）
  * @param {register} `param,callback` 注册顾客账号
- * @param {sendRegistValidateSms} `param,callback` 顾客注册手机号码账号时，获取手机验证码
- * @param {sendResetValidateSms} `param,callback` 顾客找回手机号码账号密码时，获取手机验证码
+ * @param {sendRegistValidateSms} `param,callback` 顾客注册手机号码账号时，获取短信验证码
+ * @param {sendResetValidateSms} `param,callback` 顾客找回手机号码账号密码时，获取短信验证码
+ * @param {sendMobileValidateSms} `param,callback` 顾客用手机号码登录或注册时，获取短信验证码
  * @param {resetPasswordWithMobile} `param,callback` 重设手机号码账号密码
  * @param {resetPasswordWithEmail} `param,callback` 发送邮箱账号重置密码邮件
- * @param {resendRegistValidateEmail} `param,callback` 重发邮箱注册激活邮件
+ * @param {resendRegistEmailValidate} `param,callback` 重发邮箱注册激活邮件
  * @param {checkRegistMobile} `param,callback` 检测手机是否未注册（多用于顾客注册手机号码账号时检测用）
  * @param {checkResetMobile} `param,callback` 检测手机是否已注册（用于顾客重设手机号码账号密码时检测用）
  * @param {rewardPointDetails} `param,callback` 获取当前账户积分详细信息
