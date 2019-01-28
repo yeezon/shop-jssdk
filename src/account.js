@@ -209,7 +209,7 @@ exports.register = function(param, callback){
  * &&` ^^^captcha_id^^^ 类型：String 选填<br/>验证码图片 id [获取验证码](/development/s/55b66f1d0abc3e746a000002)
  * &&` ^^^captcha_value^^^ 类型：String 选填<br/>验证码图片中显示的值 [获取验证码](/development/s/55b66f1d0abc3e746a000002)
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>更新后的回调函数
+ * &` 类型：Function( 返回对象 )<br/>发送后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败
  * &&` ^^^message^^^ 类型：String<br/>发送信息失败原因（当 code 为 201 时）
  * ```
@@ -221,7 +221,7 @@ exports.register = function(param, callback){
  * &&` ^^^captcha_id^^^ 类型：String 选填<br/>验证码图片 id [获取验证码](/development/s/55b66f1d0abc3e746a000002)
  * &&` ^^^captcha_value^^^ 类型：String 选填<br/>验证码图片中显示的值 [获取验证码](/development/s/55b66f1d0abc3e746a000002)
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>更新后的回调函数
+ * &` 类型：Function( 返回对象 )<br/>发送后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败
  * &&` ^^^message^^^ 类型：String<br/>发送信息失败原因（当 code 为 201 时）
  * ```
@@ -233,7 +233,7 @@ exports.register = function(param, callback){
  * &&` ^^^captcha_id^^^ 类型：String 选填<br/>验证码图片 id [获取验证码](/development/s/55b66f1d0abc3e746a000002)
  * &&` ^^^captcha_value^^^ 类型：String 选填<br/>验证码图片中显示的值 [获取验证码](/development/s/55b66f1d0abc3e746a000002)
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>更新后的回调函数
+ * &` 类型：Function( 返回对象 )<br/>发送后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败
  * &&` ^^^message^^^ 类型：String<br/>发送信息失败原因（当 code 为 201 时）
  * ```
@@ -246,7 +246,7 @@ exports.register = function(param, callback){
  * &&` ^^^password_again^^^ 类型：String<br/>重复密码
  * &&` ^^^verify_code^^^ 类型：String<br/>手机验证码，使用 [sendResetValidateSms](#-sendresetvalidatesms-param-callback-) 获取
  * `` callback
- * &` 类型：Function( 返回对象 )<br/>更新后的回调函数
+ * &` 类型：Function( 返回对象 )<br/>发送后的回调函数
  * &&` ^^^code^^^ 类型：Number<br/>200：发送成功<br/>214：该操作需要验证码<br/>201：发送失败
  * &&` ^^^message^^^ 类型：String<br/>发送信息失败原因（当 code 为 201 时）
  * ```
