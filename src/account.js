@@ -9,6 +9,8 @@ var aConfig = {
   logout: {method: 'POST'},
   changePassword: {method: 'POST', url: 'change_password'},
   save: {method: 'POST'},
+  socialBind: {method: 'POST', url: 'social/bind'},
+  socialSync: {method: 'POST', url: 'social/sync'},
   registerWithEmail: {method: 'POST', url: 'register_with_email'},
   registerWithUsername: {method: 'POST', url: 'register_with_user_name'},
   registerWithMobile: {method: 'POST', url: 'register_with_mobile'},
@@ -174,6 +176,224 @@ exports.register = function(param, callback){
  * &&` ^^^customer^^^ 类型：Object<br/>更新后的用户信息 [查看详情](/development/s/5432566de2931e235b000003)
  * ```
  *
+ * ```socialBind
+ * `` user
+ * &` 类型：Object
+ * &&` ^^^account^^^ 类型：String<br/>用户账号（非必须）
+ * &&` ^^^password^^^ 类型：String<br/>用户密码（非必须）
+ * &&` ^^^notify_email^^^ 类型：String<br/>通知邮箱（非必须）
+ * &&` ^^^notify_phone^^^ 类型：String<br/>通知手机（非必须）
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>发送后的回调函数
+ * &&` ^^^code^^^ 类型：Number<br/>200：绑定成功<br/>非 200：绑定失败
+ * &&` ^^^message^^^ 类型：String<br/>绑定失败原因（当 code 为非 200 时）
+ * &&` ^^^bind_success^^^ 类型：Boolean<br/>社交账号是否绑定相关信息成功
+ * &&` ^^^customer^^^ 类型：Object<br/>主账号用户信息 [查看详情](/development/s/5432566de2931e235b000003)
+ * &&` ^^^current_customer^^^ 类型：Object<br/>社交账号用户信息（信息格式与 customer 类似）
+ * &&& &nbsp;
+ * &&& ^^^
+ * &&& {
+ * &&&   "code": 200,
+ * &&&   "message": "",
+ * &&&   "bind_success": true,
+ * &&&   "current_customer": {
+ * &&&     "accept_marketing": false,
+ * &&&     "avatar_url": "//asset.ibanquan.com/image/5bebcd3c8c77402e52000333/avatar_url.jpg",
+ * &&&     "birthday": null,
+ * &&&     "customer_level": {
+ * &&&       "avatar_url": "//asset.ibanquan.com/image/569547ca0abc3e71be000003/custom_level_default.png",
+ * &&&       "credits": 10000,
+ * &&&       "discount": 50,
+ * &&&       "id": 1557,
+ * &&&       "name": "lvmax"
+ * &&&     },
+ * &&&     "email": null,
+ * &&&     "id": 888,
+ * &&&     "indentity_card": null,
+ * &&&     "last_order_at": "2019-02-12T10:51:12.878+08:00",
+ * &&&     "last_order_no": "2019021215059454044",
+ * &&&     "last_year_point": 42,
+ * &&&     "metas": {},
+ * &&&     "mobile": "13800138000",
+ * &&&     "name": "13800138000",
+ * &&&     "notify_email": "",
+ * &&&     "notify_phone": "13800138000",
+ * &&&     "orders_count": 33,
+ * &&&     "point": 0,
+ * &&&     "real_name": null,
+ * &&&     "reg_type": 2,
+ * &&&     "regist_at": "2018-05-13T17:25:05.757+08:00",
+ * &&&     "sex": "undefined",
+ * &&&     "social_accounts": [
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=douban&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "douban"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=weibo&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "weibo"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=qq&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "qq"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=renren&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "renren"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=netease&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "netease"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=weixin&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "weixin"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=facebook&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "facebook"
+ * &&&       }
+ * &&&     ],
+ * &&&     "social_id": null,
+ * &&&     "social_type": false,
+ * &&&     "total_credit": 101114,
+ * &&&     "total_spent": 21078,
+ * &&&     "uname": null
+ * &&&   },
+ * &&&   "customer": null
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
+ * ```socialSync
+ * `` user
+ * &` 类型：Object
+ * &&` ^^^account^^^ 类型：String<br/>用户账号
+ * &&` ^^^password^^^ 类型：String<br/>用户密码
+ * `` callback
+ * &` 类型：Function( 返回对象 )<br/>发送后的回调函数
+ * &&` ^^^code^^^ 类型：Number<br/>200：绑定成功<br/>非 200：绑定失败
+ * &&` ^^^message^^^ 类型：String<br/>绑定失败原因（当 code 为非 200 时）
+ * &&` ^^^bind_success^^^ 类型：Boolean<br/>社交账号是否绑定相关信息成功
+ * &&` ^^^customer^^^ 类型：Object<br/>主账号用户信息 [查看详情](/development/s/5432566de2931e235b000003)
+ * &&` ^^^current_customer^^^ 类型：Object<br/>社交账号用户信息（信息格式与 customer 类似）
+ * &&& &nbsp;
+ * &&& ^^^
+ * &&& {
+ * &&&   "code": 200,
+ * &&&   "message": "",
+ * &&&   "bind_success": true,
+ * &&&   "current_customer": {
+ * &&&     "accept_marketing": false,
+ * &&&     "avatar_url": "//asset.ibanquan.com/image/5bebcd3c8c77402e52000333/avatar_url.jpg",
+ * &&&     "birthday": null,
+ * &&&     "customer_level": {
+ * &&&       "avatar_url": "//asset.ibanquan.com/image/569547ca0abc3e71be000003/custom_level_default.png",
+ * &&&       "credits": 10000,
+ * &&&       "discount": 50,
+ * &&&       "id": 1557,
+ * &&&       "name": "lvmax"
+ * &&&     },
+ * &&&     "email": null,
+ * &&&     "id": 888,
+ * &&&     "indentity_card": null,
+ * &&&     "last_order_at": "2019-02-12T10:51:12.878+08:00",
+ * &&&     "last_order_no": "2019021215059454044",
+ * &&&     "last_year_point": 42,
+ * &&&     "metas": {},
+ * &&&     "mobile": "13800138000",
+ * &&&     "name": "13800138000",
+ * &&&     "notify_email": "",
+ * &&&     "notify_phone": "13800138000",
+ * &&&     "orders_count": 33,
+ * &&&     "point": 0,
+ * &&&     "real_name": null,
+ * &&&     "reg_type": 2,
+ * &&&     "regist_at": "2018-05-13T17:25:05.757+08:00",
+ * &&&     "sex": "undefined",
+ * &&&     "social_accounts": [
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=douban&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "douban"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=weibo&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "weibo"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=qq&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "qq"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=renren&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "renren"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=netease&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "netease"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=weixin&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "weixin"
+ * &&&       },
+ * &&&       {
+ * &&&         "avatar_url": "",
+ * &&&         "bind_url": "https://youhaosuda.com/api/auth?type=facebook&direct_bind=true",
+ * &&&         "binded": false,
+ * &&&         "name": "",
+ * &&&         "type": "facebook"
+ * &&&       }
+ * &&&     ],
+ * &&&     "social_id": null,
+ * &&&     "social_type": false,
+ * &&&     "total_credit": 101114,
+ * &&&     "total_spent": 21078,
+ * &&&     "uname": null
+ * &&&   },
+ * &&&   "customer": null
+ * &&& }
+ * &&& ^^^
+ * ```
+ *
  * ```register
  * `` param
  * &` 类型：Object
@@ -301,9 +521,9 @@ exports.register = function(param, callback){
  * &&` ^^^nopage^^^ 类型：String 选填<br/>指定是否分页
  * `` callback
  * &` 类型：Function( 返回对象 )<br/>请求后的回调函数
- * &&` ^^^reward_point_total^^^ 类型：Number<br/>账户积分总数
- * &&` ^^^last_year_point^^^ 类型：Number<br/>账户上一年积分总数
- * &&` ^^^reward_point_details^^^ 类型：Array<br/>账户积分详细信息
+ * &&` ^^^reward_point_total^^^ 类型：Number<br/>账号积分总数
+ * &&` ^^^last_year_point^^^ 类型：Number<br/>账号上一年积分总数
+ * &&` ^^^reward_point_details^^^ 类型：Array<br/>账号积分详细信息
  * &&` ^^^is_empty^^^ 类型：Boolean<br/>是否为空
  * &&` 返回对象中包含分页对象 paging [查看详情](/development/s/5587c0b00abc3e41b300002d#-paging-)
  * ```
@@ -325,6 +545,8 @@ exports.register = function(param, callback){
  * @param {logout} `callback` 顾客登出 （必须登录）
  * @param {changePassword} `password,callback` 顾客修改密码 （必须登录）
  * @param {save} `notify,callback` 更新顾客信息 （必须登录）
+ * @param {socialBind} `user,callback` 社交账号绑定普通账号（系统强制绑定）
+ * @param {socialSync} `user,callback` 社交账号绑定普通账号（用户主动绑定）
  * @param {register} `param,callback` 注册顾客账号
  * @param {sendRegistValidateSms} `param,callback` 顾客注册手机号码账号时，获取短信验证码
  * @param {sendResetValidateSms} `param,callback` 顾客找回手机号码账号密码时，获取短信验证码
@@ -334,7 +556,7 @@ exports.register = function(param, callback){
  * @param {resendRegistEmailValidate} `param,callback` 重发邮箱注册激活邮件
  * @param {checkRegistMobile} `param,callback` 检测手机是否未注册（多用于顾客注册手机号码账号时检测用）
  * @param {checkResetMobile} `param,callback` 检测手机是否已注册（用于顾客重设手机号码账号密码时检测用）
- * @param {rewardPointDetails} `param,callback` 获取当前账户积分详细信息
+ * @param {rewardPointDetails} `param,callback` 获取当前账号积分详细信息
  * @param {remove} `callback` 注销账号
  *
  */
