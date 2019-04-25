@@ -95,6 +95,13 @@ module.exports = function(sName, func){
              oPushlish.request = false;
           }
         }
+        // 服务管理 兼容
+        if(sName === 'service' && url === 'service/view'){
+          oPushlish.urlModify = 'service/single';
+          oPushlish.request = {
+            'id': oPushlish.request.handle
+          };
+        }
       }
       oPushlish._scope = self;
       //
