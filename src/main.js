@@ -37,6 +37,7 @@ var runWhenReady = function(fn){
 };
 
 window.yhsd.ready = runWhenReady;
+window.yhsd.sdk = YHSD;
 
 if(typeof window.yhsdDebug === 'undefined'){
 	window.yhsdDebug = false;
