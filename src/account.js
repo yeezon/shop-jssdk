@@ -11,6 +11,7 @@ var aConfig = {
   save: {method: 'POST'},
   socialBind: {method: 'POST', url: 'social/bind'},
   socialSync: {method: 'POST', url: 'social/sync'},
+  socialAuth: {method: 'POST', url: 'social/auth'},
   registerWithEmail: {method: 'POST', url: 'register_with_email'},
   registerWithUsername: {method: 'POST', url: 'register_with_user_name'},
   registerWithMobile: {method: 'POST', url: 'register_with_mobile'},
