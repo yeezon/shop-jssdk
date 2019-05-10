@@ -15,7 +15,6 @@ oReq.prototype._setParam = function(o, sUri){
 	if(!o.data){
 		o.data = {};
 	}
-	o.data.token = window.ajaxToken;
 	o.dataType = 'json';
 	if(!o.error){
 		o.error = function(){
@@ -39,9 +38,6 @@ oReq.prototype._get = function(sUri, oParam){
 	self._setParam(oParam, sUri);
 	oParam.method = 'GET';
 	oParam.type = 'GET';
-	//
-	oParam.data.rnd = new Date().getTime();
-	//
 	self._send(oParam);
 };
 oReq.prototype._post = function(sUri, oParam){
