@@ -1,5 +1,5 @@
 var events = require('./events.js');
-var req = require('./request.js');
+var req = require('./lib/request.js');
 var handle = require('./handle.js');
 var util = require('./util.js');
 //

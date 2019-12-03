@@ -1,4 +1,4 @@
-var req = require('./request.js');
+var req = require('./lib/request.js');
 var type_of = require('./type-of.js');
 var util = require('./util.js');
 

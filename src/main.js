@@ -1,22 +1,49 @@
-var req = require('./request.js');
+var req = require('./lib/request.js');
 var handle = require('./handle.js');
 var events = require('./events.js');
 var util = require('./util.js');
 var type_of = require('./type-of.js');
 var captcha = require('./captcha.js');
 var version = require('./version.js');
+var request = require('./request.js');
 
 var version = version.get();
 
 if(window){
-	window.yhsd = {};
+	window.yhsd = {
+	   _$interceptors: {
+			request: {
+				_$callback: function (oRequest, fnNext) {
+					fnNext(oRequest);
+				},
+				use: function (_fn) {
+					this._$callback = _fn;
+				},
+				run: function (oRequest, fnNext) {
+					this._$callback(oRequest, fnNext);
+				}
+			},
+			response: {
+				_$callback: function (oResponse, fnNext) {
+					fnNext(oResponse);
+				},
+				use: function (_fn) {
+					this._$callback = _fn;
+				},
+				run: function (oResponse, fnNext) {
+					this._$callback(oResponse, fnNext);
+				}
+			}
+	   }
+	};
 }else{
-	console.log('not in broswer');
+	console.log('no support');
 }
 
 var YHSD = {};
 YHSD.events = events;
 YHSD.util = util;
+YHSD.request = request;
 YHSD.captcha = captcha;
 
 window.yhsd.version = function(){
