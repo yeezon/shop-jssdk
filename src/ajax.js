@@ -58,7 +58,7 @@ var ajax = module.exports = function(options){
     if (xhr.readyState == 4) {
       clearTimeout(abortTimeout)
 
-      window._$interceptors.response.run(xhr, function (xhr) {
+      window.yhsd._$interceptors.response.run(xhr, function (xhr) {
         var result, error = false
         if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
           dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
