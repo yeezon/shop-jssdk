@@ -57,22 +57,25 @@ var ajax = module.exports = function(options){
   xhr.onreadystatechange = function(){
     if (xhr.readyState == 4) {
       clearTimeout(abortTimeout)
-      var result, error = false
-      if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
-        dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
-        result = xhr.responseText
 
-        try {
-          if (dataType == 'script')    (1,eval)(result)
-          else if (dataType == 'xml')  result = xhr.responseXML
-          else if (dataType == 'json') result = blankRE.test(result) ? null : JSON.parse(result)
-        } catch (e) { error = e }
-
-        if (error) ajaxError(error, 'parsererror', xhr, settings)
-        else ajaxSuccess(result, xhr, settings)
-      } else {
-        ajaxError(null, 'error', xhr, settings)
-      }
+      window._$interceptors.response.run(xhr, function (xhr) {
+        var result, error = false
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
+          dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
+          result = xhr.responseText
+  
+          try {
+            if (dataType == 'script')    (1,eval)(result)
+            else if (dataType == 'xml')  result = xhr.responseXML
+            else if (dataType == 'json') result = blankRE.test(result) ? null : JSON.parse(result)
+          } catch (e) { error = e }
+  
+          if (error) ajaxError(error, 'parsererror', xhr, settings)
+          else ajaxSuccess(result, xhr, settings)
+        } else {
+          ajaxError(null, 'error', xhr, settings)
+        }
+      })
     }
   }
 
