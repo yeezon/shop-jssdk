@@ -3,6 +3,7 @@ var expo = require('./expo.js');
 var util = require('./util.js');
 
 var aConfig = {
+    get: {url: ''},
     matchCart: {url: 'match/cart'},
     matchProduct: {url: 'match/product'}
 };
