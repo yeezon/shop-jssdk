@@ -1,7 +1,9 @@
 var util = require('./util.js');
 
+var _global = (window || global);
+
 module.exports = function(info, option){
-  if(window.yhsdDebug){
+  if(_global.yhsdDebug){
     var sLog = '';
     util.forEach(info, function(value, key){
       var sEachLog = key + ':' + value + '  ';

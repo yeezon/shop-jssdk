@@ -1,6 +1,8 @@
 // 订单金额计算器
 exports.orderCalculator = require('./calculator.js');
 
+var _global = (window || global);
+
 // 设置cookie
 exports.setCookie = function(name, value, isForever, domain){
   var sDomain;
@@ -43,19 +45,19 @@ exports.getCookie = function(sName){
 // 获取图片url
 exports.getImageUrl = function(image_id, image_name, image_size, image_epoch){
   if(!image_id || !image_name){
-    var aDef = window.productImage.split('.');
+    var aDef = _global.productImage.split('.');
     aDef[0] = aDef[0] + '_' + image_size;
     var sDef = aDef.join('.');
-    var sPath = window.assetPath;
+    var sPath = _global.assetPath;
     if(!sPath){
-      sPath = window.assetHost;
+      sPath = _global.assetHost;
     }
     sDef = sPath + sDef;
     return sDef;
   }
-  var sHost = window.assetHost;
+  var sHost = _global.assetHost;
   if(!sHost){
-    sHost = window.assetPath;
+    sHost = _global.assetPath;
   }
   sHost = sHost + image_id + '/';
   var sFileName = image_name;
@@ -102,7 +104,7 @@ exports.getProductUrl = function(sUrl, nWidth, nHeight){
 };
 //
 exports.getQuery = function(name, bNotEscape){
-  var sUrl = window.location.search.substr(1);
+  var sUrl = _global.location.search.substr(1);
   var r = sUrl.match(new RegExp("(^|&)" + name + "=([^&]*)(&|$)"));
   if(bNotEscape){
     return (r === null ? null : r[2]);
@@ -118,7 +120,7 @@ exports.setQuery = function( key , value , url ){
     sHash = aHash[0];
     url = url.replace(sHash, '');
   }
-  url = url || window.location.href;
+  url = url || _global.location.href;
   url = url.replace( new RegExp( '(^|\\?)' + key + '=[^&]*(&|$|#)' , 'g' ) , '?' );
   url = url.replace( new RegExp( '(^|&)' + key + '=[^&]*(?=&|$|#)' , 'g' ) , '' );
   var p = key + '=' + encodeURIComponent(value);

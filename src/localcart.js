@@ -2,6 +2,8 @@ var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
 
+var _global = (window || global);
+
 var getParam = function(o, key){
   if(o && o.data){
     return o.data[key] || false;
@@ -17,7 +19,7 @@ var aConfig = {
         self.cart = JSON.parse(sCart);
       }catch(e){
         util.setCookie(self.cookieName, '', true);
-        window.location.reload();
+        _global.location.reload();
       }
     }else{
         self.cart = [];
@@ -48,9 +50,9 @@ var aConfig = {
       if(oEach.variant_id == oItem.variant_id){
         bItemInCart = true;
         if(bIsSet){
-          oEach.quantity = window.Math.floor(window.parseInt(oItem.quantity) || 0);
+          oEach.quantity = _global.Math.floor(_global.parseInt(oItem.quantity) || 0);
         }else{
-          oEach.quantity = window.Math.floor((window.parseInt(oEach.quantity) || 0) + (window.parseInt(oItem.quantity) || 0));
+          oEach.quantity = _global.Math.floor((_global.parseInt(oEach.quantity) || 0) + (_global.parseInt(oItem.quantity) || 0));
         }
         if(typeof oItem.is_check !== 'undefined'){
           oEach.is_check = oItem.is_check;

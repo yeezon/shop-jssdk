@@ -7,37 +7,10 @@ var captcha = require('./captcha.js');
 var version = require('./version.js');
 var request = require('./request.js');
 
-var version = version.get();
+var _global = (window || global);
 
-if(window){
-	window.yhsd = {
-	   _$interceptors: {
-			request: {
-				_$callback: function (oRequest, fnNext) {
-					fnNext(oRequest);
-				},
-				use: function (_fn) {
-					this._$callback = _fn;
-				},
-				run: function (oRequest, fnNext) {
-					this._$callback(oRequest, fnNext);
-				}
-			},
-			response: {
-				_$callback: function (oResponse, fnNext) {
-					fnNext(oResponse);
-				},
-				use: function (_fn) {
-					this._$callback = _fn;
-				},
-				run: function (oResponse, fnNext) {
-					this._$callback(oResponse, fnNext);
-				}
-			}
-	   }
-	};
-}else{
-	console.log('no support');
+if(!_global){
+	console.log('Not in support');	
 }
 
 var YHSD = {};
@@ -46,8 +19,35 @@ YHSD.util = util;
 YHSD.request = request;
 YHSD.captcha = captcha;
 
-window.yhsd.version = function(){
-	return version;
+_global.yhsd = {
+	_$interceptors: {
+		request: {
+			_$callback: function (oRequest, fnNext) {
+				fnNext(oRequest);
+			},
+			use: function (_fn) {
+				this._$callback = _fn;
+			},
+			run: function (oRequest, fnNext) {
+				this._$callback(oRequest, fnNext);
+			}
+		},
+		response: {
+			_$callback: function (oResponse, fnNext) {
+				fnNext(oResponse);
+			},
+			use: function (_fn) {
+				this._$callback = _fn;
+			},
+			run: function (oResponse, fnNext) {
+				this._$callback(oResponse, fnNext);
+			}
+		}
+   }
+};
+
+_global.yhsd.version = function(){
+	return version.get();
 };
 
 var aFunctionReady = [];
@@ -63,11 +63,11 @@ var runWhenReady = function(fn){
 	}
 };
 
-window.yhsd.ready = runWhenReady;
-window.yhsd.sdk = YHSD;
+_global.yhsd.ready = runWhenReady;
+_global.yhsd.sdk = YHSD;
 
-if(typeof window.yhsdDebug === 'undefined'){
-	window.yhsdDebug = false;
+if(typeof _global.yhsdDebug === 'undefined'){
+	_global.yhsdDebug = false;
 }
 
 var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point', 'page_block', 'post', 'favorite', 'service', 'trade_invoice'];
@@ -108,10 +108,10 @@ function jssdkInit(){
 
 (function(){
 	var ajaxToken = null;
-	if('ajaxToken' in window) {
+	if('ajaxToken' in _global) {
 		jssdkInit();
 	} else {
-		Object.defineProperty(window, 'ajaxToken', {
+		Object.defineProperty(_global, 'ajaxToken', {
 			set: function(token){
 				if(!ajaxToken) {
 					ajaxToken = token;

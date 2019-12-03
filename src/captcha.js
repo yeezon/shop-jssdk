@@ -2,11 +2,13 @@ var req = require('./lib/request.js');
 var events = require('./events.js');
 var type_of = require('./type-of.js');
 
+var _global = (window || global);
+
 var sModuleName = 'captcha';
 
 var fetchFunc = exports.fetch = function(callback){
   //
-  var sFetchUrl = window.captchaPath || '//captcha.ibanquan.com';
+  var sFetchUrl = _global.captchaPath || '//captcha.ibanquan.com';
   //
   var sTopic = sModuleName + '.fetch';
   var sTopicDone = sTopic + '.done';

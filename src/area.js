@@ -2,14 +2,16 @@ var req = require('./lib/request.js');
 var type_of = require('./type-of.js');
 var util = require('./util.js');
 
+var _global = (window || global);
+
 var sAreaDataVersion = '190929';
-var sAreaDataHost = window.assetHost || '//asset.ibanquan.com/';  // 格式 //asset.ibanquan.com/
+var sAreaDataHost = _global.assetHost || '//asset.ibanquan.com/';  // 格式 //asset.ibanquan.com/
 var sAreaDataUrl = sAreaDataHost + 'common/js/areadata-' + sAreaDataVersion + '.js';
 
 var oAreaData = {};
 var oLocalAreaData = null;
 
-var localStorage =  window.localStorage;
+var localStorage =  _global.localStorage;
 var localStorageItemName = 'yhsd_areadata';
 
 

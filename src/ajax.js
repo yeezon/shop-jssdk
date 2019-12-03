@@ -2,6 +2,7 @@
 /* jshint ignore:start */
 var util = require('./util.js');
 var type
+
 try {
   type = require('./type-of.js')
 } catch (ex) {
@@ -10,8 +11,10 @@ try {
   type = r('type')
 }
 
+var _global = (window || global);
+
 var jsonpID = 0,
-    document = window.document,
+    document = _global.document,
     key,
     name,
     rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
@@ -21,14 +24,14 @@ var jsonpID = 0,
     htmlType = 'text/html',
     blankRE = /^\s*$/
 
-var ajax = module.exports = function(options){
+var ajax = module.exports = function(options) {
   var settings = extend({}, options || {})
   for (key in ajax.settings) if (settings[key] === undefined) settings[key] = ajax.settings[key]
 
   ajaxStart(settings)
 
   if (!settings.crossDomain) settings.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(settings.url) &&
-    RegExp.$2 != window.location.host
+    RegExp.$2 != _global.location.host
 
   var dataType = settings.dataType, hasPlaceholder = /=\?/.test(settings.url)
   if (dataType == 'jsonp' || hasPlaceholder) {
@@ -36,12 +39,12 @@ var ajax = module.exports = function(options){
     return ajax.JSONP(settings)
   }
 
-  if (!settings.url) settings.url = window.location.toString()
+  if (!settings.url) settings.url = _global.location.toString()
   serializeData(settings)
 
   var mime = settings.accepts[dataType],
       baseHeaders = { },
-      protocol = /^([\w-]+:)\/\//.test(settings.url) ? RegExp.$1 : window.location.protocol,
+      protocol = /^([\w-]+:)\/\//.test(settings.url) ? RegExp.$1 : _global.location.protocol,
       xhr = ajax.settings.xhr(), abortTimeout
 
   if (!settings.crossDomain) baseHeaders['X-Requested-With'] = 'XMLHttpRequest'
@@ -58,18 +61,18 @@ var ajax = module.exports = function(options){
     if (xhr.readyState == 4) {
       clearTimeout(abortTimeout)
 
-      window.yhsd._$interceptors.response.run(xhr, function (xhr) {
+      _global.yhsd._$interceptors.response.run(xhr, function (xhr) {
         var result, error = false
         if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
           dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
           result = xhr.responseText
-  
+
           try {
             if (dataType == 'script')    (1,eval)(result)
             else if (dataType == 'xml')  result = xhr.responseXML
             else if (dataType == 'json') result = blankRE.test(result) ? null : JSON.parse(result)
           } catch (e) { error = e }
-  
+
           if (error) ajaxError(error, 'parsererror', xhr, settings)
           else ajaxSuccess(result, xhr, settings)
         } else {
@@ -80,7 +83,7 @@ var ajax = module.exports = function(options){
   }
 
   // overrideMimeType 暂时不处理
-  window.yhsd._$interceptors.request.run(settings, function (settings) {
+  _global.yhsd._$interceptors.request.run(settings, function (settings) {
     var async = 'async' in settings ? settings.async : true
     xhr.open(settings.type, settings.url, async)
   
@@ -173,7 +176,7 @@ ajax.JSONP = function(options){
     abort = function(){
       //todo: remove script
       //$(script).remove()
-      if (callbackName in window) window[callbackName] = empty
+      if (callbackName in _global) _global[callbackName] = empty
       ajaxComplete('abort', xhr, options)
     },
     xhr = { abort: abort }, abortTimeout,
@@ -184,12 +187,12 @@ ajax.JSONP = function(options){
     xhr.abort()
     options.error()
   }
-  window[callbackName] = function(data){
+  _global[callbackName] = function(data){
     clearTimeout(abortTimeout)
       //todo: remove script
       //$(script).remove()
-    // delete window[callbackName]
-    if (callbackName in window) window[callbackName] = empty
+    // delete _global[callbackName]
+    if (callbackName in _global) _global[callbackName] = empty
     ajaxSuccess(data, xhr, options)
   }
 
@@ -225,7 +228,7 @@ ajax.settings = {
   global: true,
   // Transport
   xhr: function () {
-    return new window.XMLHttpRequest()
+    return new _global.XMLHttpRequest()
   },
   // MIME types mapping
   accepts: {
