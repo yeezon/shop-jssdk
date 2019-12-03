@@ -79,25 +79,29 @@ var ajax = module.exports = function(options){
     }
   }
 
-  var async = 'async' in settings ? settings.async : true
-  xhr.open(settings.type, settings.url, async)
-
-  for (name in settings.headers) xhr.setRequestHeader(name, settings.headers[name])
-
-  if (ajaxBeforeSend(xhr, settings) === false) {
-    xhr.abort()
-    return false
-  }
-
-  if (settings.timeout > 0) abortTimeout = setTimeout(function(){
-      xhr.onreadystatechange = empty
+  // overrideMimeType 暂时不处理
+  window.yhsd._$interceptors.request.run(settings, function (settings) {
+    var async = 'async' in settings ? settings.async : true
+    xhr.open(settings.type, settings.url, async)
+  
+    for (name in settings.headers) xhr.setRequestHeader(name, settings.headers[name])
+  
+    if (ajaxBeforeSend(xhr, settings) === false) {
       xhr.abort()
-      ajaxError(null, 'timeout', xhr, settings)
-    }, settings.timeout)
+      return false
+    }
+  
+    if (settings.timeout > 0) abortTimeout = setTimeout(function(){
+        xhr.onreadystatechange = empty
+        xhr.abort()
+        ajaxError(null, 'timeout', xhr, settings)
+      }, settings.timeout)
+  
+    // avoid sending empty string (#319)
+    xhr.send(settings.data ? settings.data : null)
+  });
 
-  // avoid sending empty string (#319)
-  xhr.send(settings.data ? settings.data : null)
-  return xhr
+  // return xhr
 }
 
 
