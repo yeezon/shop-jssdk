@@ -1,8 +1,12 @@
 
 //
-// exports.service = axios; // JSSDK v2.0
+// exports.axios = axios; // JSSDK v2.0
 
 //
+// exports.instance = axios.create(); // JSSDK v2.0
+
+//
+// Interceptors in exports.instance, remove exports.interceptors on JSSDK v2.0
 exports.interceptors = {
     request: {
         use: function(fn) {
