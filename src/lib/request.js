@@ -47,6 +47,13 @@ oReq.prototype._post = function(sUri, oParam){
 	oParam.type = 'POST';
 	self._send(oParam);
 };
+oReq.prototype._delete = function(sUri, oParam){
+	var self = this;
+	self._setParam(oParam, sUri);
+	oParam.method = 'DELETE';
+	oParam.type = 'DELETE';
+	self._send(oParam);
+};
 oReq.prototype._jsonp = function(sUri, oParam){
 	var self = this;
 	self._setParam(oParam, sUri);
@@ -81,6 +88,12 @@ exports.post = function(){
 	var req = new oReq();
 	_checkArg(arguments);
 	req._post(arguments[0], arguments[1]);
+};
+
+exports.delete = function(){
+	var req = new oReq();
+	_checkArg(arguments);
+	req._delete(arguments[0], arguments[1]);
 };
 
 exports.jsonp = function(){
