@@ -91,7 +91,7 @@ exports.getProductUrl = function(sUrl, nWidth, nHeight){
     sExtName = sExtName.split('?')[0];
   }
   sExtName = sExtName.toLowerCase();
-  $.each(aExtName, function(index, name){
+  aExtName.forEach(function (name) {
     if(name == sExtName){
       aImgUrl[nImgUrlLen - 2] = aImgUrl[nImgUrlLen - 2] + '_' + nWidth + 'x' + nHeight;
       sResUrl = aImgUrl.join('.');

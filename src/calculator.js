@@ -20,13 +20,14 @@ var Calculator = function() {
     OrderCalculator.update = function(data) {
         var self = this;
         cache = null;
-        $.each(data, function(key, value) {
-            if(typeof value === 'number' && isFinite(value)) {
-                self[key] = value;
+        for (var _key in (data || {})) {
+            var _value = data[_key];
+            if(typeof _value === 'number' && isFinite(_value)) {
+                self[_key] = _value;
             } else {
-                console.log('Key: "' + key + '" Not Finite');
+                console.log('Key: "' + _key + '" Not Finite');
             }
-        });
+        }
     };
     //
     OrderCalculator.calculate = function() {
