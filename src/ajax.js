@@ -12,6 +12,7 @@ try {
 }
 
 var _global = (window || global);
+var isWeApp = !!(wx && wx.getSystemInfo)
 
 var jsonpID = 0,
     document = _global.document,
@@ -25,86 +26,136 @@ var jsonpID = 0,
     blankRE = /^\s*$/
 
 var ajax = module.exports = function(options) {
-  var settings = extend({}, options || {})
-  for (key in ajax.settings) if (settings[key] === undefined) settings[key] = ajax.settings[key]
+  // 小程序支持
+  if (isWeApp) {
+    var data = extend({}, (options || {}).data || {})
+    // 序列化数据
+    data = param(data)
 
-  ajaxStart(settings)
+    var url = options.url || ''
 
-  if (!settings.crossDomain) settings.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(settings.url) &&
-    RegExp.$2 != _global.location.host
-
-  var dataType = settings.dataType, hasPlaceholder = /=\?/.test(settings.url)
-  if (dataType == 'jsonp' || hasPlaceholder) {
-    if (!hasPlaceholder) settings.url = appendQuery(settings.url, 'callback=?')
-    return ajax.JSONP(settings)
-  }
-
-  if (!settings.url) settings.url = _global.location.toString()
-  serializeData(settings)
-
-  var mime = settings.accepts[dataType],
-      baseHeaders = { },
-      protocol = /^([\w-]+:)\/\//.test(settings.url) ? RegExp.$1 : _global.location.protocol,
-      xhr = ajax.settings.xhr(), abortTimeout
-
-  if (!settings.crossDomain) baseHeaders['X-Requested-With'] = 'XMLHttpRequest'
-  if (mime) {
-    baseHeaders['Accept'] = mime
-    if (mime.indexOf(',') > -1) mime = mime.split(',', 2)[0]
-    xhr.overrideMimeType && xhr.overrideMimeType(mime)
-  }
-  if (settings.contentType || (settings.data && settings.type.toUpperCase() != 'GET'))
-    baseHeaders['Content-Type'] = (settings.contentType || 'application/x-www-form-urlencoded')
-  settings.headers = extend(baseHeaders, settings.headers || {})
-
-  xhr.onreadystatechange = function(){
-    if (xhr.readyState == 4) {
-      clearTimeout(abortTimeout)
-
-      _global.yhsd._$interceptors.response.run(xhr, function (xhr) {
-        var result, error = false
-        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
-          dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
-          result = xhr.responseText
-
-          try {
-            if (dataType == 'script')    (1,eval)(result)
-            else if (dataType == 'xml')  result = xhr.responseXML
-            else if (dataType == 'json') result = blankRE.test(result) ? null : JSON.parse(result)
-          } catch (e) { error = e }
-
-          if (error) ajaxError(error, 'parsererror', xhr, settings)
-          else ajaxSuccess(result, xhr, settings)
-        } else {
-          ajaxError(null, 'error', xhr, settings)
-        }
-      })
+    // 支持其他域名
+    if (/https:\/\//.test(url)) {
+      url = url.replace(/^\/api\/v1\/[^\/]+\//, '')
+    } else {
+      url = _global.API_URL + url
     }
-  }
 
-  // overrideMimeType 暂时不处理
-  _global.yhsd._$interceptors.request.run(settings, function (settings) {
-    var async = 'async' in settings ? settings.async : true
-    xhr.open(settings.type, settings.url, async)
-  
-    for (name in settings.headers) xhr.setRequestHeader(name, settings.headers[name])
-  
-    if (ajaxBeforeSend(xhr, settings) === false) {
-      xhr.abort()
-      return false
+    var oConfig = {
+      method: (options.type || 'GET').toUpperCase(),
+      url: appendQuery(url, data),
+      // data: data,
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'cookie': '_homeland_shop_customer_session=' + _global.SESSION_TOKEN,
+        'alias': _global.SITE_ALIAS
+      },
+      dataType: 'json',
+      responseType: 'text',
+      success: function (res) {
+        // console.log('Success', res)
+
+        _global.yhsd._$interceptors.response.run(res, function (res) {
+          options.success.call(null, ((res || {}).data || {}), 'success', null)
+        })
+      },
+      fail: function (error) {
+        // console.log('Error', error)
+
+        _global.yhsd._$interceptors.response.run(error, function (error) {
+          options.error.call(null, null, 'error', error)
+        })
+      },
+      complete: function () {}
     }
+
+    // console.log('Request Config', oConfig)
+
+    _global.yhsd._$interceptors.request.run(oConfig, function (oConfig) {
+      wx.request(oConfig)
+    })
+  } else {
+    var settings = extend({}, options || {})
+    for (key in ajax.settings) if (settings[key] === undefined) settings[key] = ajax.settings[key]
+
+    ajaxStart(settings)
+
+    if (!settings.crossDomain) settings.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(settings.url) &&
+      RegExp.$2 != _global.location.host
+
+    var dataType = settings.dataType, hasPlaceholder = /=\?/.test(settings.url)
+    if (dataType == 'jsonp' || hasPlaceholder) {
+      if (!hasPlaceholder) settings.url = appendQuery(settings.url, 'callback=?')
+      return ajax.JSONP(settings)
+    }
+
+    if (!settings.url) settings.url = _global.location.toString()
+    serializeData(settings)
+
+    var mime = settings.accepts[dataType],
+        baseHeaders = { },
+        protocol = /^([\w-]+:)\/\//.test(settings.url) ? RegExp.$1 : _global.location.protocol,
+        xhr = ajax.settings.xhr(), abortTimeout
+
+    if (!settings.crossDomain) baseHeaders['X-Requested-With'] = 'XMLHttpRequest'
+    if (mime) {
+      baseHeaders['Accept'] = mime
+      if (mime.indexOf(',') > -1) mime = mime.split(',', 2)[0]
+      xhr.overrideMimeType && xhr.overrideMimeType(mime)
+    }
+    if (settings.contentType || (settings.data && settings.type.toUpperCase() != 'GET'))
+      baseHeaders['Content-Type'] = (settings.contentType || 'application/x-www-form-urlencoded')
+    settings.headers = extend(baseHeaders, settings.headers || {})
+
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState == 4) {
+        clearTimeout(abortTimeout)
+
+        _global.yhsd._$interceptors.response.run(xhr, function (xhr) {
+          var result, error = false
+          if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
+            dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
+            result = xhr.responseText
   
-    if (settings.timeout > 0) abortTimeout = setTimeout(function(){
-        xhr.onreadystatechange = empty
+            try {
+              if (dataType == 'script')    (1,eval)(result)
+              else if (dataType == 'xml')  result = xhr.responseXML
+              else if (dataType == 'json') result = blankRE.test(result) ? null : JSON.parse(result)
+            } catch (e) { error = e }
+  
+            if (error) ajaxError(error, 'parsererror', xhr, settings)
+            else ajaxSuccess(result, xhr, settings)
+          } else {
+            ajaxError(null, 'error', xhr, settings)
+          }
+        })
+      }
+    }
+
+    // overrideMimeType 暂时不处理
+    _global.yhsd._$interceptors.request.run(settings, function (settings) {
+      var async = 'async' in settings ? settings.async : true
+      xhr.open(settings.type, settings.url, async)
+    
+      for (name in settings.headers) xhr.setRequestHeader(name, settings.headers[name])
+    
+      if (ajaxBeforeSend(xhr, settings) === false) {
         xhr.abort()
-        ajaxError(null, 'timeout', xhr, settings)
-      }, settings.timeout)
-  
-    // avoid sending empty string (#319)
-    xhr.send(settings.data ? settings.data : null)
-  });
+        return false
+      }
+    
+      if (settings.timeout > 0) abortTimeout = setTimeout(function(){
+          xhr.onreadystatechange = empty
+          xhr.abort()
+          ajaxError(null, 'timeout', xhr, settings)
+        }, settings.timeout)
+    
+      // avoid sending empty string (#319)
+      xhr.send(settings.data ? settings.data : null)
+    });
 
-  // return xhr
+    // return xhr
+  }
 }
 
 
