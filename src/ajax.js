@@ -38,7 +38,7 @@ var ajax = module.exports = function(options) {
     if (/https:\/\//.test(url)) {
       url = url.replace(/^\/api\/v1\/[^\/]+\//, '')
     } else {
-      url = _global.API_URL + url
+      url = _global.yhsd.API_URL + url
     }
 
     var oConfig = {
@@ -47,8 +47,8 @@ var ajax = module.exports = function(options) {
       // data: data,
       header: {
         'content-type': 'application/x-www-form-urlencoded',
-        'cookie': '_homeland_shop_customer_session=' + _global.SESSION_TOKEN,
-        'alias': _global.SITE_ALIAS
+        'cookie': '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN,
+        'alias': _global.yhsd.SITE_ALIAS
       },
       dataType: 'json',
       responseType: 'text',
