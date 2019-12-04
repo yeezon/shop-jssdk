@@ -19,31 +19,31 @@ YHSD.util = util;
 YHSD.request = request;
 YHSD.captcha = captcha;
 
-_global.yhsd = {
-	_$interceptors: {
-		request: {
-			_$callback: function (oRequest, fnNext) {
-				fnNext(oRequest);
-			},
-			use: function (_fn) {
-				this._$callback = _fn;
-			},
-			run: function (oRequest, fnNext) {
-				this._$callback(oRequest, fnNext);
-			}
+_global.yhsd = _global.yhsd || {};
+
+_global.yhsd._$interceptors = {
+	request: {
+		_$callback: function (oRequest, fnNext) {
+			fnNext(oRequest);
 		},
-		response: {
-			_$callback: function (oResponse, fnNext) {
-				fnNext(oResponse);
-			},
-			use: function (_fn) {
-				this._$callback = _fn;
-			},
-			run: function (oResponse, fnNext) {
-				this._$callback(oResponse, fnNext);
-			}
+		use: function (_fn) {
+			this._$callback = _fn;
+		},
+		run: function (oRequest, fnNext) {
+			this._$callback(oRequest, fnNext);
 		}
-   }
+	},
+	response: {
+		_$callback: function (oResponse, fnNext) {
+			fnNext(oResponse);
+		},
+		use: function (_fn) {
+			this._$callback = _fn;
+		},
+		run: function (oResponse, fnNext) {
+			this._$callback(oResponse, fnNext);
+		}
+	}
 };
 
 _global.yhsd.version = function(){
