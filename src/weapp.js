@@ -5,7 +5,9 @@ var util = require('./util.js');
 var _global = (window || global);
 
 var aConfig = {
-  auth: {method: 'GET', url: _global.YOU_API_URL + '/applet/authorize'},
+  auth: {method: 'GET', url: 'applet/authorize'},
+  payment: {method: 'GET', url: 'payment/applet_go_pay'},
+  phoneNumber: {method: 'GET', url: 'applet/decrypt'}
 };
 
 var module = base('weapp', function(factory){

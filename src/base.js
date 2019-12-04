@@ -8,6 +8,9 @@ var _guid = (function() {
   return function() { return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();};
 })();
 //
+
+var _global = (window || global);
+
 module.exports = function(sName, func){
 
   function base(){}
@@ -101,6 +104,33 @@ module.exports = function(sName, func){
           oPushlish.request = {
             'id': oPushlish.request.handle
           };
+        }
+        // 小程序 兼容
+        if(sName === 'weapp') {
+          var _appId = (((wx && wx.getAccountInfoSync && wx.getAccountInfoSync()) || {}).miniProgram || {}).appId || '';
+
+          switch (url) {
+            case 'weapp/applet/authorize':
+              oPushlish.urlModify = _global.yhsd.YOU_API_URL + '/applet/authorize';
+
+              oPushlish.request.appid = _appId;
+              oPushlish.request.siteid = _global.yhsd.SITE_ID;
+              break;
+            case 'weapp/applet/decrypt':
+              oPushlish.urlModify = _global.yhsd.YOU_API_URL + '/applet/decrypt';
+
+              oPushlish.request.appid = _appId;
+              oPushlish.request.siteid = _global.yhsd.SITE_ID;
+              break;
+            case 'weapp/payment/applet_go_pay':
+              oPushlish.urlModify = _global.yhsd.API_URL + '/payment/applet_go_pay';
+
+              oPushlish.request.appid = _appId;
+              oPushlish.request.siteid = _global.yhsd.SITE_ID;
+              break;
+            default:
+              break;
+          }
         }
       }
       oPushlish._scope = self;
