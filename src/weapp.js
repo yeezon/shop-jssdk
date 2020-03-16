@@ -7,6 +7,7 @@ var _global = (window || global);
 var aConfig = {
   auth: {method: 'GET', url: 'applet/authorize'},
   payment: {method: 'GET', url: 'payment/applet_go_pay'},
+  decrypt: {method: 'GET', url: 'decrypt'},
   phoneNumber: {method: 'GET', url: 'applet/decrypt'}
 };
 
