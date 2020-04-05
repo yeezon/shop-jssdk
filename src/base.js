@@ -113,11 +113,13 @@ module.exports = function(sName, func){
             case 'weapp/applet/authorize':
               oPushlish.urlModify = _global.yhsd.YOU_API_URL + '/applet/authorize';
               break;
+            case 'weapp/payment/applet_go_pay':
+              oPushlish.urlModify = _global.yhsd.API_URL + '/payment/applet_go_pay';
+              break;
             case 'weapp/applet/decrypt':
               oPushlish.urlModify = _global.yhsd.YOU_API_URL + '/applet/decrypt';
               break;
             default:
-              oPushlish.urlModify = _global.yhsd.API_URL + url.replace(/^weapp/i, '');
               break;
           }
 
