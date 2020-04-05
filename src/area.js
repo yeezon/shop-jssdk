@@ -4,7 +4,7 @@ var util = require('./util.js');
 
 var _global = (window || global);
 
-var sAreaDataVersion = '190929';
+var sAreaDataVersion = '200220';
 var sAreaDataHost = _global.assetHost || '//asset.ibanquan.com/';  // 格式 //asset.ibanquan.com/
 var sAreaDataUrl = sAreaDataHost + 'common/js/areadata-' + sAreaDataVersion + '.js';
 
@@ -243,7 +243,7 @@ exports.config = function (options) {
  *
  * ```config
  * `` options
- * &` 类型：Object<br/>配置选项（`0.0.21`版本添加，<b>默认无需配置</b>）：<br/>^^^areaDataUrl^^^ - 地址数据。文件格式为 `.js`，`jsonp` 方式加载，内容格式参照 //asset.ibanquan.com/common/js/areadata-190929.js<br/>^^^areaDataVersion^^^ - 地址版本号。如果指定了 areaDataUrl 则此项必填，用于缓存数据。
+ * &` 类型：Object<br/>配置选项（`0.0.21`版本添加，<b>默认无需配置</b>）：<br/>^^^areaDataUrl^^^ - 地址数据。文件格式为 `.js`，`jsonp` 方式加载，内容格式参照 //asset.ibanquan.com/common/js/areadata-200220.js<br/>^^^areaDataVersion^^^ - 地址版本号。如果指定了 areaDataUrl 则此项必填，用于缓存数据。
  * &&& ^^^
  * &&& // 示例：配置繁体地址库
  * &&& yhsd.ready(jssdk => {
