@@ -6,7 +6,10 @@ var aConfig = {
     receive: {},
     create: {method: 'POST'},
     cancel: {method: 'POST'},
-    count: {}
+    count: {},
+    otherPay: {
+      url: 'other_pay'
+    }
 };
 
 var module = base('order', function(factory){
