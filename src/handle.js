@@ -4,6 +4,7 @@ module.exports = function(oResponse, oHandle){
   if(!oResponse){
     throw 'code: no Param';
   }
+
   var nCode = 0;
   var oRes = oResponse.res;
   if(typeof oRes.code === 'number'){
@@ -19,10 +20,12 @@ module.exports = function(oResponse, oHandle){
     }
     return bHandleByCustom;
   };
+
   var fAlertMessage = function(event){
     var sEvent = event ? event : 'unknow';
     events.publish('api.' + sEvent, oRes);
   };
+
   if(!fCustomHandle()){
     switch(nCode){
       case 200:
@@ -56,9 +59,13 @@ module.exports = function(oResponse, oHandle){
         fAlertMessage('serverError');
         break;
       default:
-        fAlertMessage();
+        if (/^400\d/.test(nCode)) {
+          return oRes;
+        } else {
+          fAlertMessage();
+        }
     }
-  }else{
+  } else {
     return customRes;
   }
 };
