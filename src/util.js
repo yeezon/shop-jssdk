@@ -1,7 +1,13 @@
 // 订单金额计算器
 exports.orderCalculator = require('./calculator.js');
 
-var _global = (window || global);
+// globalThis 暂时不用
+var _global = {};
+try {
+  _global = global;
+} catch (error) {
+  _global = window;
+}
 
 // 设置cookie
 exports.setCookie = function(name, value, isForever, domain){

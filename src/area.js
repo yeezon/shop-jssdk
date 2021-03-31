@@ -2,7 +2,13 @@ var req = require('./lib/request.js');
 var type_of = require('./type-of.js');
 var util = require('./util.js');
 
-var _global = (window || global);
+// globalThis 暂时不用
+var _global = {};
+try {
+  _global = global;
+} catch (error) {
+  _global = window;
+}
 
 var sAreaDataVersion = '200220';
 var sAreaDataHost = _global.assetHost || '//asset.ibanquan.com/';  // 格式 //asset.ibanquan.com/

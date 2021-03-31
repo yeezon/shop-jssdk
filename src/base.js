@@ -9,7 +9,13 @@ var _guid = (function() {
 })();
 //
 
-var _global = (window || global);
+// globalThis 暂时不用
+var _global = {};
+try {
+  _global = global;
+} catch (error) {
+  _global = window;
+}
 
 module.exports = function(sName, func){
 

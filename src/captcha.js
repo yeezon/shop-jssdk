@@ -2,7 +2,13 @@ var req = require('./lib/request.js');
 var events = require('./events.js');
 var type_of = require('./type-of.js');
 
-var _global = (window || global);
+// globalThis 暂时不用
+var _global = {};
+try {
+  _global = global;
+} catch (error) {
+  _global = window;
+}
 
 var sModuleName = 'captcha';
 
