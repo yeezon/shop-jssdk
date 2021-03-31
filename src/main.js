@@ -8,9 +8,9 @@ var request = require('./request.js');
 // globalThis 暂时不用
 var _global = {};
 try {
-  _global = global
+  _global = global;
 } catch (error) {
-  _global = window
+  _global = window;
 }
 
 var YHSD = {};
