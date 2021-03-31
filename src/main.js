@@ -1,5 +1,3 @@
-var req = require('./lib/request.js');
-var handle = require('./handle.js');
 var events = require('./events.js');
 var util = require('./util.js');
 var type_of = require('./type-of.js');
@@ -7,10 +5,12 @@ var captcha = require('./captcha.js');
 var version = require('./version.js');
 var request = require('./request.js');
 
-var _global = (window || global);
-
-if(!_global){
-	console.log('Not in support');	
+// globalThis 暂时不用
+var _global = {};
+try {
+  _global = global
+} catch (error) {
+  _global = window
 }
 
 var YHSD = {};
