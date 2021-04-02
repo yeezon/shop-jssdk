@@ -50,16 +50,9 @@ _global.yhsd.version = function(){
 	return version.get();
 };
 
-var aFunctionReady = [];
-var bHasInit = false;
-
 var runWhenReady = function(fn){
-	if(type_of(fn) === 'function'){
-		if(bHasInit){
-			fn(YHSD);
-		}else{
-			aFunctionReady.push(fn);
-		}
+	if (type_of(fn) === 'function') {
+		fn(YHSD);
 	}
 };
 
@@ -97,33 +90,3 @@ YHSD.favorite = checkModule('favorite') ? require('./favorite.js') : {};
 YHSD.service = checkModule('service') ? require('./service.js') : {};
 YHSD.trade_invoice = checkModule('trade_invoice') ? require('./trade_invoice.js') : {};
 YHSD.weapp = checkModule('weapp') ? require('./weapp.js') : {};
-
-function jssdkInit(){
-	if(aFunctionReady.length === 0){
-		bHasInit = true;
-	}else{
-		(aFunctionReady.shift())(YHSD);
-		jssdkInit();
-	}
-}
-
-(function(){
-	var ajaxToken = null;
-	if('ajaxToken' in _global) {
-		jssdkInit();
-	} else {
-		Object.defineProperty(_global, 'ajaxToken', {
-			set: function(token){
-				if(!ajaxToken) {
-					ajaxToken = token;
-					jssdkInit();
-				} else {
-					ajaxToken = token;
-				}
-			},
-			get: function(){
-				return ajaxToken;
-			}
-		});
-	}
-})();
