@@ -11,8 +11,25 @@ try {
   type = r('type')
 }
 
-var _global = (window || global);
-var isWeApp = !!(wx && wx.getSystemInfo)
+// globalThis 暂时不用
+var _global = {};
+try {
+  _global = global;
+} catch (error) {
+  _global = window;
+}
+
+var isWeApp = false
+var isWeAppDev = false
+try {
+  isWeApp = !!wx.getSystemInfoSync
+  isWeAppDev = !!(wx.getSystemInfoSync().platform === 'devtools')
+} catch (error) {}
+
+var oWeApp = isWeApp ? getApp() : {}
+var oLowCodeApp = oWeApp.app || _global.app || {}
+
+var isLowCode = !!((oLowCodeApp.state || {}).name === 'LowCode')
 
 var jsonpID = 0,
     document = _global.document,
@@ -26,8 +43,79 @@ var jsonpID = 0,
     blankRE = /^\s*$/
 
 var ajax = module.exports = function(options) {
-  // 小程序支持
-  if (isWeApp) {
+  if (isLowCode && !isWeAppDev) { // 腾讯云底码应用支持
+    var data = extend({}, (options || {}).data || {})
+    // 序列化数据
+    data = param(data)
+
+    var url = options.url || ''
+
+    // 支持其他域名
+    if (/https:\/\//.test(url)) {
+      url = url.replace(/^\/api\/v1\/[^\/]+\//, '')
+    } else {
+      url = _global.yhsd.API_URL + url
+    }
+
+    var oConfig = {
+      method: (options.type || 'GET').toUpperCase(),
+      url: appendQuery(url, data),
+      // data: data,
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'cookie': '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN,
+        'alias': _global.yhsd.SITE_ALIAS
+      },
+      dataType: 'json',
+      responseType: 'text'
+    }
+
+    // console.log('Request Config', oConfig)
+
+    _global.yhsd._$interceptors.request.run(oConfig, function (oConfig) {
+      var alias = _global.yhsd.SITE_ALIAS || ''
+      var dataSourceHandle = _global.yhsd.LOWCODE_DATA_SOURCE_HANDLE || ''
+      var oDataSource = {}
+
+      if (alias && dataSourceHandle) {
+        oDataSource = (oLowCodeApp.dataSources || {})[dataSourceHandle] || {}
+      }
+
+      if (oDataSource.request) {
+        oDataSource.request({
+          config: oConfig
+        }).then(function (oTXRes) {
+          // console.log('Success - oDataSource =>', oTXRes)
+
+          if (oTXRes.code === 0) {
+            var _res = (oTXRes.data || {}).res
+
+            if ((typeof _res) === 'object') {
+              _global.yhsd._$interceptors.response.run(_res, function (__res) {
+                options.success.call(null, __res, 'success', null)
+              })
+            } else {
+              throw new Error('请求异常，请稍后再试（SAAS_ERROR）')
+            }
+          } else {
+            throw new Error('请求异常，请稍后再试（LC_ERROR）')
+          }
+        }).catch(function (error) {
+          // console.log('Error - oDataSource =>', error)
+
+          _global.yhsd._$interceptors.response.run(error, function (error) {
+            // options.error.call(null, null, 'error', error)
+            options.success.call(null, {
+              code: 40000,
+              message: (error || {}).message || '请求异常，请稍后再试（SDK_ERROR）'
+            }, 'success', null)
+          })
+        })
+      } else {
+        // console.log('Error - oDataSource.request =>', undefined)
+      }
+    })
+  } else if (isWeApp) { // 小程序支持
     var data = extend({}, (options || {}).data || {})
     // 序列化数据
     data = param(data)
