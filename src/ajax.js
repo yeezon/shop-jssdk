@@ -57,13 +57,16 @@ var ajax = module.exports = function(options) {
       url = _global.yhsd.API_URL + url
     }
 
+    var localCartCookieKey = 'local_cart'
+    var localCartCookieVal = window.encodeURIComponent(util.getCookie(localCartCookieKey) || '')
+
     var oConfig = {
       method: (options.type || 'GET').toUpperCase(),
       url: appendQuery(url, data),
       // data: data,
       header: {
         'content-type': 'application/x-www-form-urlencoded',
-        'cookie': '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN,
+        'cookie': '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN + '; ' + localCartCookieKey + '=' + localCartCookieVal,
         'alias': _global.yhsd.SITE_ALIAS
       },
       dataType: 'json',
