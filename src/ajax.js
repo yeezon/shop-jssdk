@@ -51,9 +51,9 @@ var jsonpID = 0,
     blankRE = /^\s*$/
 
 var ajax = module.exports = function(options) {
-  var dataSourceHandle = _global.yhsd.LOWCODE_DATA_SOURCE_HANDLE || ''
+  var isUseDataSource = _global.yhsd.USE_LOWCODE_DATA_SOURCE || false
 
-  if (isLowCode && !isWeAppDev && dataSourceHandle) { // 腾讯云底码应用支持
+  if (isLowCode && !isWeAppDev && isUseDataSource) { // 腾讯云底码应用支持
     var data = extend({}, (options || {}).data || {})
     // 序列化数据
     data = param(data)
@@ -86,10 +86,10 @@ var ajax = module.exports = function(options) {
     // console.log('Request Config', oConfig)
 
     _global.yhsd._$interceptors.request.run(oConfig, function (oConfig) {
-      var alias = _global.yhsd.SITE_ALIAS || ''
+      var dataSourceHandle = _global.yhsd.LOWCODE_DATA_SOURCE_HANDLE || ''
       var oDataSource = {}
 
-      if (alias && dataSourceHandle) {
+      if (dataSourceHandle) {
         oDataSource = (oLowCodeApp.dataSources || {})[dataSourceHandle] || {}
       }
 
@@ -235,6 +235,12 @@ var ajax = module.exports = function(options) {
     // overrideMimeType 暂时不处理
     _global.yhsd._$interceptors.request.run(settings, function (settings) {
       var async = 'async' in settings ? settings.async : true
+
+      // 腾讯云 LowCode 支持
+      if (isLowCode && /^\/[^\/]/.test(settings.url)) {
+        settings.url = _global.yhsd.API_URL + settings.url
+      }
+
       xhr.open(settings.type, settings.url, async)
     
       for (name in settings.headers) xhr.setRequestHeader(name, settings.headers[name])
