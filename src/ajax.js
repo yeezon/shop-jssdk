@@ -26,6 +26,14 @@ try {
   isWeAppDev = !!(wx.getSystemInfoSync().platform === 'devtools')
 } catch (error) {}
 
+// UA 二次验证，兼容 LowCode 编辑器环境（因其有注入小程序的一些方法）
+if (isWeApp) {
+  try {
+    isWeApp = !_global.navigator.userAgent
+    isWeAppDev = !_global.navigator.userAgent
+  } catch (error) {}
+}
+
 var oWeApp = isWeApp ? getApp() : {}
 var oLowCodeApp = oWeApp.app || _global.app || {}
 
