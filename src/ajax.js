@@ -51,7 +51,9 @@ var jsonpID = 0,
     blankRE = /^\s*$/
 
 var ajax = module.exports = function(options) {
-  if (isLowCode && !isWeAppDev) { // 腾讯云底码应用支持
+  var dataSourceHandle = _global.yhsd.LOWCODE_DATA_SOURCE_HANDLE || ''
+
+  if (isLowCode && !isWeAppDev && dataSourceHandle) { // 腾讯云底码应用支持
     var data = extend({}, (options || {}).data || {})
     // 序列化数据
     data = param(data)
@@ -85,7 +87,6 @@ var ajax = module.exports = function(options) {
 
     _global.yhsd._$interceptors.request.run(oConfig, function (oConfig) {
       var alias = _global.yhsd.SITE_ALIAS || ''
-      var dataSourceHandle = _global.yhsd.LOWCODE_DATA_SOURCE_HANDLE || ''
       var oDataSource = {}
 
       if (alias && dataSourceHandle) {
