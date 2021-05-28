@@ -43,7 +43,7 @@ var jsonpID = 0,
     document = _global.document,
     key,
     name,
-    rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+    // rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
     scriptTypeRE = /^(?:text|application)\/javascript/i,
     xmlTypeRE = /^(?:text|application)\/xml/i,
     jsonType = 'application/json',
@@ -67,8 +67,15 @@ var ajax = module.exports = function(options) {
       url = _global.yhsd.API_URL + url
     }
 
-    var localCartCookieKey = 'local_cart'
-    var localCartCookieVal = window.encodeURIComponent(util.getCookie(localCartCookieKey) || '')
+    var _cookie = '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN + ';';
+
+    // 小程序无 Cookie 功能，也不需要本地购物车业务
+    if (!isWeApp) {
+      var localCartCookieKey = 'local_cart'
+      var localCartCookieVal = window.encodeURIComponent(util.getCookie(localCartCookieKey) || '')
+
+      _cookie += ' ' + localCartCookieKey + '=' + localCartCookieVal
+    }
 
     var oConfig = {
       method: (options.type || 'GET').toUpperCase(),
@@ -76,7 +83,7 @@ var ajax = module.exports = function(options) {
       // data: data,
       header: {
         'content-type': 'application/x-www-form-urlencoded',
-        'cookie': '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN + '; ' + localCartCookieKey + '=' + localCartCookieVal,
+        'cookie': _cookie,
         'alias': _global.yhsd.SITE_ALIAS
       },
       dataType: 'json',
