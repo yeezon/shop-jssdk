@@ -63,7 +63,7 @@ if(typeof _global.yhsdDebug === 'undefined'){
 	_global.yhsdDebug = false;
 }
 
-var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point', 'page_block', 'post', 'favorite', 'service', 'trade_invoice', 'weapp'];
+var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point', 'page_block', 'post', 'favorite', 'service', 'trade_invoice', 'weapp', 'form'];
 
 function checkModule(moduleName){
 	return (util.inArray(moduleName, aInitModule) > -1);
@@ -90,3 +90,4 @@ YHSD.favorite = checkModule('favorite') ? require('./favorite.js') : {};
 YHSD.service = checkModule('service') ? require('./service.js') : {};
 YHSD.trade_invoice = checkModule('trade_invoice') ? require('./trade_invoice.js') : {};
 YHSD.weapp = checkModule('weapp') ? require('./weapp.js') : {};
+YHSD.form = checkModule('form') ? require('./form.js') : {};
