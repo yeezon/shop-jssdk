@@ -82,14 +82,23 @@ module.exports = function(sName, func){
         oPushlish.data = arguments[2] || false;
         oPushlish.urlModify = arguments[3] || false;
         oPushlish.customHandle = arguments[4] || false;
-        //
+ 
         if (config && config.RESTful) {
+          // ID
           if (oPushlish.request && oPushlish.request.id) {
             oPushlish.urlModify = url.replace(/:[a-zA-Z_]+/, oPushlish.request.id);
-            oPushlish.request = false;
+            // oPushlish.request = false;
+            delete oPushlish.request.id;
+          }
+
+          // Handle
+          if (oPushlish.request && oPushlish.request.handle) {
+            oPushlish.urlModify = url.replace(/:[a-zA-Z_]+/, oPushlish.request.handle);
+            // oPushlish.request = false;
+            delete oPushlish.request.handle;
           }
         }
-        //
+
         // 免登录查询单个订单 兼容语法糖 get
         if(sName == 'order' && url == 'order/view'){
           var sOrderNo = oPushlish.request.handle;
