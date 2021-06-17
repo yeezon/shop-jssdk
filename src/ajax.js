@@ -51,6 +51,7 @@ var jsonpID = 0,
     blankRE = /^\s*$/
 
 var ajax = module.exports = function(options) {
+  var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN
   var isUseDataSource = _global.yhsd.USE_LOWCODE_DATA_SOURCE || false
 
   if (isLowCode && !isWeAppDev && isUseDataSource) { // 腾讯云底码应用支持
@@ -64,7 +65,7 @@ var ajax = module.exports = function(options) {
     if (/https:\/\//.test(url)) {
       url = url.replace(/^\/api\/v1\/[^\/]+\//, '')
     } else {
-      url = _global.yhsd.API_URL + url
+      url = SITE_API_URL + url
     }
 
     var _cookie = '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN + ';';
@@ -145,7 +146,7 @@ var ajax = module.exports = function(options) {
     if (/https:\/\//.test(url)) {
       url = url.replace(/^\/api\/v1\/[^\/]+\//, '')
     } else {
-      url = _global.yhsd.API_URL + url
+      url = SITE_API_URL + url
     }
 
     var oConfig = {
@@ -245,7 +246,7 @@ var ajax = module.exports = function(options) {
 
       // 腾讯云 LowCode 支持
       if (isLowCode && /^\/[^\/]/.test(settings.url)) {
-        settings.url = _global.yhsd.API_URL + settings.url
+        settings.url = SITE_API_URL + settings.url
       }
 
       xhr.open(settings.type, settings.url, async)

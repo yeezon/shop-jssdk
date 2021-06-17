@@ -124,22 +124,31 @@ module.exports = function(sName, func){
         if(sName === 'weapp') {
           var _appId = (((wx && wx.getAccountInfoSync && wx.getAccountInfoSync()) || {}).miniProgram || {}).appId || '';
 
+          var SAAS_API_URL = 'https://' + _global.yhsd.SAAS_DOMAIN + '/api'
+          var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN
+
+          oPushlish.request.appid = _appId;
+          oPushlish.request.site_domain = _global.yhsd.SITE_DOMAIN;
+
           switch (url) {
             case 'weapp/applet/authorize':
-              oPushlish.urlModify = _global.yhsd.YOU_API_URL + '/applet/authorize';
+              oPushlish.urlModify = SAAS_API_URL + '/applet/authorize';
+
               break;
             case 'weapp/payment/applet_go_pay':
-              oPushlish.urlModify = _global.yhsd.API_URL + '/payment/applet_go_pay';
+              oPushlish.urlModify = SITE_API_URL + '/payment/applet_go_pay';
+
+              delete oPushlish.request.appid
+              delete oPushlish.request.site_domain
+
               break;
             case 'weapp/applet/decrypt':
-              oPushlish.urlModify = _global.yhsd.YOU_API_URL + '/applet/decrypt';
+              oPushlish.urlModify = SAAS_API_URL + '/applet/decrypt';
+
               break;
             default:
               break;
           }
-
-          oPushlish.request.appid = _appId;
-          oPushlish.request.siteid = _global.yhsd.SITE_ID;
         }
       }
       oPushlish._scope = self;
