@@ -124,8 +124,8 @@ module.exports = function(sName, func){
         if(sName === 'weapp') {
           var _appId = (((wx && wx.getAccountInfoSync && wx.getAccountInfoSync()) || {}).miniProgram || {}).appId || '';
 
-          var SAAS_API_URL = 'https://' + _global.yhsd.SAAS_DOMAIN + '/api'
-          var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN
+          var SAAS_API_URL = 'https://' + _global.yhsd.SAAS_DOMAIN + '/api';
+          var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN;
 
           oPushlish.request.appid = _appId;
           oPushlish.request.site_domain = _global.yhsd.SITE_DOMAIN;
@@ -138,8 +138,8 @@ module.exports = function(sName, func){
             case 'weapp/payment/applet_go_pay':
               oPushlish.urlModify = SITE_API_URL + '/payment/applet_go_pay';
 
-              delete oPushlish.request.appid
-              delete oPushlish.request.site_domain
+              delete oPushlish.request.appid;
+              delete oPushlish.request.site_domain;
 
               break;
             case 'weapp/applet/decrypt':
