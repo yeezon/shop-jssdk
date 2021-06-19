@@ -34,11 +34,6 @@ if (isWeApp) {
   } catch (error) {}
 }
 
-var oWeApp = isWeApp ? getApp() : {}
-var oLowCodeApp = oWeApp.app || _global.app || {}
-
-var isLowCode = !!((oLowCodeApp.state || {}).name === 'LowCode')
-
 var jsonpID = 0,
     document = _global.document,
     key,
@@ -51,10 +46,13 @@ var jsonpID = 0,
     blankRE = /^\s*$/
 
 var ajax = module.exports = function(options) {
-  var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN
-  var isUseDataSource = _global.yhsd.USE_LOWCODE_DATA_SOURCE || false
+  var oWeApp = isWeApp ? getApp() : {}
+  var oLowCodeApp = oWeApp.app || _global.app || {}
 
-  if (isLowCode && !isWeAppDev && isUseDataSource) { // 腾讯云底码应用支持
+  var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN
+  var isLowCode = !!_global.yhsd.LOWCODE_DATA_SOURCE_HANDLE
+
+  if (isLowCode && !isWeAppDev) { // 腾讯云底码应用支持
     var data = extend({}, (options || {}).data || {})
     // 序列化数据
     data = param(data)
