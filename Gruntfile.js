@@ -26,16 +26,18 @@ module.exports = function(grunt) {
             options: {
               watch: true,
               keepAlive: true,
-                browserifyOptions: {
-                    'fullPaths' : false
-                }
+              browserifyOptions: {
+                'fullPaths': false,
+                'standalone': 'yhsd'
+              }
             }
           },
           api_v1_pro: {
             files: {},
             options: {
                 browserifyOptions: {
-                    'fullPaths' : false
+                  'fullPaths': false,
+                  'standalone': 'yhsd'
                 }
             }
           }
