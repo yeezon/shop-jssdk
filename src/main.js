@@ -8,20 +8,49 @@ var request = require('./request.js');
 // globalThis 暂时不用
 var _global = {};
 try {
-  _global = global;
+	_global = global;
 } catch (error) {
-  _global = window;
+	_global = window;
 }
 
 var YHSD = {};
-YHSD.events = events;
-YHSD.util = util;
-YHSD.request = request;
-YHSD.captcha = captcha;
+var SDK = {};
 
-_global.yhsd = _global.yhsd || {};
+SDK.events = events;
+SDK.util = util;
+SDK.request = request;
+SDK.captcha = captcha;
 
-_global.yhsd._$interceptors = {
+var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point', 'page_block', 'post', 'favorite', 'service', 'trade_invoice', 'weapp', 'form'];
+
+function checkModule(moduleName) {
+	return (util.inArray(moduleName, aInitModule) > -1);
+}
+
+SDK.account = checkModule('account') ? require('./account.js') : {};
+SDK.area = checkModule('area') ? require('./area.js') : {};
+SDK.address = checkModule('address') ? require('./address.js') : {};
+SDK.blog = checkModule('blog') ? require('./blog.js') : {};
+SDK.cart = checkModule('cart') ? require('./cart.js') : {};
+SDK.discount = checkModule('discount') ? require('./discount.js') : {};
+SDK.shop = checkModule('shop') ? require('./shop.js') : {};
+SDK.order = checkModule('order') ? require('./order.js') : {};
+SDK.page = checkModule('page') ? require('./page.js') : {};
+SDK.payment_method = checkModule('payment_method') ? require('./payment_method.js') : {};
+SDK.product = checkModule('product') ? require('./product.js') : {};
+SDK.type = checkModule('type') ? require('./type.js') : {};
+SDK.vendor = checkModule('vendor') ? require('./vendor.js') : {};
+SDK.coupon = checkModule('coupon') ? require('./coupon.js') : {};
+SDK.reward_point = checkModule('reward_point') ? require('./reward_point.js') : {};
+SDK.page_block = checkModule('page_block') ? require('./page_block.js') : {};
+SDK.post = checkModule('post') ? require('./post.js') : {};
+SDK.favorite = checkModule('favorite') ? require('./favorite.js') : {};
+SDK.service = checkModule('service') ? require('./service.js') : {};
+SDK.trade_invoice = checkModule('trade_invoice') ? require('./trade_invoice.js') : {};
+SDK.weapp = checkModule('weapp') ? require('./weapp.js') : {};
+SDK.form = checkModule('form') ? require('./form.js') : {};
+
+YHSD._$interceptors = {
 	request: {
 		_$callback: function (oRequest, fnNext) {
 			fnNext(oRequest);
@@ -46,48 +75,26 @@ _global.yhsd._$interceptors = {
 	}
 };
 
-_global.yhsd.version = function(){
+YHSD.version = function () {
 	return version.get();
 };
 
-var runWhenReady = function(fn){
+var runWhenReady = function (fn) {
 	if (type_of(fn) === 'function') {
-		fn(YHSD);
+		fn(SDK);
 	}
 };
 
-_global.yhsd.ready = runWhenReady;
-_global.yhsd.sdk = YHSD;
+YHSD.ready = runWhenReady;
+YHSD.sdk = SDK;
 
-if(typeof _global.yhsdDebug === 'undefined'){
-	_global.yhsdDebug = false;
-}
+module.exports.yhsd = YHSD;
 
-var aInitModule = ['account', 'area', 'address', 'blog', 'cart', 'shop', 'order', 'page', 'payment_method', 'product', 'type', 'vendor', 'discount', 'coupon', 'reward_point', 'page_block', 'post', 'favorite', 'service', 'trade_invoice', 'weapp', 'form'];
+// 注入全局
 
-function checkModule(moduleName){
-	return (util.inArray(moduleName, aInitModule) > -1);
-}
+_global.yhsdDebug = !!_global.yhsdDebug;
 
-YHSD.account = checkModule('account') ? require('./account.js') : {};
-YHSD.area = checkModule('area') ? require('./area.js') : {};
-YHSD.address = checkModule('address') ? require('./address.js') : {};
-YHSD.blog = checkModule('blog') ? require('./blog.js') : {};
-YHSD.cart = checkModule('cart') ? require('./cart.js') : {};
-YHSD.discount = checkModule('discount') ? require('./discount.js') : {};
-YHSD.shop = checkModule('shop') ? require('./shop.js') : {};
-YHSD.order = checkModule('order') ? require('./order.js') : {};
-YHSD.page = checkModule('page') ? require('./page.js') : {};
-YHSD.payment_method = checkModule('payment_method') ? require('./payment_method.js') : {};
-YHSD.product = checkModule('product') ? require('./product.js') : {};
-YHSD.type = checkModule('type') ? require('./type.js') : {};
-YHSD.vendor = checkModule('vendor') ? require('./vendor.js') : {};
-YHSD.coupon = checkModule('coupon') ? require('./coupon.js') : {};
-YHSD.reward_point = checkModule('reward_point') ? require('./reward_point.js') : {};
-YHSD.page_block = checkModule('page_block') ? require('./page_block.js') : {};
-YHSD.post = checkModule('post') ? require('./post.js') : {};
-YHSD.favorite = checkModule('favorite') ? require('./favorite.js') : {};
-YHSD.service = checkModule('service') ? require('./service.js') : {};
-YHSD.trade_invoice = checkModule('trade_invoice') ? require('./trade_invoice.js') : {};
-YHSD.weapp = checkModule('weapp') ? require('./weapp.js') : {};
-YHSD.form = checkModule('form') ? require('./form.js') : {};
+// 浅拷贝到原来的对象（指针不变），另建新对象可能导致初始化的引用指向旧版本
+_global.yhsd = Object.assign((_global.yhsd || {}), YHSD);
+
+// End 注入全局
