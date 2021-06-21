@@ -87,12 +87,11 @@ var runWhenReady = function (fn) {
 
 YHSD.ready = runWhenReady;
 YHSD.sdk = SDK;
+YHSD.yhsdDebug = !!_global.yhsdDebug;
 
 module.exports.yhsd = YHSD;
 
 // 注入全局
-
-_global.yhsdDebug = !!_global.yhsdDebug;
 
 // 浅拷贝到原来的对象（指针不变），另建新对象可能导致初始化的引用指向旧版本
 _global.yhsd = Object.assign((_global.yhsd || {}), YHSD);

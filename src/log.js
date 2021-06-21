@@ -9,7 +9,7 @@ try {
 }
 
 module.exports = function(info, option){
-  if(_global.yhsdDebug){
+  if((_global.yhsd || {}).yhsdDebug){
     var sLog = '';
     util.forEach(info, function(value, key){
       var sEachLog = key + ':' + value + '  ';
