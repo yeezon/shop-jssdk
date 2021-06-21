@@ -130,6 +130,11 @@ module.exports = function(sName, func){
           oPushlish.request.appid = _appId;
           oPushlish.request.site_domain = _global.yhsd.SITE_DOMAIN;
 
+          // 临时兼容 yhsd.SITE_ID
+          if (_global.yhsd.SITE_ID) {
+            oPushlish.request.siteid = _global.yhsd.SITE_ID;
+          }
+
           switch (url) {
             case 'weapp/applet/authorize':
               oPushlish.urlModify = SAAS_API_URL + '/applet/authorize';
