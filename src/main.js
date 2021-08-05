@@ -89,7 +89,9 @@ YHSD.ready = runWhenReady;
 YHSD.sdk = SDK;
 YHSD.yhsdDebug = !!_global.yhsdDebug;
 
-module.exports.yhsd = YHSD;
+module.exports = {
+	...YHSD
+}
 
 // 注入全局
 
