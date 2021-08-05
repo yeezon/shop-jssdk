@@ -1,14 +1,14 @@
-var version = require('./src/version.js');
 
 module.exports = function (grunt) {
+  const PACKAGE = grunt.file.readJSON('package.json')
 
-  var jssdkSrc = './src/';
-  var jssdkVer = version.get();
-  var jssdkDest = './dist/jssdk-';
-  var jssdkOutput = jssdkDest + jssdkVer + '.js';
+  const jssdkSrc = './src/';
+  const jssdkDest = './dist/';
+  const jssdkDestVer = jssdkDest + 'jssdk-' + (PACKAGE.version || '');
+  const jssdkOutputFile = jssdkDestVer + '.js';
 
-  var oConfigInit = {
-    pkg: grunt.file.readJSON('package.json'),
+  const oConfigInit = {
+    pkg: PACKAGE,
     jshint: {
       options: {
         jshintrc: true,
@@ -24,20 +24,20 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          [jssdkOutput]: [jssdkSrc + 'main.js']
+          [jssdkOutputFile]: [jssdkSrc + 'main.js']
         }
       },
     },
     uglify: {
       dist: {
-        src: jssdkOutput,
-        dest: jssdkDest + jssdkVer + '.min.js'
+        src: jssdkOutputFile,
+        dest: jssdkDestVer + '.min.js'
       }
     },
     browserify: {
       dev: {
         files: {
-          [jssdkOutput]: [jssdkSrc + 'main.js']
+          [jssdkOutputFile]: [jssdkSrc + 'main.js']
         },
         options: {
           watch: true,
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          [jssdkOutput]: [jssdkSrc + 'main.js']
+          [jssdkOutputFile]: [jssdkSrc + 'main.js']
         },
         options: {
           browserifyOptions: {

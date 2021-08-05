@@ -1,3 +1,5 @@
+const PACKAGE = require('../package.json');
+
 exports.get = function(){
-	return '1.6.0';
+  return PACKAGE.version || '';
 };
