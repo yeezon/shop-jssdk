@@ -22,10 +22,14 @@
     "url": "https://github.com/yeezon/shop-jssdk/issues"
   },
   "homepage": "https://github.com/yeezon/shop-jssdk",
-  "dependencies": {
-    "grunt": "^0.4.5",
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "grunt": "^1.4.1",
+    "grunt-babel": "^8.0.0",
     "grunt-browserify": "^6.0.0",
-    "grunt-contrib-jshint": "^0.11.2",
-    "grunt-contrib-uglify": "^0.9.1"
-  }
+    "grunt-contrib-jshint": "^3.0.0",
+    "grunt-contrib-uglify": "^5.0.1"
+  },
+  "dependencies": {}
 }
