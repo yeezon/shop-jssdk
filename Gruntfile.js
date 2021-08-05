@@ -10,19 +10,35 @@ module.exports = function(grunt) {
     var oConfigInit = {
         pkg: grunt.file.readJSON('package.json'),
         jshint: {
-            api_v1: {
+            options: {
+              jshintrc: true,
+            },
+            dist: {
                 src: jssdkSrc + '*.js'
             }
         },
+        babel: {
+          options: {
+            sourceMap: false,
+            presets: ["@babel/preset-env"],
+          },
+          dist: {
+            files: {
+              [jssdkOutput]: [jssdkSrc + 'main.js']
+            }
+          },
+        },
         uglify: {
-            api_v1_pro:{
-              src: jssdkDest + jssdkVer + '.js',
+            dist:{
+              src: jssdkOutput,
               dest: jssdkDest + jssdkVer + '.min.js'
             }
         },
         browserify: {
-          api_v1: {
-            files: {},
+          dev: {
+            files: {
+              [jssdkOutput]: [jssdkSrc + 'main.js']
+            },
             options: {
               watch: true,
               keepAlive: true,
@@ -32,8 +48,10 @@ module.exports = function(grunt) {
               }
             }
           },
-          api_v1_pro: {
-            files: {},
+          dist: {
+            files: {
+              [jssdkOutput]: [jssdkSrc + 'main.js']
+            },
             options: {
                 browserifyOptions: {
                   'fullPaths': false,
@@ -44,16 +62,14 @@ module.exports = function(grunt) {
         }
     };
 
-    oConfigInit.browserify.api_v1.files[jssdkOutput] = [jssdkSrc + 'main.js'];
-    oConfigInit.browserify.api_v1_pro.files[jssdkOutput] = [jssdkSrc + 'main.js'];
-
     grunt.initConfig(oConfigInit);
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-browserify');
 
-    grunt.registerTask('dev', ['browserify:api_v1']);
-    grunt.registerTask('dist', ['jshint:api_v1', 'browserify:api_v1_pro', 'uglify:api_v1_pro']);
+    grunt.registerTask('dev', ['browserify:dev']);
+    grunt.registerTask('dist', ['jshint', 'babel', 'browserify:dist', 'uglify']);
 
 };
