@@ -91,7 +91,7 @@ YHSD.yhsdDebug = !!_global.yhsdDebug;
 
 module.exports = {
 	...YHSD
-}
+};
 
 // 注入全局
 
