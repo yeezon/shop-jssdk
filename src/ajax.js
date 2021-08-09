@@ -50,6 +50,11 @@ var ajax = module.exports = function(options) {
   var oLowCodeApp = oWeApp.app || _global.app || {}
 
   var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN
+
+  if (_global.yhsd.SITE_ALIAS && _global.yhsd.SAAS_DOMAIN_FOR_SITE) {
+    SITE_API_URL = 'https://' + _global.yhsd.SAAS_DOMAIN_FOR_SITE;
+  }
+
   var isLowCode = !!_global.yhsd.LOWCODE_DATA_SOURCE_HANDLE
 
   if (isLowCode && !isWeAppDev) { // 腾讯云底码应用支持

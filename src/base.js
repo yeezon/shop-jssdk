@@ -127,6 +127,10 @@ module.exports = function(sName, func){
           var SAAS_API_URL = 'https://' + _global.yhsd.SAAS_DOMAIN + '/api';
           var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN;
 
+          if (_global.yhsd.SITE_ALIAS && _global.yhsd.SAAS_DOMAIN_FOR_SITE) {
+            SITE_API_URL = 'https://' + _global.yhsd.SAAS_DOMAIN_FOR_SITE;
+          }
+
           oPushlish.request.appid = _appId;
           oPushlish.request.site_domain = _global.yhsd.SITE_DOMAIN;
 
