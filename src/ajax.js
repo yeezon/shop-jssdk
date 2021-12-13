@@ -85,7 +85,7 @@ var ajax = module.exports = function(options) {
       method: (options.type || 'GET').toUpperCase(),
       url: appendQuery(url, data),
       // data: data,
-      header: {
+      headers: {
         'content-type': 'application/x-www-form-urlencoded',
         'cookie': _cookie,
         'alias': _global.yhsd.SITE_ALIAS
@@ -156,7 +156,7 @@ var ajax = module.exports = function(options) {
       method: (options.type || 'GET').toUpperCase(),
       url: appendQuery(url, data),
       // data: data,
-      header: {
+      header: { // 小程序不是用 headers
         'content-type': 'application/x-www-form-urlencoded',
         'cookie': '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN,
         'alias': _global.yhsd.SITE_ALIAS
