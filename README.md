@@ -11,19 +11,3 @@ $ npm i
 
 $ grunt dist
 ```
-
-## Docs Generate
-
-将代码文件中的文档注释生成文档
-
-### 使用方法
-
-```
-$ cd doc_generate
-
-$ npm i
-
-$ node index.js
-```
-
-访问 URL - `http://localhost:3000`
