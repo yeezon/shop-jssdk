@@ -999,7 +999,7 @@ var req = require('./lib/request.js');
 var type_of = require('./type-of.js');
 var util = require('./util.js');
 
-var sAreaDataVersion = '190929';
+var sAreaDataVersion = '220923';
 var sAreaDataHost = window.assetHost || '//asset.ibanquan.com/';  // 格式 //asset.ibanquan.com/
 var sAreaDataUrl = sAreaDataHost + 'common/js/areadata-' + sAreaDataVersion + '.js';
 

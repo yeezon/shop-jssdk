@@ -1,9 +1,10 @@
 {
   "name": "shop-jssdk",
-  "version": "0.0.4",
+  "version": "1.4.0",
   "description": "The SDK for developing shop's theme.Based on publish-subscribe pattern.Call the API by publishing events.",
   "main": "index.js",
   "scripts": {
+    "build": "grunt dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
