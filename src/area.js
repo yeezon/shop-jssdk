@@ -2,22 +2,14 @@ var req = require('./lib/request.js');
 var type_of = require('./type-of.js');
 var util = require('./util.js');
 
-// globalThis 暂时不用
-var _global = {};
-try {
-  _global = global;
-} catch (error) {
-  _global = window;
-}
-
-var sAreaDataVersion = '200220';
-var sAreaDataHost = _global.assetHost || '//asset.ibanquan.com/';  // 格式 //asset.ibanquan.com/
+var sAreaDataVersion = '190929';
+var sAreaDataHost = window.assetHost || '//asset.ibanquan.com/';  // 格式 //asset.ibanquan.com/
 var sAreaDataUrl = sAreaDataHost + 'common/js/areadata-' + sAreaDataVersion + '.js';
 
 var oAreaData = {};
 var oLocalAreaData = null;
 
-var localStorage =  _global.localStorage;
+var localStorage =  window.localStorage;
 var localStorageItemName = 'yhsd_areadata';
 
 
@@ -249,7 +241,7 @@ exports.config = function (options) {
  *
  * ```config
  * `` options
- * &` 类型：Object<br/>配置选项（`0.0.21`版本添加，<b>默认无需配置</b>）：<br/>^^^areaDataUrl^^^ - 地址数据。文件格式为 `.js`，`jsonp` 方式加载，内容格式参照 //asset.ibanquan.com/common/js/areadata-200220.js<br/>^^^areaDataVersion^^^ - 地址版本号。如果指定了 areaDataUrl 则此项必填，用于缓存数据。
+ * &` 类型：Object<br/>配置选项（`0.0.21`版本添加，<b>默认无需配置</b>）：<br/>^^^areaDataUrl^^^ - 地址数据。文件格式为 `.js`，`jsonp` 方式加载，内容格式参照 //asset.ibanquan.com/common/js/areadata-190929.js<br/>^^^areaDataVersion^^^ - 地址版本号。如果指定了 areaDataUrl 则此项必填，用于缓存数据。
  * &&& ^^^
  * &&& // 示例：配置繁体地址库
  * &&& yhsd.ready(jssdk => {

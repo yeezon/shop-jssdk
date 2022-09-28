@@ -2,19 +2,11 @@ var req = require('./lib/request.js');
 var events = require('./events.js');
 var type_of = require('./type-of.js');
 
-// globalThis 暂时不用
-var _global = {};
-try {
-  _global = global;
-} catch (error) {
-  _global = window;
-}
-
 var sModuleName = 'captcha';
 
 var fetchFunc = exports.fetch = function(callback){
   //
-  var sFetchUrl = _global.captchaPath || '//captcha.ibanquan.com';
+  var sFetchUrl = window.captchaPath || '//captcha.ibanquan.com';
   //
   var sTopic = sModuleName + '.fetch';
   var sTopicDone = sTopic + '.done';

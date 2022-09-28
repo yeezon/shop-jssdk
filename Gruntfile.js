@@ -1,75 +1,57 @@
+var version = require('./src/version.js');
 
-module.exports = function (grunt) {
-  const PACKAGE = grunt.file.readJSON('package.json')
+module.exports = function(grunt) {
 
-  const jssdkSrc = './src/';
-  const jssdkDest = './dist/';
-  const jssdkDestVer = jssdkDest + 'jssdk-' + (PACKAGE.version || '');
-  const jssdkOutputFile = jssdkDestVer + '.js';
+    var jssdkSrc = './src/';
+    var jssdkVer = version.get();
+    var jssdkDest = './dist/jssdk-';
+    var jssdkOutput = jssdkDest + jssdkVer + '.js';
 
-  const oConfigInit = {
-    pkg: PACKAGE,
-    jshint: {
-      options: {
-        jshintrc: true,
-      },
-      dist: {
-        src: jssdkSrc + '*.js'
-      }
-    },
-    babel: {
-      options: {
-        sourceMap: false,
-        presets: ["@babel/preset-env"],
-      },
-      dist: {
-        files: {
-          [jssdkOutputFile]: [jssdkSrc + 'main.js']
-        }
-      },
-    },
-    uglify: {
-      dist: {
-        src: jssdkOutputFile,
-        dest: jssdkDestVer + '.min.js'
-      }
-    },
-    browserify: {
-      dev: {
-        files: {
-          [jssdkOutputFile]: [jssdkSrc + 'main.js']
+    var oConfigInit = {
+        pkg: grunt.file.readJSON('package.json'),
+        jshint: {
+            api_v1: {
+                src: jssdkSrc + '*.js'
+            }
         },
-        options: {
-          watch: true,
-          keepAlive: true,
-          browserifyOptions: {
-            'fullPaths': false,
-            'standalone': 'yhsd'
+        uglify: {
+            api_v1_pro:{
+              src: jssdkDest + jssdkVer + '.js',
+              dest: jssdkDest + jssdkVer + '.min.js'
+            }
+        },
+        browserify: {
+          api_v1: {
+            files: {},
+            options: {
+              watch: true,
+              keepAlive: true,
+                browserifyOptions: {
+                    'fullPaths' : false
+                }
+            }
+          },
+          api_v1_pro: {
+            files: {},
+            options: {
+                browserifyOptions: {
+                    'fullPaths' : false
+                }
+            }
           }
         }
-      },
-      dist: {
-        files: {
-          [jssdkOutputFile]: [jssdkSrc + 'main.js']
-        },
-        options: {
-          browserifyOptions: {
-            'fullPaths': false,
-            'standalone': 'yhsd'
-          }
-        }
-      }
-    }
-  };
+    };
 
-  grunt.initConfig(oConfigInit);
+    oConfigInit.browserify.api_v1.files[jssdkOutput] = [jssdkSrc + 'main.js'];
+    oConfigInit.browserify.api_v1_pro.files[jssdkOutput] = [jssdkSrc + 'main.js'];
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-babel');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-browserify');
+    grunt.initConfig(oConfigInit);
 
-  grunt.registerTask('dev', ['browserify:dev']);
-  grunt.registerTask('dist', ['jshint', 'babel', 'browserify:dist', 'uglify']);
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-browserify');
+
+    grunt.registerTask('dev', ['browserify:api_v1']);
+    grunt.registerTask('dist', ['jshint:api_v1', 'browserify:api_v1_pro', 'uglify:api_v1_pro']);
 
 };

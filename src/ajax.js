@@ -2,7 +2,6 @@
 /* jshint ignore:start */
 var util = require('./util.js');
 var type
-
 try {
   type = require('./type-of.js')
 } catch (ex) {
@@ -11,268 +10,98 @@ try {
   type = r('type')
 }
 
-// globalThis 暂时不用
-var _global = {};
-try {
-  _global = global;
-} catch (error) {
-  _global = window;
-}
-
-var isWeApp = false
-var isWeAppDev = false
-try {
-  isWeApp = !!wx.getSystemInfoSync
-  isWeAppDev = !!(wx.getSystemInfoSync().platform === 'devtools')
-} catch (error) {}
-
-// UA 二次验证，兼容 LowCode 编辑器环境（因其有注入小程序的一些方法）
-if (isWeApp) {
-  try {
-    isWeApp = !_global.navigator.userAgent
-    isWeAppDev = !_global.navigator.userAgent
-  } catch (error) {}
-}
-
 var jsonpID = 0,
-    document = _global.document,
+    document = window.document,
     key,
     name,
-    // rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+    rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
     scriptTypeRE = /^(?:text|application)\/javascript/i,
     xmlTypeRE = /^(?:text|application)\/xml/i,
     jsonType = 'application/json',
     htmlType = 'text/html',
     blankRE = /^\s*$/
 
-var ajax = module.exports = function(options) {
-  var oWeApp = isWeApp ? getApp() : {}
-  var oLowCodeApp = oWeApp.app || _global.app || {}
+var ajax = module.exports = function(options){
+  var settings = extend({}, options || {})
+  for (key in ajax.settings) if (settings[key] === undefined) settings[key] = ajax.settings[key]
 
-  var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN
+  ajaxStart(settings)
 
-  if (_global.yhsd.SITE_ALIAS && _global.yhsd.SAAS_DOMAIN_FOR_SITE) {
-    SITE_API_URL = 'https://' + _global.yhsd.SAAS_DOMAIN_FOR_SITE;
+  if (!settings.crossDomain) settings.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(settings.url) &&
+    RegExp.$2 != window.location.host
+
+  var dataType = settings.dataType, hasPlaceholder = /=\?/.test(settings.url)
+  if (dataType == 'jsonp' || hasPlaceholder) {
+    if (!hasPlaceholder) settings.url = appendQuery(settings.url, 'callback=?')
+    return ajax.JSONP(settings)
   }
 
-  var isLowCode = !!_global.yhsd.LOWCODE_DATA_SOURCE_HANDLE
+  if (!settings.url) settings.url = window.location.toString()
+  serializeData(settings)
 
-  if (isLowCode && !isWeAppDev) { // 腾讯云底码应用支持
-    var data = extend({}, (options || {}).data || {})
-    // 序列化数据
-    data = param(data)
+  var mime = settings.accepts[dataType],
+      baseHeaders = { },
+      protocol = /^([\w-]+:)\/\//.test(settings.url) ? RegExp.$1 : window.location.protocol,
+      xhr = ajax.settings.xhr(), abortTimeout
 
-    var url = options.url || ''
+  if (!settings.crossDomain) baseHeaders['X-Requested-With'] = 'XMLHttpRequest'
+  if (mime) {
+    baseHeaders['Accept'] = mime
+    if (mime.indexOf(',') > -1) mime = mime.split(',', 2)[0]
+    xhr.overrideMimeType && xhr.overrideMimeType(mime)
+  }
+  if (settings.contentType || (settings.data && settings.type.toUpperCase() != 'GET'))
+    baseHeaders['Content-Type'] = (settings.contentType || 'application/x-www-form-urlencoded')
+  settings.headers = extend(baseHeaders, settings.headers || {})
 
-    // 支持其他域名
-    if (/https:\/\//.test(url)) {
-      url = url.replace(/^\/api\/v1\/[^\/]+\//, '')
-    } else {
-      url = SITE_API_URL + url
-    }
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState == 4) {
+      clearTimeout(abortTimeout)
 
-    var _cookie = '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN + ';';
-
-    // 小程序无 Cookie 功能，也不需要本地购物车业务
-    if (!isWeApp) {
-      var localCartCookieKey = 'local_cart'
-      var localCartCookieVal = window.encodeURIComponent(util.getCookie(localCartCookieKey) || '')
-
-      _cookie += ' ' + localCartCookieKey + '=' + localCartCookieVal
-    }
-
-    var oConfig = {
-      method: (options.type || 'GET').toUpperCase(),
-      url: appendQuery(url, data),
-      // data: data,
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'cookie': _cookie,
-        'alias': _global.yhsd.SITE_ALIAS
-      },
-      dataType: 'json',
-      responseType: 'text'
-    }
-
-    // console.log('Request Config', oConfig)
-
-    _global.yhsd._$interceptors.request.run(oConfig, function (oConfig) {
-      var dataSourceHandle = _global.yhsd.LOWCODE_DATA_SOURCE_HANDLE || ''
-      var oDataSource = {}
-
-      if (dataSourceHandle) {
-        oDataSource = (oLowCodeApp.dataSources || {})[dataSourceHandle] || {}
-      }
-
-      if (oDataSource.request) {
-        oDataSource.request({
-          config: oConfig
-        }).then(function (oTXRes) {
-          // console.log('Success - oDataSource =>', oTXRes)
-
-          if (oTXRes.code === 0) {
-            var _res = (oTXRes.data || {}).res
-
-            if ((typeof _res) === 'object') {
-              _global.yhsd._$interceptors.response.run(_res, function (__res) {
-                options.success.call(null, __res, 'success', null)
-              })
-            } else {
-              throw new Error('请求异常，请稍后再试（SAAS_ERROR）')
-            }
-          } else {
-            throw new Error('请求异常，请稍后再试（LC_ERROR）')
-          }
-        }).catch(function (error) {
-          // console.log('Error - oDataSource =>', error)
-
-          _global.yhsd._$interceptors.response.run(error, function (error) {
-            // options.error.call(null, null, 'error', error)
-            options.success.call(null, {
-              code: 40000,
-              message: (error || {}).message || '请求异常，请稍后再试（SDK_ERROR）'
-            }, 'success', null)
-          })
-        })
-      } else {
-        // console.log('Error - oDataSource.request =>', undefined)
-      }
-    })
-  } else if (isWeApp) { // 小程序支持
-    var data = extend({}, (options || {}).data || {})
-    // 序列化数据
-    data = param(data)
-
-    var url = options.url || ''
-
-    // 支持其他域名
-    if (/https:\/\//.test(url)) {
-      url = url.replace(/^\/api\/v1\/[^\/]+\//, '')
-    } else {
-      url = SITE_API_URL + url
-    }
-
-    var oConfig = {
-      method: (options.type || 'GET').toUpperCase(),
-      url: appendQuery(url, data),
-      // data: data,
-      header: { // 小程序不是用 headers
-        'content-type': 'application/x-www-form-urlencoded',
-        'cookie': '_homeland_shop_customer_session=' + _global.yhsd.SESSION_TOKEN,
-        'alias': _global.yhsd.SITE_ALIAS
-      },
-      dataType: 'json',
-      responseType: 'text',
-      success: function (res) {
-        // console.log('Success', res)
-
-        _global.yhsd._$interceptors.response.run(res, function (res) {
-          options.success.call(null, ((res || {}).data || {}), 'success', null)
-        })
-      },
-      fail: function (error) {
-        // console.log('Error', error)
-
-        _global.yhsd._$interceptors.response.run(error, function (error) {
-          options.error.call(null, null, 'error', error)
-        })
-      },
-      complete: function () {}
-    }
-
-    // console.log('Request Config', oConfig)
-
-    _global.yhsd._$interceptors.request.run(oConfig, function (oConfig) {
-      wx.request(oConfig)
-    })
-  } else {
-    var settings = extend({}, options || {})
-    for (key in ajax.settings) if (settings[key] === undefined) settings[key] = ajax.settings[key]
-
-    ajaxStart(settings)
-
-    if (!settings.crossDomain) settings.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(settings.url) &&
-      RegExp.$2 != _global.location.host
-
-    var dataType = settings.dataType, hasPlaceholder = /=\?/.test(settings.url)
-    if (dataType == 'jsonp' || hasPlaceholder) {
-      if (!hasPlaceholder) settings.url = appendQuery(settings.url, 'callback=?')
-      return ajax.JSONP(settings)
-    }
-
-    if (!settings.url) settings.url = _global.location.toString()
-    serializeData(settings)
-
-    var mime = settings.accepts[dataType],
-        baseHeaders = { },
-        protocol = /^([\w-]+:)\/\//.test(settings.url) ? RegExp.$1 : _global.location.protocol,
-        xhr = ajax.settings.xhr(), abortTimeout
-
-    if (!settings.crossDomain) baseHeaders['X-Requested-With'] = 'XMLHttpRequest'
-    if (mime) {
-      baseHeaders['Accept'] = mime
-      if (mime.indexOf(',') > -1) mime = mime.split(',', 2)[0]
-      xhr.overrideMimeType && xhr.overrideMimeType(mime)
-    }
-    if (settings.contentType || (settings.data && settings.type.toUpperCase() != 'GET'))
-      baseHeaders['Content-Type'] = (settings.contentType || 'application/x-www-form-urlencoded')
-    settings.headers = extend(baseHeaders, settings.headers || {})
-
-    xhr.onreadystatechange = function(){
-      if (xhr.readyState == 4) {
-        clearTimeout(abortTimeout)
-
-        _global.yhsd._$interceptors.response.run(xhr, function (xhr) {
-          var result, error = false
-          if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
-            dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
-            result = xhr.responseText
+      window.yhsd._$interceptors.response.run(xhr, function (xhr) {
+        var result, error = false
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
+          dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
+          result = xhr.responseText
   
-            try {
-              if (dataType == 'script')    (1,eval)(result)
-              else if (dataType == 'xml')  result = xhr.responseXML
-              else if (dataType == 'json') result = blankRE.test(result) ? null : JSON.parse(result)
-            } catch (e) { error = e }
+          try {
+            if (dataType == 'script')    (1,eval)(result)
+            else if (dataType == 'xml')  result = xhr.responseXML
+            else if (dataType == 'json') result = blankRE.test(result) ? null : JSON.parse(result)
+          } catch (e) { error = e }
   
-            if (error) ajaxError(error, 'parsererror', xhr, settings)
-            else ajaxSuccess(result, xhr, settings)
-          } else {
-            ajaxError(null, 'error', xhr, settings)
-          }
-        })
-      }
+          if (error) ajaxError(error, 'parsererror', xhr, settings)
+          else ajaxSuccess(result, xhr, settings)
+        } else {
+          ajaxError(null, 'error', xhr, settings)
+        }
+      })
     }
+  }
 
-    // overrideMimeType 暂时不处理
-    _global.yhsd._$interceptors.request.run(settings, function (settings) {
-      var async = 'async' in settings ? settings.async : true
-
-      // 腾讯云 LowCode 支持
-      if (isLowCode && /^\/[^\/]/.test(settings.url)) {
-        settings.url = SITE_API_URL + settings.url
-      }
-
-      xhr.open(settings.type, settings.url, async)
-    
-      for (name in settings.headers) xhr.setRequestHeader(name, settings.headers[name])
-    
-      if (ajaxBeforeSend(xhr, settings) === false) {
+  // overrideMimeType 暂时不处理
+  window.yhsd._$interceptors.request.run(settings, function (settings) {
+    var async = 'async' in settings ? settings.async : true
+    xhr.open(settings.type, settings.url, async)
+  
+    for (name in settings.headers) xhr.setRequestHeader(name, settings.headers[name])
+  
+    if (ajaxBeforeSend(xhr, settings) === false) {
+      xhr.abort()
+      return false
+    }
+  
+    if (settings.timeout > 0) abortTimeout = setTimeout(function(){
+        xhr.onreadystatechange = empty
         xhr.abort()
-        return false
-      }
-    
-      if (settings.timeout > 0) abortTimeout = setTimeout(function(){
-          xhr.onreadystatechange = empty
-          xhr.abort()
-          ajaxError(null, 'timeout', xhr, settings)
-        }, settings.timeout)
-    
-      // avoid sending empty string (#319)
-      xhr.send(settings.data ? settings.data : null)
-    });
+        ajaxError(null, 'timeout', xhr, settings)
+      }, settings.timeout)
+  
+    // avoid sending empty string (#319)
+    xhr.send(settings.data ? settings.data : null)
+  });
 
-    // return xhr
-  }
+  // return xhr
 }
 
 
@@ -344,7 +173,7 @@ ajax.JSONP = function(options){
     abort = function(){
       //todo: remove script
       //$(script).remove()
-      if (callbackName in _global) _global[callbackName] = empty
+      if (callbackName in window) window[callbackName] = empty
       ajaxComplete('abort', xhr, options)
     },
     xhr = { abort: abort }, abortTimeout,
@@ -355,12 +184,12 @@ ajax.JSONP = function(options){
     xhr.abort()
     options.error()
   }
-  _global[callbackName] = function(data){
+  window[callbackName] = function(data){
     clearTimeout(abortTimeout)
       //todo: remove script
       //$(script).remove()
-    // delete _global[callbackName]
-    if (callbackName in _global) _global[callbackName] = empty
+    // delete window[callbackName]
+    if (callbackName in window) window[callbackName] = empty
     ajaxSuccess(data, xhr, options)
   }
 
@@ -396,7 +225,7 @@ ajax.settings = {
   global: true,
   // Transport
   xhr: function () {
-    return new _global.XMLHttpRequest()
+    return new window.XMLHttpRequest()
   },
   // MIME types mapping
   accepts: {

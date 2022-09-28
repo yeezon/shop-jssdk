@@ -8,15 +8,6 @@ var _guid = (function() {
   return function() { return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();};
 })();
 //
-
-// globalThis 暂时不用
-var _global = {};
-try {
-  _global = global;
-} catch (error) {
-  _global = window;
-}
-
 module.exports = function(sName, func){
 
   function base(){}
@@ -82,23 +73,14 @@ module.exports = function(sName, func){
         oPushlish.data = arguments[2] || false;
         oPushlish.urlModify = arguments[3] || false;
         oPushlish.customHandle = arguments[4] || false;
- 
+        //
         if (config && config.RESTful) {
-          // ID
           if (oPushlish.request && oPushlish.request.id) {
             oPushlish.urlModify = url.replace(/:[a-zA-Z_]+/, oPushlish.request.id);
-            // oPushlish.request = false;
-            delete oPushlish.request.id;
-          }
-
-          // Handle
-          if (oPushlish.request && oPushlish.request.handle) {
-            oPushlish.urlModify = url.replace(/:[a-zA-Z_]+/, oPushlish.request.handle);
-            // oPushlish.request = false;
-            delete oPushlish.request.handle;
+            oPushlish.request = false;
           }
         }
-
+        //
         // 免登录查询单个订单 兼容语法糖 get
         if(sName == 'order' && url == 'order/view'){
           var sOrderNo = oPushlish.request.handle;
@@ -119,45 +101,6 @@ module.exports = function(sName, func){
           oPushlish.request = {
             'id': oPushlish.request.handle
           };
-        }
-        // 小程序 兼容
-        if(sName === 'weapp') {
-          var _appId = (((wx && wx.getAccountInfoSync && wx.getAccountInfoSync()) || {}).miniProgram || {}).appId || '';
-
-          var SAAS_API_URL = 'https://' + _global.yhsd.SAAS_DOMAIN + '/api';
-          var SITE_API_URL = 'https://' + _global.yhsd.SITE_DOMAIN;
-
-          if (_global.yhsd.SITE_ALIAS && _global.yhsd.SAAS_DOMAIN_FOR_SITE) {
-            SITE_API_URL = 'https://' + _global.yhsd.SAAS_DOMAIN_FOR_SITE;
-          }
-
-          oPushlish.request.appid = _appId;
-          oPushlish.request.site_domain = _global.yhsd.SITE_DOMAIN;
-
-          // 临时兼容 yhsd.SITE_ID
-          if (_global.yhsd.SITE_ID) {
-            oPushlish.request.siteid = _global.yhsd.SITE_ID;
-          }
-
-          switch (url) {
-            case 'weapp/applet/authorize':
-              oPushlish.urlModify = SAAS_API_URL + '/applet/authorize';
-
-              break;
-            case 'weapp/payment/applet_go_pay':
-              oPushlish.urlModify = SITE_API_URL + '/payment/applet_go_pay';
-
-              delete oPushlish.request.appid;
-              delete oPushlish.request.site_domain;
-
-              break;
-            case 'weapp/applet/decrypt':
-              oPushlish.urlModify = SAAS_API_URL + '/applet/decrypt';
-
-              break;
-            default:
-              break;
-          }
         }
       }
       oPushlish._scope = self;

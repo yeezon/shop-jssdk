@@ -2,14 +2,6 @@ var base = require('./base.js');
 var util = require('./util.js');
 var expo = require('./expo.js');
 
-// globalThis 暂时不用
-var _global = {};
-try {
-  _global = global;
-} catch (error) {
-  _global = window;
-}
-
 var getParam = function(o, key){
   if(o && o.data){
     return o.data[key] || false;
@@ -25,7 +17,7 @@ var aConfig = {
         self.cart = JSON.parse(sCart);
       }catch(e){
         util.setCookie(self.cookieName, '', true);
-        _global.location.reload();
+        window.location.reload();
       }
     }else{
         self.cart = [];
@@ -56,9 +48,9 @@ var aConfig = {
       if(oEach.variant_id == oItem.variant_id){
         bItemInCart = true;
         if(bIsSet){
-          oEach.quantity = _global.Math.floor(_global.parseInt(oItem.quantity) || 0);
+          oEach.quantity = window.Math.floor(window.parseInt(oItem.quantity) || 0);
         }else{
-          oEach.quantity = _global.Math.floor((_global.parseInt(oEach.quantity) || 0) + (_global.parseInt(oItem.quantity) || 0));
+          oEach.quantity = window.Math.floor((window.parseInt(oEach.quantity) || 0) + (window.parseInt(oItem.quantity) || 0));
         }
         if(typeof oItem.is_check !== 'undefined'){
           oEach.is_check = oItem.is_check;

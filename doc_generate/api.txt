@@ -1,0 +1,14 @@
+
+
+<!-- api -->
+<!-- .api-sdk -->
+
+### **.#{funcname}**(#{param})
+
+#{apiintro}
+
+<!-- .api-param -->
+
+#{apiparam}
+
+<!-- endapi -->

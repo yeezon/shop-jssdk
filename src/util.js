@@ -1,14 +1,6 @@
 // 订单金额计算器
 exports.orderCalculator = require('./calculator.js');
 
-// globalThis 暂时不用
-var _global = {};
-try {
-  _global = global;
-} catch (error) {
-  _global = window;
-}
-
 // 设置cookie
 exports.setCookie = function(name, value, isForever, domain){
   var sDomain;
@@ -51,19 +43,19 @@ exports.getCookie = function(sName){
 // 获取图片url
 exports.getImageUrl = function(image_id, image_name, image_size, image_epoch){
   if(!image_id || !image_name){
-    var aDef = _global.productImage.split('.');
+    var aDef = window.productImage.split('.');
     aDef[0] = aDef[0] + '_' + image_size;
     var sDef = aDef.join('.');
-    var sPath = _global.assetPath;
+    var sPath = window.assetPath;
     if(!sPath){
-      sPath = _global.assetHost;
+      sPath = window.assetHost;
     }
     sDef = sPath + sDef;
     return sDef;
   }
-  var sHost = _global.assetHost;
+  var sHost = window.assetHost;
   if(!sHost){
-    sHost = _global.assetPath;
+    sHost = window.assetPath;
   }
   sHost = sHost + image_id + '/';
   var sFileName = image_name;
@@ -110,7 +102,7 @@ exports.getProductUrl = function(sUrl, nWidth, nHeight){
 };
 //
 exports.getQuery = function(name, bNotEscape){
-  var sUrl = _global.location.search.substr(1);
+  var sUrl = window.location.search.substr(1);
   var r = sUrl.match(new RegExp("(^|&)" + name + "=([^&]*)(&|$)"));
   if(bNotEscape){
     return (r === null ? null : r[2]);
@@ -126,7 +118,7 @@ exports.setQuery = function( key , value , url ){
     sHash = aHash[0];
     url = url.replace(sHash, '');
   }
-  url = url || _global.location.href;
+  url = url || window.location.href;
   url = url.replace( new RegExp( '(^|\\?)' + key + '=[^&]*(&|$|#)' , 'g' ) , '?' );
   url = url.replace( new RegExp( '(^|&)' + key + '=[^&]*(?=&|$|#)' , 'g' ) , '' );
   var p = key + '=' + encodeURIComponent(value);

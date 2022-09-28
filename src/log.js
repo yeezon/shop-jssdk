@@ -1,15 +1,7 @@
 var util = require('./util.js');
 
-// globalThis 暂时不用
-var _global = {};
-try {
-  _global = global;
-} catch (error) {
-  _global = window;
-}
-
 module.exports = function(info, option){
-  if((_global.yhsd || {}).yhsdDebug){
+  if(window.yhsdDebug){
     var sLog = '';
     util.forEach(info, function(value, key){
       var sEachLog = key + ':' + value + '  ';

@@ -1,12 +1,4 @@
 
-// globalThis 暂时不用
-var _global = {};
-try {
-  _global = global;
-} catch (error) {
-  _global = window;
-}
-
 //
 // exports.axios = axios; // JSSDK v2.0
 
@@ -18,12 +10,12 @@ try {
 exports.interceptors = {
     request: {
         use: function(fn) {
-            _global.yhsd._$interceptors.request.use(fn);
+            window.yhsd._$interceptors.request.use(fn);
         }
     },
     response: {
         use: function(fn) {
-            _global.yhsd._$interceptors.response.use(fn);
+            window.yhsd._$interceptors.response.use(fn);
         }
     }
 };
